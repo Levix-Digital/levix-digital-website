@@ -14,7 +14,7 @@ Every site is generated as static, prerendered pages that share one design syste
 
 ## Requirements
 
-- Node.js 22.22.2 or newer on the 22 line, or 24.15.0 or newer (`.nvmrc` selects 22) <!-- readme-ok -->
+- Node.js 22.22.2 or newer on the 22 line, or 24.15.0 or newer on the 24 line (`.nvmrc` selects 22); Node.js 26 is not supported yet because the Firebase CLI's hosting server does not support it <!-- readme-ok -->
 - npm 10 or newer (included with Node.js)
 - Linux, macOS or Windows
 
