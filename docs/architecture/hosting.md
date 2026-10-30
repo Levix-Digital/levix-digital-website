@@ -10,7 +10,7 @@ One Firebase project with a hosting site per domain, keyless deploys from the re
 
 ## Responsibilities
 
-Owns where and how the built sites are served: the Firebase project, its hosting sites, the serving rules of each site (URLs, cache headers), the deploy identity, and the commands that set up, publish and preview. Does not own the pages (sites), the domains and DNS (FEAT-004) or the security headers (FEAT-005).
+Owns where and how the built sites are served: the Firebase project, its hosting sites, the serving rules of each site (URLs, cache headers), the deploy identity, and the commands that set up, publish and preview. Does not own the pages (sites), the checks and production deploys on merge ([Continuous integration and deploy](ci.md)), the domains and DNS (FEAT-004) or the security headers (FEAT-005).
 
 ## Structure
 
@@ -41,6 +41,8 @@ The project's other services (Firestore, functions) run in Montreal (`northameri
 **Publishing.** `npm run deploy [-- <site>...]` refuses unknown sites and sites whose `dist/index.html` is missing before calling the Firebase CLI, then runs `firebase deploy --only hosting:<target>,...`. With `deploy:preview -- <channel>` it runs `firebase hosting:channel:deploy` with a 7-day expiry and prints a Markdown table of the addresses, starting with a hidden marker.
 
 **Previews.** For every pull request from a branch of the repository (never from a fork), the `Preview` workflow builds the sites, runs `verify:dist` and `verify:hosting`, gets a token for `hosting-deployer`, publishes all sites to the channel `pr-<number>` and creates or edits the one comment that starts with the marker. A newer push cancels an older run. Until the repository variables are set, the workflow stops after the checks with a notice.
+
+**Production.** Every merge into `main` publishes the changed sites with `npm run deploy` through the `Deploy` workflow ([Continuous integration and deploy](ci.md)).
 
 **Rollback.** Per site, in the Firebase console (Hosting, the site's release history, "Rollback"), or with `npx firebase hosting:clone <site>:<version> <site>:live`. The other sites are not affected.
 
