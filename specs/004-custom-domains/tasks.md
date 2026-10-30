@@ -18,16 +18,16 @@ description: "Task list for custom domains"
 
 ## Phase 1: Setup
 
-- [ ] T001 Add `domains.json` (FR-001) and `scripts/lib/domains-config.mjs` reading and validating it against the hosting targets, with `scripts/lib/domains-config.test.mjs`
+- [x] T001 Add `domains.json` (FR-001) and `scripts/lib/domains-config.mjs` reading and validating it against the hosting targets, with `scripts/lib/domains-config.test.mjs`
 
 ## Phase 2: User Story 2 - Check the state of the domains (Priority: P1)
 
-- [ ] T002 [US2] `scripts/domains-status.mjs` and `npm run domains:status`: token, get per domain, states, records with hosts relative to the zone, exit code
-- [ ] T003 [US2] `scripts/domains-status.test.mjs`: all active succeeds; missing ownership, host or certificate fails naming the domain; 404 says not connected; add and remove rows, no-action records hidden; token failure
+- [x] T002 [US2] `scripts/domains-status.mjs` and `npm run domains:status`: token, get per domain, states, records with hosts relative to the zone, exit code
+- [x] T003 [US2] `scripts/domains-status.test.mjs`: all active succeeds; missing ownership, host or certificate fails naming the domain; 404 says not connected; add and remove rows, no-action records hidden; token failure
 
 ## Phase 3: User Story 3 - Deploys check the domains (Priority: P2)
 
-- [ ] T004 [US3] `scripts/verify-live.mjs` requests the site's domain as well as its default address; tests in `scripts/verify-live.test.mjs`
+- [x] T004 [US3] `scripts/verify-live.mjs` requests the site's domain as well as its default address; tests in `scripts/verify-live.test.mjs`
 
 ## Phase 4: User Story 1 - Each site answers at its own domain (Priority: P1)
 

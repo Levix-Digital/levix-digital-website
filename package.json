@@ -24,7 +24,8 @@
     "verify:hosting": "firebase emulators:exec --only hosting --project levix-digital \"node scripts/verify-hosting.mjs\"",
     "lighthouse": "firebase emulators:exec --only hosting --project levix-digital \"node scripts/lighthouse.mjs\"",
     "sites:changed": "node scripts/changed-sites.mjs",
-    "verify:live": "node scripts/verify-live.mjs"
+    "verify:live": "node scripts/verify-live.mjs",
+    "domains:status": "node scripts/domains-status.mjs"
   },
   "devDependencies": {
     "@lhci/cli": "^0.15.1",
