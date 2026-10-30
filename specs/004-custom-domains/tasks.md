@@ -31,10 +31,10 @@ description: "Task list for custom domains"
 
 ## Phase 4: User Story 1 - Each site answers at its own domain (Priority: P1)
 
-- [ ] T005 [US1] Levi sets the product subdomains to `CNAME` without proxy at Cloudflare; `npm run domains:status` on Levi's machine until it succeeds (operational, no code)
+- [x] T005 [US1] Levi sets the product subdomains to `CNAME` without proxy at Cloudflare; `npm run domains:status` on Levi's machine until it succeeds (operational, no code)
 
 ## Phase 5: Polish and documentation
 
 - [x] T006 [P] ADR-0009 (DNS at Cloudflare, Firebase-hosted names not proxied), amending ADR-0003; `docs/product/TECH_SPEC.md` (integration and constraint); `docs/architecture/hosting.md` (domains); `README.md` ("Domains" in "Hosting"); TECDOC index, `check_docs`, `check_readme`; regenerate the constitution
 - [x] T007 [P] Manual tests: each domain over HTTPS, `www` redirect, mail delivered; `manual_tests validate`
-- [ ] T008 `npm run check`, then the pull request; merge only after `domains:status` succeeds
+- [x] T008 `npm run check`, then the pull request; merge only after `domains:status` succeeds

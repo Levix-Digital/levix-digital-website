@@ -8,14 +8,6 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 
 ## Features
 
-### FEAT-004: DNS for levix.digital and product subdomains
-- **Priority**: high
-- **Epic**: EPIC-001
-- **Status**: planned
-- **Found**: 2026-10-30
-- **Plan**: levix_digital_website_custom_domains
-- **Description**: Hostinger DNS records pointing the apex and each product subdomain to Firebase Hosting, verified by Firebase.
-
 ### FEAT-005: Security headers
 - **Priority**: medium
 - **Epic**: EPIC-001
@@ -346,3 +338,12 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 - **Plan**: levix_digital_website_continuous_integration_and_production_deploy
 - **Closed**: 2026-10-30, plan levix_digital_website_continuous_integration_and_production_deploy
 - **Description**: Type check, lint, unit tests, build and Lighthouse CI on every pull request; deploy each changed site on merge to main.
+
+### FEAT-004: DNS for levix.digital and product subdomains
+- **Priority**: high
+- **Epic**: EPIC-001
+- **Status**: done
+- **Found**: 2026-10-30
+- **Plan**: levix_digital_website_custom_domains
+- **Closed**: 2026-10-30, PR #5
+- **Description**: DNS records (Cloudflare, ADR-0009) pointing the apex and each product subdomain to Firebase Hosting, verified by Firebase.
