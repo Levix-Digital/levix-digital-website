@@ -68,7 +68,7 @@ Details: [TECDOC.md](../../TECDOC.md).
 | Firebase Hosting | Out | Serves the sites | Site down (Firebase's availability) |
 | Cloud Functions, Firestore | In and out | Contact messages, shared translation cache | Fallbacks above |
 | Google Cloud Translation API | Out | Build-time and on-demand translation | Build keeps the previous translations; on-demand shows English |
-| Email delivery (SMTP of the levix.digital mailbox, through the Firebase Trigger Email extension) | Out | Notifies contact@levix.digital | Message stays in Firestore and is retried |
+| Email delivery (Gmail SMTP of the account that holds the contact@levix.digital alias, with an app password, through the Firebase Trigger Email extension) | Out | Notifies contact@levix.digital | Message stays in Firestore and is retried |
 | Google Analytics 4 | Out | Visits and download clicks, after consent | No effect on the site |
 | GitHub Releases of each product | In, at build time | Latest version and download links | Build keeps the last known release |
 | Hostinger DNS | — | `levix.digital` and its subdomains point to Firebase Hosting | — |
@@ -92,6 +92,4 @@ Details: [TECDOC.md](../../TECDOC.md).
 
 ## Open Questions
 
-- Email delivery for the contact form: the SMTP account of the levix.digital mailbox (assumed to be at Hostinger) or another provider.
-- The subdomain names of the products (`anycontext`, `devcycle`, `gedo`, `aurora`).
 - Firebase project name, region and billing account (the Blaze plan is needed for functions and the Translation API).
