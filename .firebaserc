@@ -1,0 +1,26 @@
+{
+  "projects": {
+    "default": "levix-digital"
+  },
+  "targets": {
+    "levix-digital": {
+      "hosting": {
+        "home": [
+          "levix-digital"
+        ],
+        "anycontext": [
+          "levix-anycontext"
+        ],
+        "devcycle": [
+          "levix-devcycle"
+        ],
+        "gedo": [
+          "levix-gedo"
+        ],
+        "aurora": [
+          "levix-aurora"
+        ]
+      }
+    }
+  }
+}
