@@ -111,7 +111,27 @@ Every pull request from a branch of this repository is built and published to th
 
 ### Roll back a site
 
-In the Firebase console, open Hosting, the site's release history, and choose "Rollback" on the previous release. Only that site changes.
+In the Firebase console, open Hosting, the site's release history, and choose "Rollback" on the previous release. Only that site changes. The next production deploy that includes the site publishes `main` again.
+
+## Continuous integration and deploy
+
+Every pull request into `main` runs the `CI` checks: type check, lint and unit tests (Ubuntu with Node.js 22 and 24, Windows with Node.js 22), then the build, `verify:dist`, `verify:hosting` and a Lighthouse audit of every page of every site. A page fails the audit when its median mobile score for performance or accessibility is below 90. Run the same audit locally after a build:
+
+```bash
+npm run build
+npm run lighthouse     # set CHROME_PATH if Chrome is not found
+```
+
+The reports are in `.lighthouseci/<site>/`, and in the `lighthouse` artifact of a CI run.
+
+Every merge into `main` runs the `Deploy` workflow: the same checks on the merged commit, then a production deploy of the sites changed since the last successful one, from the build that passed. A change under `sites/<site>/` publishes that site, a change to documentation or specifications publishes nothing, and any other change publishes every site. Deploys run one at a time in the `production` environment, and the run lists each published address.
+
+To publish by hand, open Actions, Deploy, "Run workflow", and leave `sites` empty for every site or write the sites, for example `gedo aurora`.
+
+### One-time repository settings (owner)
+
+- Settings, Environments, `production`: limit deployment branches to `main` (the environment appears after the first deploy, or create it there).
+- Settings, Branches: protect `main` with a required pull request, the required checks `check (ubuntu-latest, 22)`, `check (ubuntu-latest, 24)`, `check (windows-latest, 22)` and `build`, required conversation resolution, and no force pushes.
 
 ## Troubleshooting
 
@@ -123,6 +143,8 @@ In the Firebase console, open Hosting, the site's release history, and choose "R
 | `npm run deploy` says `not built` | Run `npm run build` first |
 | `npm run hosting:setup` says billing is not enabled | Switch the project to the Blaze plan in the Firebase console, then run it again |
 | The preview workflow ends with "Preview skipped" | Set the two repository variables printed by `npm run hosting:setup` |
+| `npm run lighthouse` fails with a score below budget | Open the site's HTML report in `.lighthouseci/<site>/` (or the `lighthouse` artifact of the run) and fix the audits it lists |
+| The `Deploy` run fails at "Check deploy configuration" | Set the two repository variables printed by `npm run hosting:setup` |
 | Lint reports `boundaries/dependencies` | Import the shared package by its name (for example `@levix/ui`) instead of a file inside it, and never import another site |
 
 ## Documentation

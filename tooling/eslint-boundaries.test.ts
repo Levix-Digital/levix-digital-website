@@ -1,8 +1,9 @@
+import { fileURLToPath } from 'node:url'
 import { ESLint } from 'eslint'
 import { describe, expect, it } from 'vitest'
 
 // Guards the module boundary rules of eslint.config.js (ADR-0001) against silent weakening.
-const eslint = new ESLint({ cwd: new URL('..', import.meta.url).pathname })
+const eslint = new ESLint({ cwd: fileURLToPath(new URL('..', import.meta.url)) })
 
 async function boundaryErrors(filePath: string, code: string): Promise<string[]> {
   const [result] = await eslint.lintText(code, { filePath })

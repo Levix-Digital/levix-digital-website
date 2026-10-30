@@ -21,9 +21,13 @@
     "hosting:setup": "node scripts/hosting-setup.mjs",
     "deploy": "node scripts/hosting-deploy.mjs",
     "deploy:preview": "node scripts/hosting-deploy.mjs --channel",
-    "verify:hosting": "firebase emulators:exec --only hosting --project levix-digital \"node scripts/verify-hosting.mjs\""
+    "verify:hosting": "firebase emulators:exec --only hosting --project levix-digital \"node scripts/verify-hosting.mjs\"",
+    "lighthouse": "firebase emulators:exec --only hosting --project levix-digital \"node scripts/lighthouse.mjs\"",
+    "sites:changed": "node scripts/changed-sites.mjs",
+    "verify:live": "node scripts/verify-live.mjs"
   },
   "devDependencies": {
+    "@lhci/cli": "^0.15.1",
     "@tailwindcss/vite": "^4.3.3",
     "@types/node": "^22.20.5",
     "@vitejs/plugin-vue": "^6.0.10",
@@ -45,5 +49,10 @@
     "vue": "^3.5.44",
     "vue-router": "^5.4.0",
     "vue-tsc": "^3.3.14"
+  },
+  "overrides": {
+    "@lhci/cli": {
+      "lighthouse": "13.5.0"
+    }
   }
 }

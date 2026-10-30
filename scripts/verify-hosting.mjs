@@ -2,17 +2,14 @@
 // hosting emulator: npm run verify:hosting (after npm run build).
 import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
+import { emulatorBases } from './lib/emulator.mjs'
 import { readHostingConfig } from './lib/hosting-config.mjs'
 
-const HUB = process.env.FIREBASE_EMULATOR_HUB ?? '127.0.0.1:4400'
 const PAGE_CACHE = 'no-cache'
 const ASSET_CACHE = 'public, max-age=31536000, immutable'
 
-const hub = await (await fetch(`http://${HUB}/emulators`)).json()
-// The emulator serves the targets in firebase.json order: the first on its port, the others on
-// its reserved ports.
-const ports = [hub.hosting.port, ...(hub.hosting.reservedPorts ?? [])]
 const { targets } = readHostingConfig()
+const bases = await emulatorBases(targets.map((target) => target.name))
 
 /** @type {string[]} */
 const failures = []
@@ -27,8 +24,8 @@ function expectThat(site, check, passed, detail) {
   else failures.push(`${site}: ${check} (${detail})`)
 }
 
-for (const [index, target] of targets.entries()) {
-  const base = `http://${hub.hosting.host}:${ports[index]}`
+for (const target of targets) {
+  const base = bases.get(target.name)
   const get = (/** @type {string} */ path) => fetch(base + path, { redirect: 'manual' })
 
   const home = await get('/')

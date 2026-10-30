@@ -26,6 +26,7 @@ flowchart LR
 | Subsystem | Summary |
 |---|---|
 | [Backend Functions](docs/architecture/functions.md) | Cloud Functions for the contact form and the shared translation cache. |
+| [Continuous integration and deploy](docs/architecture/ci.md) | Checks on every pull request into main and production deploys of the changed sites on every merge. |
 | [Design System](docs/architecture/ui.md) | Ceramic and Aurora tokens, light and dark themes, shared layout, components and the 3D hero. |
 | [Hosting](docs/architecture/hosting.md) | One Firebase project with a hosting site per domain, keyless deploys from the repository and a preview channel per pull request. |
 | [Internationalization](docs/architecture/i18n.md) | English source strings, build-time French and Spanish bundles and on-demand languages cached in the browser. |
@@ -38,6 +39,7 @@ flowchart LR
 <!-- architecture-docs:adrs:start -->
 | ADR | Title | Status | Version | Date |
 |---|---|---|---|---|
+| [ADR-0008](docs/adr/0008-continuous-deploy-of-changed-sites-on-merge.md) | Continuous deploy of changed sites on merge | accepted | v0.1.0 | 2026-10-30 |
 | [ADR-0007](docs/adr/0007-keyless-deploys-with-workload-identity-federation.md) | Keyless deploys with Workload Identity Federation | accepted | v0.1.0 | 2026-10-30 |
 | [ADR-0006](docs/adr/0006-tailwind-css-4-with-a-shared-stylesheet-theme.md) | Tailwind CSS 4 with a shared stylesheet theme | accepted | v0.1.0 | 2026-10-30 |
 | [ADR-0005](docs/adr/0005-product-facts-as-typed-data-files.md) | Product facts as typed data files | accepted |  | 2026-10-30 |

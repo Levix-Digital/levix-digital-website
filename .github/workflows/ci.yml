@@ -1,0 +1,75 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_call:
+
+concurrency:
+  # A newer push to a pull request cancels its older run; the run called by Deploy is never cancelled.
+  group: ci-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: check (${{ matrix.os }}, ${{ matrix.node }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: ubuntu-latest, node: '22' }
+          - { os: ubuntu-latest, node: '24' }
+          - { os: windows-latest, node: '22' }
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+      - run: npm run verify:dist
+      - run: npm run verify:hosting
+      - run: npm run lighthouse
+
+      - name: Upload Lighthouse reports
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: lighthouse
+          path: .lighthouseci/
+          include-hidden-files: true
+          retention-days: 14
+          if-no-files-found: ignore
+
+      # The Deploy workflow publishes exactly these files.
+      - name: Upload built sites
+        uses: actions/upload-artifact@v7
+        with:
+          name: sites-dist
+          path: sites/*/dist/
+          retention-days: 14
+          if-no-files-found: error
