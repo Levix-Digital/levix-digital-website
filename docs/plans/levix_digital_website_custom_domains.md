@@ -7,7 +7,7 @@ version: v0.1.0
 status: in_progress
 author: LeviGuilherme
 created_at: '2026-10-30T21:33:39'
-updated_at: '2026-10-30T22:26:15'
+updated_at: '2026-10-30T22:27:29'
 session_id: null
 tags: []
 supersedes: null
@@ -32,7 +32,9 @@ milestones:
 - name: US1 domains live
   done: false
 - name: Polish and documentation
-  done: false
+  done: true
+  done_at: '2026-10-30'
+  by: LeviGuilherme
 status_log:
 - at: '2026-10-30T21:33:39'
   by: LeviGuilherme
@@ -51,6 +53,9 @@ status_log:
 - at: '2026-10-30T22:26:15'
   by: LeviGuilherme
   note: Milestone 'US3 deploy check' completed
+- at: '2026-10-30T22:27:29'
+  by: LeviGuilherme
+  note: Milestone 'Polish and documentation' completed
 ---
 
 # Custom domains
