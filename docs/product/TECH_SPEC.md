@@ -71,7 +71,7 @@ Details: [TECDOC.md](../../TECDOC.md).
 | Email delivery (Gmail SMTP of the account that holds the contact@levix.digital alias, with an app password, through the Firebase Trigger Email extension) | Out | Notifies contact@levix.digital | Message stays in Firestore and is retried |
 | Google Analytics 4 | Out | Visits and download clicks, after consent | No effect on the site |
 | GitHub Releases of each product | In, at build time | Latest version and download links | Build keeps the last known release |
-| Hostinger DNS | — | `levix.digital` and its subdomains point to Firebase Hosting | — |
+| Cloudflare DNS | — | `levix.digital` and its subdomains point to Firebase Hosting (names served by Firebase not proxied); mail routing; `www` redirect | Sites unreachable at their domains; `*.web.app` addresses keep working |
 
 ## Data
 
@@ -85,7 +85,7 @@ Details: [TECDOC.md](../../TECDOC.md).
 
 - Every fact on the site comes from the product's repository, its release channel or a reproducible measurement; unavailable products and unpublished research are labeled as such.
 - Hosting on Google Firebase, in one Firebase project, `levix-digital`, on the Blaze plan with Levi's billing account; the services that have a region (Firestore, functions) run in Montreal (`northamerica-northeast1`), which keeps the data of the contact form in Canada.
-- DNS stays at Hostinger.
+- DNS of `levix.digital` at Cloudflare (ADR-0009).
 - No per-language URLs.
 - The design follows the Ceramic and Aurora language of the original specification, with light as the default theme and a complete dark theme.
 - All repository content in English, with no reference to the tools used to write it.

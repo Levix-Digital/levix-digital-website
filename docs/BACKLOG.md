@@ -11,9 +11,9 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 ### FEAT-004: DNS for levix.digital and product subdomains
 - **Priority**: high
 - **Epic**: EPIC-001
-- **Status**: open
+- **Status**: planned
 - **Found**: 2026-10-30
-- **Plan**: -
+- **Plan**: levix_digital_website_custom_domains
 - **Description**: Hostinger DNS records pointing the apex and each product subdomain to Firebase Hosting, verified by Firebase.
 
 ### FEAT-005: Security headers

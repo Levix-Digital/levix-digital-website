@@ -1,28 +1,31 @@
 ---
 title: Hosting
-summary: One Firebase project with a hosting site per domain, keyless deploys from the repository and a preview channel per pull request.
-code: [firebase.json, .firebaserc, scripts, .github/workflows/preview.yml]
+summary: One Firebase project with a hosting site per domain (DNS at Cloudflare), keyless deploys from the repository and a preview channel per pull request.
+code: [firebase.json, .firebaserc, domains.json, scripts, .github/workflows/preview.yml]
 ---
 
 # Hosting
 
-One Firebase project with a hosting site per domain, keyless deploys from the repository and a preview channel per pull request.
+One Firebase project with a hosting site per domain (DNS at Cloudflare), keyless deploys from the repository and a preview channel per pull request.
 
 ## Responsibilities
 
-Owns where and how the built sites are served: the Firebase project, its hosting sites, the serving rules of each site (URLs, cache headers), the deploy identity, and the commands that set up, publish and preview. Does not own the pages (sites), the checks and production deploys on merge ([Continuous integration and deploy](ci.md)), the domains and DNS (FEAT-004) or the security headers (FEAT-005).
+Owns where and how the built sites are served: the Firebase project, its hosting sites, the serving rules of each site (URLs, cache headers), the custom domains and their DNS records, the deploy identity, and the commands that set up, publish, preview and check. Does not own the pages (sites), the checks and production deploys on merge ([Continuous integration and deploy](ci.md)) or the security headers (FEAT-005).
 
 ## Structure
 
 - `.firebaserc`: the project (`levix-digital`) and the hosting site of each target.
+- `domains.json`: the custom domain of each target, read by `scripts/lib/domains-config.mjs`.
 - `firebase.json`: one `hosting` entry per target, serving `sites/<target>/dist`.
 - `scripts/hosting-setup.mjs`: one-time setup (`npm run hosting:setup`).
 - `scripts/hosting-deploy.mjs`: live and preview deploys (`npm run deploy`, `npm run deploy:preview`).
 - `scripts/verify-hosting.mjs`: checks the serving rules in the hosting emulator (`npm run verify:hosting`).
+- `scripts/domains-status.mjs`: read-only state of the custom domains (`npm run domains:status`).
+- `scripts/verify-live.mjs`: checks the default address and the domain of published sites (`npm run verify:live`).
 - `scripts/lib/`: reading the configuration and running commands (the runner the tests replace).
 - `.github/workflows/preview.yml`: the preview of every pull request.
 
-| Target | Hosting site | Default address | Domain (FEAT-004) |
+| Target | Hosting site | Default address | Domain |
 |---|---|---|---|
 | `home` | `levix-digital` | https://levix-digital.web.app | levix.digital |
 | `anycontext` | `levix-anycontext` | https://levix-anycontext.web.app | anycontext.levix.digital |
@@ -42,17 +45,22 @@ The project's other services (Firestore, functions) run in Montreal (`northameri
 
 **Previews.** For every pull request from a branch of the repository (never from a fork), the `Preview` workflow builds the sites, runs `verify:dist` and `verify:hosting`, gets a token for `hosting-deployer`, publishes all sites to the channel `pr-<number>` and creates or edits the one comment that starts with the marker. A newer push cancels an older run. Until the repository variables are set, the workflow stops after the checks with a notice.
 
-**Production.** Every merge into `main` publishes the changed sites with `npm run deploy` through the `Deploy` workflow ([Continuous integration and deploy](ci.md)).
+**Domains.** The zone of `levix.digital` is at Cloudflare ([ADR-0009](../adr/0009-dns-at-cloudflare-with-firebase-hosted-names-not-proxied.md)). Each domain is connected to its site in the Firebase console; the repository does not create domains or change DNS. The product subdomains are `CNAME <site-id>.web.app` with the Cloudflare proxy off, so Firebase verifies them and issues their certificates. The apex is proxied by Cloudflare, which also redirects `www.levix.digital` to `https://levix.digital` and routes the domain's mail. `npm run domains:status` gets the caller's `gcloud` token and asks the Firebase Hosting API (`v1beta1`, `projects.sites.customDomains.get`) for each domain of `domains.json`: a domain is `ok` when ownership, host and certificate are `OWNERSHIP_ACTIVE`, `HOST_ACTIVE` and `CERT_ACTIVE`; otherwise it prints the states, Firebase's last check time and the records Firebase asks to add (`requiredDnsUpdates.desired`, action `ADD`) or remove (`discovered`, action `REMOVE`), with hosts relative to the zone. A domain that is not connected is reported as such. The command exits with an error until every domain is active.
+
+**Production.** Every merge into `main` publishes the changed sites with `npm run deploy` through the `Deploy` workflow ([Continuous integration and deploy](ci.md)), which then requests the default address and the domain of each published site (`verify:live`).
 
 **Rollback.** Per site, in the Firebase console (Hosting, the site's release history, "Rollback"), or with `npx firebase hosting:clone <site>:<version> <site>:live`. The other sites are not affected.
+
+**Removing a domain.** Delete its record in Cloudflare, remove the domain from the site in the Firebase console and from `domains.json`; the `*.web.app` address keeps working.
 
 **Removing the deploy identity.** `gcloud iam service-accounts delete hosting-deployer@levix-digital.iam.gserviceaccount.com` and `gcloud iam workload-identity-pools delete github --location=global --project=levix-digital`.
 
 ## Interfaces
 
-Serves the output folders of [Sites](sites.md). The commands are listed in the README ("Hosting"). The workflow reads the repository variables `FIREBASE_WIF_PROVIDER` and `FIREBASE_DEPLOY_SERVICE_ACCOUNT`.
+Serves the output folders of [Sites](sites.md). The commands are listed in the README ("Hosting"). The workflow reads the repository variables `FIREBASE_WIF_PROVIDER` and `FIREBASE_DEPLOY_SERVICE_ACCOUNT`. The DNS records are edited in the Cloudflare dashboard.
 
 ## Decisions
 
 - [ADR-0003](../adr/0003-firebase-hosting-with-one-site-per-domain.md): one Firebase Hosting site per domain.
+- [ADR-0009](../adr/0009-dns-at-cloudflare-with-firebase-hosted-names-not-proxied.md): DNS at Cloudflare with Firebase-hosted names not proxied.
 - [ADR-0007](../adr/0007-keyless-deploys-with-workload-identity-federation.md): keyless deploys with Workload Identity Federation.

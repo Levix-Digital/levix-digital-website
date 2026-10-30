@@ -77,15 +77,15 @@ Run it after `npm run build`: it fails if a site has no prerendered home page wi
 
 ## Hosting
 
-Each site is served by its own Firebase Hosting site in the project `levix-digital`, at `https://<hosting site>.web.app` until its domain is connected:
+Each site is served by its own Firebase Hosting site in the project `levix-digital`, at its domain and at `https://<hosting site>.web.app`:
 
-| Site | Hosting site |
-|---|---|
-| `home` | `levix-digital` |
-| `anycontext` | `levix-anycontext` |
-| `devcycle` | `levix-devcycle` |
-| `gedo` | `levix-gedo` |
-| `aurora` | `levix-aurora` |
+| Site | Hosting site | Domain |
+|---|---|---|
+| `home` | `levix-digital` | https://levix.digital (`www.levix.digital` redirects to it) |
+| `anycontext` | `levix-anycontext` | https://anycontext.levix.digital |
+| `devcycle` | `levix-devcycle` | https://devcycle.levix.digital |
+| `gedo` | `levix-gedo` | https://gedo.levix.digital |
+| `aurora` | `levix-aurora` | https://aurora.levix.digital |
 
 ### One-time setup (project owner)
 
@@ -104,6 +104,21 @@ npm run deploy -- gedo     # one site
 ```
 
 `verify:hosting` serves the built sites with the Firebase hosting emulator and checks clean URLs, not-found answers and cache headers. `deploy` refuses a site that is not built.
+
+### Domains
+
+The DNS of `levix.digital` is at Cloudflare. Each domain is connected to its hosting site in the Firebase console (Hosting, the site, "Add custom domain") and listed in `domains.json`. In Cloudflare, every name served by Firebase has the records Firebase shows with the proxy off ("DNS only"): a product subdomain is `CNAME <product> levix-<product>.web.app`. Leave the mail records (MX, SPF) and the verification TXT records as they are.
+
+Check the domains with your own `gcloud` login (an owner of the project):
+
+```bash
+npm run domains:status             # every site
+npm run domains:status -- gedo     # one site
+```
+
+Each domain is `ok` when Firebase reports its ownership, its host and its certificate as active; otherwise the line shows the states, when Firebase last checked, and the records Firebase asks to add or remove. The command only reads, and ends with an error until every domain is active. After DNS changes, Firebase can take a few hours to check again and issue the certificate.
+
+To add a site's domain: add the record in Cloudflare, connect the domain in the Firebase console, add it to `domains.json`, and run `npm run domains:status`.
 
 ### Preview a pull request
 
@@ -141,6 +156,8 @@ To publish by hand, open Actions, Deploy, "Run workflow", and leave `sites` empt
 | `npm ci` fails because the lock file does not match `package.json` | Run `npm install` to update `package-lock.json` and commit it with the change |
 | `npm run verify:dist` says `index.html not found` | Run `npm run build` first |
 | `npm run deploy` says `not built` | Run `npm run build` first |
+| `npm run domains:status` shows `OWNERSHIP_MISSING` and asks to add a `CNAME` | The record is missing or proxied in Cloudflare: set it to the value shown with the proxy off ("DNS only"), then wait for Firebase to check again |
+| The `Deploy` run fails at "Check the addresses" on a domain | Run `npm run domains:status` and fix the records it lists |
 | `npm run hosting:setup` says billing is not enabled | Switch the project to the Blaze plan in the Firebase console, then run it again |
 | The preview workflow ends with "Preview skipped" | Set the two repository variables printed by `npm run hosting:setup` |
 | `npm run lighthouse` fails with a score below budget | Open the site's HTML report in `.lighthouseci/<site>/` (or the `lighthouse` artifact of the run) and fix the audits it lists |

@@ -1,7 +1,7 @@
 <!-- dev-cycle-constitution
 generated-by: dev-cycle-protocol/constitution.py (do not edit; change a source and regenerate)
-sources-sha256: 49aae8eaaf3862455e80149e28aef06610ce66d4b1b226f9f9a220d6afd18173
-content-sha256: 6bac4186c5af4fce352f587c9d10fa74e9e534d0f2debc2bbc1f24e97ee8f4b5
+sources-sha256: e8583c849e90199f1f0d43650d9ba37bc33671234ff2ef027b5ada14bd9d181d
+content-sha256: dee3f287c0b8ab84a21b822bbf77e5703ead7ac8e2cc67c2387d4846bd5037c8
 -->
 # levix-digital-website Constitution
 
@@ -155,7 +155,7 @@ If you cannot point to the problem in the left column, do not use the pattern. N
 
 - Every fact on the site comes from the product's repository, its release channel or a reproducible measurement; unavailable products and unpublished research are labeled as such.
 - Hosting on Google Firebase, in one Firebase project, `levix-digital`, on the Blaze plan with Levi's billing account; the services that have a region (Firestore, functions) run in Montreal (`northamerica-northeast1`), which keeps the data of the contact form in Canada.
-- DNS stays at Hostinger.
+- DNS of `levix.digital` at Cloudflare (ADR-0009).
 - No per-language URLs.
 - The design follows the Ceramic and Aurora language of the original specification, with light as the default theme and a complete dark theme.
 - All repository content in English, with no reference to the tools used to write it.
@@ -171,6 +171,8 @@ Accepted decisions; a plan that contradicts one needs a new ADR that supersedes 
 - ADR-0005: Product facts as typed data files (`docs/adr/0005-product-facts-as-typed-data-files.md`)
 - ADR-0006: Tailwind CSS 4 with a shared stylesheet theme (`docs/adr/0006-tailwind-css-4-with-a-shared-stylesheet-theme.md`)
 - ADR-0007: Keyless deploys with Workload Identity Federation (`docs/adr/0007-keyless-deploys-with-workload-identity-federation.md`)
+- ADR-0008: Continuous deploy of changed sites on merge (`docs/adr/0008-continuous-deploy-of-changed-sites-on-merge.md`)
+- ADR-0009: DNS at Cloudflare with Firebase-hosted names not proxied (`docs/adr/0009-dns-at-cloudflare-with-firebase-hosted-names-not-proxied.md`)
 
 ## Governance
 
@@ -178,4 +180,4 @@ Accepted decisions; a plan that contradicts one needs a new ADR that supersedes 
 - Amendments change the source, not this file: an ADR for decisions, the technical specification for requirements and constraints, `.dev-cycle.json` for the architecture style, the skills for principles. Then run `constitution.py generate` and commit the result with the change.
 - Gate 3 of the development cycle blocks a plan while this file is stale or edited by hand.
 
-**Version**: 1.3.0 | **Ratified**: 2026-10-30 | **Last Amended**: 2026-10-30
+**Version**: 1.5.0 | **Ratified**: 2026-10-30 | **Last Amended**: 2026-10-30

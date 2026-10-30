@@ -1,6 +1,7 @@
-// Checks that the default address of each published site answers its home page.
+// Checks that the default address and the custom domain of each published site answer its home page.
 // Usage: node scripts/verify-live.mjs <site>...
 import { pathToFileURL } from 'node:url'
+import { readDomains } from './lib/domains-config.mjs'
 import { readHostingConfig, selectTargets } from './lib/hosting-config.mjs'
 
 /**
@@ -11,6 +12,11 @@ import { readHostingConfig, selectTargets } from './lib/hosting-config.mjs'
 /** @param {string} siteId */
 export function liveAddress(siteId) {
   return `https://${siteId}.web.app/`
+}
+
+/** @param {string} domain */
+export function domainAddress(domain) {
+  return `https://${domain}/`
 }
 
 /**
@@ -44,15 +50,20 @@ export async function checkAddress(url, fetcher, attempts, delayMs) {
 export async function main(sites, options = {}) {
   const { fetch: fetcher = fetch, attempts = 5, delayMs = 3000, root = '.' } = options
   if (sites.length === 0) throw new Error('name the sites to check')
+  const config = readHostingConfig(root)
+  const domains = readDomains(config, root)
   const failed = []
-  for (const target of selectTargets(readHostingConfig(root), sites)) {
-    const url = liveAddress(target.siteId)
-    const problem = await checkAddress(url, fetcher, attempts, delayMs)
-    if (problem === null) {
-      console.log(`ok ${target.name}: ${url}`)
-    } else {
-      console.error(`error ${target.name}: ${url} ${problem}`)
-      failed.push(target.name)
+  for (const target of selectTargets(config, sites)) {
+    const domain = domains.find((entry) => entry.target === target.name)
+    const urls = [liveAddress(target.siteId), ...(domain ? [domainAddress(domain.domain)] : [])]
+    for (const url of urls) {
+      const problem = await checkAddress(url, fetcher, attempts, delayMs)
+      if (problem === null) {
+        console.log(`ok ${target.name}: ${url}`)
+      } else {
+        console.error(`error ${target.name}: ${url} ${problem}`)
+        failed.push(url)
+      }
     }
   }
   if (failed.length > 0) throw new Error(`not answering: ${failed.join(', ')}`)
