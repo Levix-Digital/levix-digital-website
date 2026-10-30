@@ -1,7 +1,7 @@
 ---
 title: Continuous integration and deploy
 summary: Checks on every pull request into main and production deploys of the changed sites on every merge.
-code: [.github/workflows/ci.yml, .github/workflows/deploy.yml, lighthouserc.json, scripts/lighthouse.mjs, scripts/changed-sites.mjs, scripts/verify-live.mjs]
+code: [.github/workflows/ci.yml, .github/workflows/deploy.yml, lighthouserc.json, scripts/lighthouse.mjs, scripts/lib/emulator.mjs, scripts/changed-sites.mjs, scripts/verify-live.mjs]
 ---
 
 # Continuous integration and deploy
@@ -25,7 +25,7 @@ Owns the checks a commit must pass before it reaches production, the Lighthouse 
 
 **Checks (`CI`).** The `check` job runs `npm ci`, `typecheck`, `lint` and `test` on Ubuntu with Node.js 22 and 24 and on Windows with Node.js 22. The `build` job, on Ubuntu with `.nvmrc`, runs `build`, `verify:dist`, `verify:hosting` and `lighthouse`, then uploads the five `dist` folders as the artifact `sites-dist` and the reports as `lighthouse` (also when the audit fails), both kept 14 days. A newer push to a pull request cancels its older run; the run called by `Deploy` is never cancelled.
 
-**Budgets.** Lighthouse CI serves each `sites/<site>/dist` with its own static server, audits every HTML page three times with the mobile profile and fails when the median performance or accessibility score of a page is below 0.9. `@lhci/cli` 0.15.1 runs Lighthouse 13.5.0 through `overrides` in `package.json`, since its own Lighthouse is older than the Chrome on the runners. Locally, set `CHROME_PATH` when Chrome is not found. A failure names the site; the HTML reports in the `lighthouse` artifact (or `.lighthouseci/<site>/` locally) show each audit.
+**Budgets.** `npm run lighthouse` runs inside the hosting emulator (as `verify:hosting` does) and gives Lighthouse CI every prerendered page of each site at its clean URL (`index.html` is `/`, `about.html` is `/about`; the not-found page is left out), so pages are audited with the hosting rules, as visitors get them. Lighthouse's own static server is not used: it serves `/index.html`, where the client router matches no route and the page renders empty. Lighthouse CI audits every page three times with the mobile profile and fails when the median performance or accessibility score of a page is below 0.9. `@lhci/cli` 0.15.1 runs Lighthouse 13.5.0 through `overrides` in `package.json`, since its own Lighthouse is older than the Chrome on the runners. Locally, set `CHROME_PATH` when Chrome is not found. A failure names the site; the HTML reports in the `lighthouse` artifact (or `.lighthouseci/<site>/` locally) show each audit.
 
 **Selecting the sites (`Deploy`, job `plan`).** For a push, the job reads the deployments of the `production` environment and takes the commit of the newest one whose latest status is `success`, then runs `changed-sites --base <it> --head <pushed commit>`: a file under `sites/<site>/` selects that site; `docs/`, `specs/`, `.specify/`, `.claude/`, `tests/MANUAL_TESTS.md`, Markdown at the root, `LICENSE` and `preview.yml` select none; any other file selects every site. No deployment yet, an empty base or a base that is not in the history selects every site. For a manual run, the `sites` input is checked against the hosting targets (empty means every site). The log lists every changed file with its result ([ADR-0008](../adr/0008-continuous-deploy-of-changed-sites-on-merge.md)).
 

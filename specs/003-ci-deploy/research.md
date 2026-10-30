@@ -20,10 +20,10 @@
 
 ## Decision 4: Lighthouse CI on the static output
 
-- **Decision**: `@lhci/cli` 0.15.1, pinned, with its Lighthouse overridden to 13.5.0 (0.15.1 bundles Lighthouse 12.6.1 from June 2025, older than the Chrome versions the runners ship), with one `staticDistDir` per site, three runs per page, mobile profile (the default), and assertions `categories:performance` and `categories:accessibility` at a minimum of 0.9 on the median; reports uploaded as an artifact (`upload.target: filesystem`).
+- **Decision**: `@lhci/cli` 0.15.1, pinned, with its Lighthouse overridden to 13.5.0 (0.15.1 bundles Lighthouse 12.6.1 from June 2025, older than the Chrome versions the runners ship), run inside the hosting emulator against the clean URL of every prerendered page of each site, three runs per page, mobile profile (the default), and assertions `categories:performance` and `categories:accessibility` at a minimum of 0.9 on the median; reports uploaded as an artifact (`upload.target: filesystem`).
 - **Rationale**: the technical specification sets 90 on mobile for performance; the static server of Lighthouse CI needs no hosting; median of three runs absorbs runner noise.
 - **Alternatives**: auditing the preview channel (depends on the deploy credentials and does not run for forks); temporary public storage for reports (sends the reports to a third party).
-- **Note**: the Lighthouse static server does not apply clean URLs; it audits the prerendered `.html` files directly, which is what hosting serves.
+- **Note**: Lighthouse CI's own static server (`staticDistDir`) was tried first and dropped: it audits `/index.html`, where the client router matches no route and the hydrated page is empty, so no paint is measured and the performance score is missing. The emulator applies the hosting rules (clean URLs), as visitors get them.
 
 ## Decision 5: Platforms
 

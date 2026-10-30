@@ -6,7 +6,7 @@ Run from the repository root. Each exits with 0 on success and non-zero on any f
 
 | Command | What it does |
 |---|---|
-| `npm run lighthouse` | Audits every built site (`sites/<site>/dist`) with Lighthouse CI and the budgets in `lighthouserc.json`; reports in `.lighthouseci/`. Fails before auditing when a site is not built. Needs Chrome (`CHROME_PATH` when it is not found) |
+| `npm run lighthouse` | Inside the hosting emulator, audits every page of every built site at its clean URL with Lighthouse CI and the budgets in `lighthouserc.json`; reports in `.lighthouseci/`. Fails before auditing when a site is not built. Needs Chrome (`CHROME_PATH` when it is not found) |
 | `npm run --silent sites:changed -- --base <sha> --head <sha>` | Prints the sites to publish for the files changed between the two commits, one per line, and why on standard error; prints every site when `<base>` is empty, all zeros or not in the history. The Deploy workflow passes the commit of the last successful deployment of the `production` environment as `<base>` |
 | `npm run --silent sites:changed -- --sites "<site> <site>"` | Validates a manual list (empty means every site) against the hosting targets and prints it; unknown names fail |
 | `npm run verify:live -- <site>...` | Checks that `https://<hosting site>.web.app/` of each site answers 200 with HTML |

@@ -67,7 +67,8 @@ specs/003-ci-deploy/
 lighthouserc.json                 # budgets: performance and accessibility >= 0.9 (median of 3 runs, mobile)
 package.json                      # + @lhci/cli; scripts lighthouse, sites:changed, verify:live
 scripts/
-├── lighthouse.mjs                # runs lhci for every built site (one staticDistDir per site)
+├── lighthouse.mjs                # runs lhci, inside the hosting emulator, on every page of every built site
+├── lib/emulator.mjs              # emulator address of each target (shared with verify-hosting.mjs)
 ├── changed-sites.mjs             # changed paths -> sites to publish (FR-007, FR-008); --sites for manual runs
 ├── verify-live.mjs               # GET https://<site>.web.app/ for each published site
 └── *.test.mjs                    # unit tests
@@ -89,7 +90,7 @@ FEAT-003 (Continuous integration and deployment, EPIC-001), release v0.1.0 "Comp
 
 - Change rules (`changed-sites`): a path under one site selects that site; a shared package, the lock file, `firebase.json`, `tooling/` or `scripts/` select every site; `docs/`, `specs/`, `.specify/`, `.claude/`, root Markdown, `LICENSE`, `tests/MANUAL_TESTS.md` and `preview.yml` select none; a mix selects the union; an unknown base commit selects every site; a manual list is validated against the hosting targets and unknown names fail (FR-007, FR-008, FR-010, FR-014).
 - Address check (`verify-live`): success for 200 HTML, failure naming the site for any other status or a network error, with an injected fetch (FR-013).
-- Lighthouse runner: the per-site `staticDistDir` arguments, and a missing build fails before Lighthouse starts.
+- Lighthouse runner: clean URL of every page, the per-site arguments, and a missing build fails before Lighthouse starts.
 - The workflows are proven on this pull request (CI) and on the merge (Deploy), and the budgets by the real Lighthouse run on the placeholder pages.
 - Manual tests: add "A merge publishes only the changed site" and "Manual deploy of one site" (they need the real project and a merge), and "Required checks block a failing pull request" (a repository setting).
 - Acceptance: the spec's acceptance scenarios and SC-001 to SC-005.
