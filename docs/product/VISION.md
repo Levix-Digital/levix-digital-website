@@ -54,9 +54,10 @@ Proposed, to be confirmed (see Open Questions):
 - **Plans and pricing**: AnyContext's plans as currently defined; the other products' plans when defined.
 - **Research and development**: an R&D page presenting the research line, linking to a dedicated LSIE page with the paper (a work in progress, not yet published), the explanation of the method, the benchmark and the code.
 - **Languages**: English as the source; French and Spanish translated at build time; any other language translated on demand in the browser through Google's official translation API and kept in the visitor's browser storage. One URL per page, whatever the language.
-- **Contact**: a contact form and the company's contact details.
-- **Legal**: privacy policy and terms of use.
-- **Design language**: Ceramic and Aurora (ceramic white surfaces, aurora light seams, 3D hero), shared by the company home and the product sites.
+- **Contact**: a contact form whose messages go to contact@levix.digital, and the company's contact details in the footer (email, city, province and country: Calgary, Alberta, Canada).
+- **Legal**: privacy policy, cookie notice and terms of use, written for Levix Digital Inc. following the usual structure of software vendors' policies.
+- **Design language**: Ceramic and Aurora (ceramic white surfaces, aurora light seams, 3D hero), shared by the company home and the product sites. The light theme is the default; a complete dark theme is available and follows the visitor's system preference or choice.
+- **Analytics**: Google Analytics 4, loaded only after the visitor's consent.
 
 ## Non-Goals
 
@@ -72,7 +73,7 @@ Proposed, to be confirmed (see Open Questions):
 
 - **Misleading claims (legal and reputational).** A number or status that is not true exposes the company under Canadian advertising law. Reduced by taking every fact from the product repositories, labeling unavailable products and unpublished research as such, and reviewing the copy before each release.
 - **Product facts drift.** Products change faster than the site (versions, plans, prices). Reduced by keeping product facts in one data file per product and updating it with each product release.
-- **On-demand translation quality and cost.** Machine translation may be imprecise and the official API has a cost per character. Reduced by translating only missing or changed strings, caching in the browser, and pre-translating the most used languages at build time.
+- **On-demand translation quality and cost.** Machine translation may be imprecise and the official API has a cost per character. Reduced by translating only missing or changed strings, keeping a shared server-side copy so each string is translated once per language for all visitors, caching in the browser, and pre-translating the most used languages at build time.
 - **Search visibility of other languages.** Languages translated in the browser are not indexed by search engines; only English (and the build-time languages, if served in the page) are. Accepted by the decision of no per-language URLs.
 - **3D performance.** The WebGL hero can be heavy on low-end devices. Reduced by a static fallback, pausing it off screen and honoring reduced-motion preferences.
 - **Translation API key exposure.** A browser-side call to the official API needs protection. Reduced by calling it through a server-side function with quotas, never with a key embedded in the page.
@@ -80,9 +81,6 @@ Proposed, to be confirmed (see Open Questions):
 ## Open Questions
 
 - Success metric targets (monthly downloads and contact requests).
-- Dark theme alongside the light ceramic theme, or light only as in the original specification.
-- Contact: the address that receives messages, and the company details for the footer.
-- Analytics: Google Analytics 4 with cookie consent, or no analytics.
-- Where the `levix.digital` DNS is managed.
-- Legal texts: who reviews the drafted privacy policy and terms.
+- The 3D hero shape (an icosahedron for now; may change after the first version is seen).
+- Legal review of the privacy policy and terms before launch.
 - Plans and prices of Dev Cycle Protocol, Gedo and Aurora Dev Suite (asked at implementation time).
