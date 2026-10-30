@@ -11,9 +11,9 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 ### FEAT-003: Continuous integration and deployment
 - **Priority**: high
 - **Epic**: EPIC-001
-- **Status**: open
+- **Status**: planned
 - **Found**: 2026-10-30
-- **Plan**: -
+- **Plan**: levix_digital_website_continuous_integration_and_production_deploy
 - **Description**: Type check, lint, unit tests, build and Lighthouse CI on every pull request; deploy each changed site on merge to main.
 
 ### FEAT-004: DNS for levix.digital and product subdomains
