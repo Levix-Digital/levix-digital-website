@@ -1,0 +1,5 @@
+/* Shared styles of every site: Tailwind and the design tokens (FEAT-006). */
+@import "tailwindcss";
+
+/* Components live outside the sites, so Tailwind must scan them explicitly. */
+@source "./components";
