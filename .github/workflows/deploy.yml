@@ -1,0 +1,135 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      sites:
+        description: Sites to publish, separated by spaces (empty for every site)
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci.yml
+
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      deployments: read
+    outputs:
+      sites: ${{ steps.sites.outputs.sites }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+
+      # Changes are counted from the commit of the last successful production deploy, so a deploy
+      # that failed or was replaced while waiting is published by the next one.
+      - name: Find the last production deploy
+        id: base
+        if: github.event_name == 'push'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          base=""
+          while read -r id sha; do
+            [ -n "$id" ] || continue
+            state=$(gh api "repos/$REPO/deployments/$id/statuses?per_page=1" --jq '.[0].state // ""')
+            if [ "$state" = success ]; then base=$sha; break; fi
+          done < <(gh api "repos/$REPO/deployments?environment=production&per_page=30" --jq '.[] | "\(.id) \(.sha)"')
+          echo "last production deploy: ${base:-none}"
+          echo "sha=$base" >> "$GITHUB_OUTPUT"
+
+      - name: Select the sites
+        id: sites
+        env:
+          EVENT: ${{ github.event_name }}
+          BASE: ${{ steps.base.outputs.sha }}
+          HEAD: ${{ github.sha }}
+          CHOSEN: ${{ inputs.sites }}
+        run: |
+          if [ "$EVENT" = workflow_dispatch ]; then
+            sites=$(node scripts/changed-sites.mjs --sites "$CHOSEN")
+          else
+            sites=$(node scripts/changed-sites.mjs --base "$BASE" --head "$HEAD")
+          fi
+          echo "sites=$(echo $sites)" >> "$GITHUB_OUTPUT"
+
+  deploy:
+    needs: [ci, plan]
+    if: needs.plan.outputs.sites != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    # One production deploy at a time; a deploy waiting here may be replaced by a newer one, which
+    # also publishes its changes (see the plan job).
+    concurrency:
+      group: deploy-production
+      cancel-in-progress: false
+    environment:
+      name: production
+      url: https://levix-digital.web.app
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      SITES: ${{ needs.plan.outputs.sites }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - name: Download the checked build
+        uses: actions/download-artifact@v8
+        with:
+          name: sites-dist
+          path: sites/
+
+      - name: Check deploy configuration
+        env:
+          PROVIDER: ${{ vars.FIREBASE_WIF_PROVIDER }}
+          SERVICE_ACCOUNT: ${{ vars.FIREBASE_DEPLOY_SERVICE_ACCOUNT }}
+        run: |
+          if [ -z "$PROVIDER" ] || [ -z "$SERVICE_ACCOUNT" ]; then
+            echo "::error::Set the repository variables FIREBASE_WIF_PROVIDER and FIREBASE_DEPLOY_SERVICE_ACCOUNT (npm run hosting:setup prints them)."
+            exit 1
+          fi
+
+      - uses: google-github-actions/auth@v3
+        with:
+          workload_identity_provider: ${{ vars.FIREBASE_WIF_PROVIDER }}
+          service_account: ${{ vars.FIREBASE_DEPLOY_SERVICE_ACCOUNT }}
+
+      - name: Publish
+        run: npm run deploy -- $SITES
+
+      - name: Check the addresses
+        shell: bash
+        run: npm run --silent verify:live -- $SITES | tee live.txt
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "### Production deploy"
+            echo
+            echo "Sites: \`$SITES\`"
+            echo
+            [ -f live.txt ] && sed 's/^/- /' live.txt
+          } >> "$GITHUB_STEP_SUMMARY"
