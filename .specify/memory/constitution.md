@@ -1,7 +1,7 @@
 <!-- dev-cycle-constitution
 generated-by: dev-cycle-protocol/constitution.py (do not edit; change a source and regenerate)
-sources-sha256: dd3a863a365d447ed4c1f0652d48da6ecfe11c72d6bf59dd32ff7181feb7c63d
-content-sha256: 282c8e41a466570c9db500eb23d8a3cc41694c62a823116734f2986031e4fee1
+sources-sha256: 663475ce182f42577ec8f72a7bab3b93c0282e1876dce93617fc4c9aee55353e
+content-sha256: acde8d3ee8a06baa558032253edbe5682967c6486d431e5e5488e441d1ef1b76
 -->
 # levix-digital-website Constitution
 
@@ -160,10 +160,20 @@ If you cannot point to the problem in the left column, do not use the pattern. N
 - The design follows the Ceramic and Aurora language of the original specification, with light as the default theme and a complete dark theme.
 - All repository content in English, with no reference to the tools used to write it.
 
+## Architecture Decisions
+
+Accepted decisions; a plan that contradicts one needs a new ADR that supersedes it.
+
+- ADR-0001: Modular monolith in one repository (`docs/adr/0001-modular-monolith-in-one-repository.md`)
+- ADR-0002: Vue 3 with Vite static prerendering (`docs/adr/0002-vue-3-with-vite-static-prerendering.md`)
+- ADR-0003: Firebase Hosting with one site per domain (`docs/adr/0003-firebase-hosting-with-one-site-per-domain.md`)
+- ADR-0004: Build-time and on-demand translation without per-language URLs (`docs/adr/0004-build-time-and-on-demand-translation-without-per-language-ur.md`)
+- ADR-0005: Product facts as typed data files (`docs/adr/0005-product-facts-as-typed-data-files.md`)
+
 ## Governance
 
 - This constitution supersedes other practices for specifications, plans and tasks. A plan passes the Constitution Check or records each justified violation in its Complexity Tracking table; a lasting exception becomes an ADR.
 - Amendments change the source, not this file: an ADR for decisions, the technical specification for requirements and constraints, `.dev-cycle.json` for the architecture style, the skills for principles. Then run `constitution.py generate` and commit the result with the change.
 - Gate 3 of the development cycle blocks a plan while this file is stale or edited by hand.
 
-**Version**: 1.0.0 | **Ratified**: 2026-10-30 | **Last Amended**: 2026-10-30
+**Version**: 1.1.0 | **Ratified**: 2026-10-30 | **Last Amended**: 2026-10-30

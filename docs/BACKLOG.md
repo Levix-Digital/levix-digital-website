@@ -11,9 +11,9 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 ### FEAT-001: Workspace and build setup
 - **Priority**: high
 - **Epic**: EPIC-001
-- **Status**: open
+- **Status**: in_progress
 - **Found**: 2026-10-30
-- **Plan**: -
+- **Plan**: levix_digital_website_workspace_and_build_setup
 - **Description**: npm workspaces with Vite, Vue 3, TypeScript strict, Tailwind and vite-ssg, one folder per site and per package.
 
 ### FEAT-002: Firebase hosting sites and preview channels
