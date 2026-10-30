@@ -4,10 +4,10 @@ project: levix-digital-website
 title: Custom domains
 kind: feature
 version: v0.1.0
-status: in_progress
+status: completed
 author: LeviGuilherme
 created_at: '2026-10-30T21:33:39'
-updated_at: '2026-10-30T22:27:29'
+updated_at: '2026-10-30T22:54:56'
 session_id: null
 tags: []
 supersedes: null
@@ -30,7 +30,9 @@ milestones:
   done_at: '2026-10-30'
   by: LeviGuilherme
 - name: US1 domains live
-  done: false
+  done: true
+  done_at: '2026-10-30'
+  by: LeviGuilherme
 - name: Polish and documentation
   done: true
   done_at: '2026-10-30'
@@ -56,6 +58,13 @@ status_log:
 - at: '2026-10-30T22:27:29'
   by: LeviGuilherme
   note: Milestone 'Polish and documentation' completed
+- at: '2026-10-30T22:54:56'
+  by: LeviGuilherme
+  note: Milestone 'US1 domains live' completed
+- at: '2026-10-30T22:54:56'
+  by: LeviGuilherme
+  status: completed
+  note: All milestones completed
 ---
 
 # Custom domains
