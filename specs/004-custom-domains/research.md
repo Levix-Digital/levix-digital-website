@@ -1,34 +1,27 @@
 # Research: Custom Domains
 
-## R1. Connecting the domains: REST API instead of the console
+## R1. DNS at Cloudflare (supersedes the Hostinger assumption)
 
-- **Decision**: a script calls the Firebase Hosting REST API (`v1beta1`, `projects.sites.customDomains`: `get`, `create` with `customDomainId`) with the caller's `gcloud` access token.
-- **Rationale**: repeatable and idempotent like `hosting:setup`, testable, and the API returns the exact DNS records needed (`requiredDnsUpdates.desired` and `.discovered`, each record with `requiredAction` `ADD`, `REMOVE` or `NONE`) and the states (`ownershipState`, `hostState`, `cert.state`). The pinned Firebase CLI has no command for custom domains.
-- **Alternatives**: the Firebase console by hand for six domains (not repeatable, no status check in the repository); Terraform `google_firebase_hosting_custom_domain` (a new tool and state for six resources).
+- **Decision**: the zone of `levix.digital` is at Cloudflare (moved by Levi on 2026-10-30); the registrar stays where it is. New ADR-0009 records it and amends ADR-0003 and the technical specification.
+- **Rationale**: Levi's choice; Cloudflare also routes the mail of the domain (Email Routing).
 
-## R2. DNS records: printed for the maintainer, not written
+## R2. Firebase-hosted names are not proxied
 
-- **Decision**: the commands print the records; Levi enters them in the Hostinger panel.
-- **Rationale**: ADR-0003 keeps DNS at Hostinger with a manual step; the zone also holds the mail records, which a script should not risk; a Hostinger API token would be a new long-lived credential for a change made once.
-- **Alternatives**: the Hostinger DNS API (token, new client, writes to the zone with mail records); moving the zone to Cloud DNS (contradicts the technical specification).
+- **Decision**: the records of the four product subdomains are `CNAME <site>.web.app` with the proxy off ("DNS only"). The apex stays as Levi set it (proxied, with the `www` redirect rule) while its certificate is active; if renewal fails, it moves to Firebase's records with the proxy off and the redirect becomes a `www` custom domain in Firebase.
+- **Rationale**: Firebase verifies ownership and issues the certificate by looking at the records; a proxied name shows Cloudflare's addresses instead, so the subdomains stayed "Site Not Found" with ownership missing (seen 2026-10-30). Firebase already serves from a global CDN, so the proxy adds no caching value.
+- **Alternatives**: keep the proxy and add the DNS-01 TXT records (works for the certificate, but two CDNs in front of the site and Firebase's host check keeps flagging it).
 
-## R3. Host names in the form Hostinger expects
+## R3. Domains connected in the console, checked from the repository
 
-- **Decision**: print the host relative to the zone: `@` for `levix.digital`, `www`, `anycontext`, `_acme-challenge.gedo`, and so on; the full name stays in a second column.
-- **Rationale**: the Hostinger zone editor takes names relative to the zone; full names entered there become `name.levix.digital.levix.digital`.
+- **Decision**: no setup command; a read-only `domains:status` calls the Firebase Hosting REST API (`v1beta1`, `projects.sites.customDomains.get`) with the caller's `gcloud` token.
+- **Rationale**: the domains already exist and are created once; the status (ownership, host, certificate, `requiredDnsUpdates`) is what changes and what breaks. The pinned Firebase CLI has no command for custom domains.
 
-## R4. `www`
+## R4. What "active" means
 
-- **Decision**: `www.levix.digital` is a custom domain of the home site with `redirectTarget: levix.digital` (permanent redirect, path kept).
-- **Rationale**: visitors type it; a redirect keeps one canonical address for search engines.
-- **Alternatives**: serving the site at both (duplicate content); no `www` (typed visits fail).
-
-## R5. What "active" means
-
-- **Decision**: a domain is active when `ownershipState` is `OWNERSHIP_ACTIVE`, `hostState` is `HOST_ACTIVE` and `cert.state` is `CERT_ACTIVE`.
+- **Decision**: `ownershipState` `OWNERSHIP_ACTIVE`, `hostState` `HOST_ACTIVE` and `cert.state` `CERT_ACTIVE`.
 - **Rationale**: ownership alone leaves the site unreachable or served from two places; the certificate is the last step and the one visitors see.
 
-## R6. Deploy check of the domains
+## R5. Deploy check of the domains
 
-- **Decision**: `verify:live` requests both the default address and the domain of each published site; the workflow is unchanged.
-- **Rationale**: a record changed at Hostinger shows up on the next deploy, at no extra cost; the redirect of `www` is checked manually, since it does not change with deploys.
+- **Decision**: `verify:live` requests the default address and the domain of each published site; the workflow is unchanged.
+- **Rationale**: a record changed at the DNS provider shows up on the next deploy; the `www` redirect does not change with deploys and is a manual test.

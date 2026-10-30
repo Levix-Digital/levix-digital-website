@@ -19,9 +19,9 @@ spec_dir: specs/004-custom-domains
 milestones:
 - name: Setup
   done: false
-- name: US2 setup command
+- name: US2 status command
   done: false
-- name: US3 status and deploy check
+- name: US3 deploy check
   done: false
 - name: US1 domains live
   done: false
@@ -42,13 +42,12 @@ status_log:
 
 ## Goal and decisions
 
-Serve each site at its own domain: `levix.digital` (home, with `www.levix.digital` redirecting to it) and `anycontext`, `devcycle`, `gedo`, `aurora` `.levix.digital`, over HTTPS, with DNS kept at Hostinger.
+Serve each site at its own domain: `levix.digital` (home) and `anycontext`, `devcycle`, `gedo`, `aurora` `.levix.digital`, over HTTPS. The zone moved to Cloudflare and Levi connected the five domains in the Firebase console; `www` is redirected to the apex by Cloudflare.
 
-- `domains.json` lists the domains of each hosting target.
-- `npm run domains:setup` connects every domain to its site through the Firebase Hosting REST API with the caller's `gcloud` login (idempotent) and prints the DNS records to add and to remove, with hosts as entered at Hostinger.
-- `npm run domains:status` shows ownership, host and certificate states and succeeds only when every domain is active.
-- The scripts never write DNS; Levi enters the records in the Hostinger panel (ADR-0003). Mail records stay untouched.
+- `domains.json` lists the domain of each hosting target.
+- `npm run domains:status` (read-only, caller's `gcloud` login, Firebase Hosting REST API) shows ownership, host and certificate per domain and the records Firebase still asks for; it succeeds only when every domain is active.
 - `verify:live` also requests each published site's domain after a deploy; the pull request is merged only after the domains are active.
+- ADR-0009: DNS at Cloudflare, Firebase-hosted names not proxied (amends ADR-0003); the technical specification is updated.
 
 ## Backlog items
 
@@ -60,4 +59,4 @@ The detail (spec, research, plan, contract, quickstart, tasks) is in `specs/004-
 
 ## Milestones
 
-Taken from the phases of `tasks.md`: Setup, US2 setup command, US3 status and deploy check, US1 domains live, Polish and documentation.
+Taken from the phases of `tasks.md`: Setup, US2 status command, US3 deploy check, US1 domains live, Polish and documentation.

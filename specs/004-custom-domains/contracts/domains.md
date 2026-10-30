@@ -1,38 +1,32 @@
-# Contract: Domain Commands
+# Contract: Domains
 
 ## `domains.json`
 
 ```json
 {
-  "home": [{ "domain": "levix.digital" }, { "domain": "www.levix.digital", "redirectTo": "levix.digital" }],
-  "anycontext": [{ "domain": "anycontext.levix.digital" }],
-  "devcycle": [{ "domain": "devcycle.levix.digital" }],
-  "gedo": [{ "domain": "gedo.levix.digital" }],
-  "aurora": [{ "domain": "aurora.levix.digital" }]
+  "home": "levix.digital",
+  "anycontext": "anycontext.levix.digital",
+  "devcycle": "devcycle.levix.digital",
+  "gedo": "gedo.levix.digital",
+  "aurora": "aurora.levix.digital"
 }
 ```
 
-Keys are hosting targets of `firebase.json`. A domain appears once. `redirectTo` names a domain of the same target. The first domain without `redirectTo` is the site's address checked after a deploy.
-
-## `npm run domains:setup [-- <site>...]`
-
-Preflight: `gcloud projects describe` and `firebasehosting` access for the caller; stops before any change when either fails. Then, per domain: `GET .../sites/<site>/customDomains/<domain>`; on 404, `POST .../sites/<site>/customDomains?customDomainId=<domain>` with `{ "redirectTarget": ... }` when set. Prints `created` or `exists` per domain, then the records table (below). Exit 0 unless a call fails.
+Keys are the hosting targets of `firebase.json`; every target has one domain and a domain appears once.
 
 ## `npm run domains:status [-- <site>...]`
 
-Per domain: the three states and the records table. Exit 0 only when every selected domain is active (ownership, host and certificate).
-
-## Records table
+Read-only. Gets the caller's token with `gcloud auth print-access-token`, then per domain `GET https://firebasehosting.googleapis.com/v1beta1/projects/<project>/sites/<site>/customDomains/<domain>`. Prints:
 
 ```text
-levix.digital (home)  ownership OWNERSHIP_MISSING  host HOST_MISMATCH  certificate CERT_PREPARING
-  add     A    @                199.36.158.100
-  add     TXT  @                hosting-site=levix-digital
-  remove  A    @                2.57.91.91
+ok    levix.digital (home)  ownership OWNERSHIP_ACTIVE  host HOST_ACTIVE  certificate CERT_ACTIVE
+error gedo.levix.digital (gedo)  ownership OWNERSHIP_MISSING  host HOST_ACTIVE  certificate CERT_VALIDATING
+  add     CNAME  gedo  levix-gedo.web.app.
+  remove  A      gedo  104.21.96.10
 ```
 
-Rows come from `requiredDnsUpdates.desired` (action `ADD`) and `requiredDnsUpdates.discovered` (action `REMOVE`), plus the certificate's DNS verification records while the certificate is being issued; the values shown above are examples. Hosts are relative to `levix.digital`.
+Rows come from `requiredDnsUpdates.desired` (`ADD`) and `requiredDnsUpdates.discovered` (`REMOVE`); hosts are relative to `levix.digital`. A 404 prints `error <domain> (<site>) not connected to <site-id>`. Exit 0 only when every selected domain is `ok`.
 
 ## `npm run verify:live -- <site>...`
 
-Unchanged interface; for each site it now requests `https://<site-id>.web.app/` and `https://<domain>/`, and fails naming every address that does not answer 200 HTML.
+Unchanged interface; per site it requests `https://<site-id>.web.app/` and `https://<domain>/`, and fails naming every address that does not answer 200 HTML.

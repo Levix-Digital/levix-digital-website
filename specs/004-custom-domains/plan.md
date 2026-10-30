@@ -6,7 +6,7 @@
 
 ## Summary
 
-A new file, `domains.json`, lists the custom domains of each hosting target. A new script, `scripts/domains.mjs`, with two commands (`npm run domains:setup` and `npm run domains:status`), uses the caller's `gcloud` login and the Firebase Hosting REST API (`projects.sites.customDomains`, v1beta1) to connect each domain to its site (creating only what is missing, `www` as a redirect to the apex) and prints, per domain, the DNS records Firebase reports as needed (to add) and as found but conflicting (to remove), in the form they are entered in the Hostinger DNS zone. `status` ends with success only when every domain has active ownership, host and certificate. `verify:live` learns to check the custom domains too, so the production deploy checks both addresses of every published site. The maintainer adds the records at Hostinger by hand; the scripts never change DNS. Decisions in [research.md](research.md); commands in [contracts/domains.md](contracts/domains.md).
+The zone of `levix.digital` is now at Cloudflare and Levi connected the five domains to their hosting sites in the Firebase console. The repository records the domain of each site in `domains.json`, adds a read-only `npm run domains:status` that asks the Firebase Hosting REST API (`projects.sites.customDomains`, v1beta1) for each domain's ownership, host and certificate state and the DNS records still needed, and makes `verify:live` request each published site's domain after a deploy. ADR-0009 records the move to Cloudflare and the rule that Firebase-hosted names are not proxied. Nothing in the repository changes DNS or the domains. Decisions in [research.md](research.md); commands in [contracts/domains.md](contracts/domains.md).
 
 ## Technical Context
 
@@ -24,19 +24,19 @@ A new file, `domains.json`, lists the custom domains of each hosting target. A n
 
 **Performance Goals**: N/A (DNS propagation and certificate issue take up to 24 hours, outside the code)
 
-**Constraints**: no DNS writes; no stored credentials; the deploy identity is not changed
+**Constraints**: read-only towards DNS and Firebase domains; no stored credentials; the deploy identity is not changed
 
-**Scale/Scope**: 5 hosting targets, 6 domain names (apex, `www`, 4 product subdomains)
+**Scale/Scope**: 5 hosting targets, 5 domains (`www` is redirected by Cloudflare)
 
 ## Constitution Check
 
 | Rule | How the plan complies |
 |---|---|
 | Modular monolith: public interface per module | No module changes; the script lives in `scripts/` and reuses `scripts/lib/hosting-config.mjs` and `scripts/lib/run.mjs` |
-| Simplicity first | One script with two commands; records come from Firebase instead of being hard-coded; no Hostinger API client |
-| No speculative code | No security headers (FEAT-005), no automation of the Hostinger zone, no extra aliases beyond `www` |
+| Simplicity first | One read-only command; records come from Firebase instead of being hard-coded; no Cloudflare API client |
+| No speculative code | No setup command (the domains already exist), no security headers (FEAT-005), no automation of the Cloudflare zone |
 | Testability | Calls to Google Cloud go through the injected runner and JSON client; the record formatting is a pure function |
-| Security | The caller's own login; no new role or credential for the deploy identity; the scripts never touch DNS |
+| Security | The caller's own login; no new role or credential for the deploy identity; nothing writes DNS or domains |
 | Repository content in English, no references to the tools used to write it | Code, docs and messages in English, authored by the repository identity |
 
 Re-check after design: passes; no violations to justify.
@@ -59,16 +59,16 @@ specs/004-custom-domains/
 ### Source Code (repository root)
 
 ```text
-domains.json                       # custom domains per hosting target (new)
+domains.json                       # custom domain per hosting target (new)
 scripts/
 ├── lib/domains-config.mjs         # reads and validates domains.json against the targets (new)
 ├── lib/domains-config.test.mjs    # (new)
-├── domains.mjs                    # domains:setup and domains:status (new)
-├── domains.test.mjs               # (new)
+├── domains-status.mjs             # domains:status (new)
+├── domains-status.test.mjs        # (new)
 ├── verify-live.mjs                # also checks the custom domains (changed)
 └── verify-live.test.mjs           # (changed)
-.github/workflows/deploy.yml       # unchanged: verify:live already runs per published site
-package.json                       # domains:setup, domains:status scripts
+docs/adr/0009-dns-at-cloudflare-with-firebase-hosted-names-not-proxied.md  # (new)
+package.json                       # domains:status script
 ```
 
 ## Complexity Tracking
@@ -83,29 +83,27 @@ FEAT-004 (DNS for levix.digital and product subdomains, EPIC-001), release v0.1.
 
 ### Tests (quality-assurance)
 
-- `domains-config`: every domain belongs to a known target; a redirect points to a domain of the same target; duplicates and unknown targets fail; the default list matches FR-001.
-- `domains setup`: preflight failure stops before any create; a missing domain is created (with `redirectTarget` for `www`) and reported `created`; an existing one is reported `exists` and not created again; an API error names the domain.
-- Record formatting: `desired` records with action `ADD` and `discovered` records with action `REMOVE` become rows with the Hostinger host (`@`, `www`, `anycontext`, `_acme-challenge.gedo` ...); records with no action are not listed; records of other names never appear.
-- `domains status`: exit success only when every domain has `OWNERSHIP_ACTIVE`, `HOST_ACTIVE` and `CERT_ACTIVE`; otherwise it fails naming the domains and their states.
-- `verify-live`: with a domain configured, both the default address and the domain are requested; the `www` redirect is not requested by the deploy check (it is covered by the manual test).
-- Manual tests: "Each domain shows its site over HTTPS", "www redirects to the apex", "Mail still delivered after the DNS change" (need the real DNS).
-- Acceptance: the spec's scenarios and SC-001 to SC-005.
+- `domains-config`: every target has one domain, a domain appears once, unknown targets fail, the file matches FR-001.
+- `domains-status`: all active succeeds; any of ownership, host or certificate not active fails naming the domain and states; a 404 says the domain is not connected; `ADD` desired and `REMOVE` discovered records become rows with hosts relative to the zone (`@`, `gedo`), records with no action are hidden; a failed token stops with the reason. The runner and the JSON client are injected, as in `hosting-setup.test.mjs`.
+- `verify-live`: the default address and the domain are both requested and reported; a domain answering 404 fails naming it.
+- Manual tests: "Each domain shows its site over HTTPS", "www redirects to the apex", "Mail still delivered" (need the real DNS).
+- Acceptance: the spec's scenarios and SC-001 to SC-004.
 
 ### Documentation (architecture-docs, user-docs)
 
-- `docs/architecture/hosting.md`: the domains (structure, behavior of the commands, the Hostinger step, how to roll back); the table's domain column no longer says "FEAT-004".
-- No new ADR: ADR-0003 already decides one site per domain with DNS at Hostinger and the manual step; `research.md` records the smaller choices.
-- `README.md`: a "Domains" part in the "Hosting" section (the two commands and the Hostinger step).
+- New ADR-0009 "DNS at Cloudflare with Firebase-hosted names not proxied", amending ADR-0003 (which said Hostinger); `docs/product/TECH_SPEC.md` integration row and constraint changed to Cloudflare; the constitution regenerated.
+- `docs/architecture/hosting.md`: the domains, the Cloudflare records, the status command, rollback; the table's domain column no longer says "FEAT-004".
+- `README.md`: "Domains" in the "Hosting" section.
 - Rebuild the TECDOC index and run `check_docs` and `check_readme`.
 
 ### CI, release and observability (devops-release)
 
 - No workflow change: the deploy already runs `verify:live` for the published sites, which now also requests their domains. Because of that, this pull request is merged only after `domains:status` succeeds (otherwise the first deploy after the merge fails on the domains).
 - Version impact: none; part of release v0.1.0.
-- Observability: `domains:status` prints each state and what is missing; the deploy run lists each domain checked.
+- Observability: `domains:status` prints each state and what is missing; the deploy run lists each address checked.
 
 ### Security, migration and rollback
 
-- No secrets; the commands use the caller's `gcloud` login (Levi's `levix.digital.admin@gmail.com`, owner of the project).
-- Rollback: put back the previous Hostinger records (the commands print the ones to remove before they are removed; a copy of the zone is taken before the change), and remove a domain from its site in the Firebase console (Hosting, the site, the domain, "Delete") or with the API. The `*.web.app` addresses keep working throughout.
+- No secrets; the status command uses the caller's `gcloud` login (Levi's `levix.digital.admin@gmail.com`, owner of the project).
+- Rollback: the repository change is reverted with the pull request; the DNS records are changed back in the Cloudflare dashboard. The `*.web.app` addresses keep working throughout.
 - No data or migrations.

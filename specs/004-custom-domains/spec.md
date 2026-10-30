@@ -6,89 +6,84 @@
 
 **Status**: Draft
 
-**Input**: Backlog item FEAT-004: "Hostinger DNS records pointing the apex and each product subdomain to Firebase Hosting, verified by Firebase."
+**Input**: Backlog item FEAT-004: "DNS records pointing the apex and each product subdomain to Firebase Hosting, verified by Firebase." The zone of `levix.digital` moved from Hostinger to Cloudflare, and the five domains were connected to their hosting sites in the Firebase console by Levi on 2026-10-30.
 
 ## User Scenarios & Testing *(mandatory)*
 
-The users of this feature are the visitors of the website, who reach each site at its own address under `levix.digital`, and the people who publish the website, who set the domains up once and check them afterwards. Today the five sites answer only at their default `*.web.app` addresses.
+The users of this feature are the visitors of the website, who reach each site at its own address under `levix.digital`, and the people who publish the website, who need to know that the domains are healthy and to notice when one breaks.
 
 ### User Story 1 - Each site answers at its own domain (Priority: P1)
 
-A visitor opens `https://levix.digital` and sees the company home; `https://anycontext.levix.digital`, `https://devcycle.levix.digital`, `https://gedo.levix.digital` and `https://aurora.levix.digital` show each product site. Every address is served over HTTPS with a valid certificate.
+A visitor opens `https://levix.digital` and sees the company home; `https://anycontext.levix.digital`, `https://devcycle.levix.digital`, `https://gedo.levix.digital` and `https://aurora.levix.digital` show each product site. Every address is served over HTTPS with a valid certificate; `http://` and `https://www.levix.digital` lead to the `https://` address of the apex.
 
 **Why this priority**: it is the goal of the item; the domains are the public addresses of the company and its products.
 
-**Independent Test**: open each of the five addresses in a browser; each shows its site with a valid certificate and no warning.
+**Independent Test**: open each of the five addresses and `www.levix.digital` in a browser; each shows its site with a valid certificate and no warning.
 
 **Acceptance Scenarios**:
 
-1. **Given** the domains are set up and the DNS records are in place, **When** a visitor opens `https://levix.digital`, **Then** the company home is shown over HTTPS with a valid certificate.
+1. **Given** the DNS records in place, **When** a visitor opens `https://levix.digital`, **Then** the company home is shown over HTTPS with a valid certificate.
 2. **Given** the same, **When** a visitor opens `https://<product>.levix.digital` for each of the four products, **Then** that product's site is shown over HTTPS with a valid certificate.
 3. **Given** a visitor opens `http://` instead of `https://`, **When** the page loads, **Then** the visitor is moved to the `https://` address.
 4. **Given** a visitor opens `https://www.levix.digital/<path>`, **When** the request is answered, **Then** it is permanently redirected to `https://levix.digital/<path>`.
 
 ---
 
-### User Story 2 - Set up the domains with one command and a list of records (Priority: P1)
+### User Story 2 - Check the state of the domains (Priority: P1)
 
-A maintainer runs one command with their own Google login. It connects each domain to its hosting site in the Firebase project and prints, per domain, the DNS records to add at Hostinger and the records Firebase found that must be removed. The maintainer copies them into the Hostinger DNS zone and runs the command again later to see what is still missing.
+A maintainer runs one read-only command with their own Google login. It shows, per domain, whether Firebase has verified the ownership, whether the domain points only to Firebase and whether the certificate is active, lists the DNS records Firebase still asks to add or remove, and ends with success only when every domain is fully active.
 
-**Why this priority**: the DNS zone is at Hostinger and the records Firebase needs are only known once each domain is connected; without this step the domains cannot be verified.
+**Why this priority**: DNS changes and certificates take from minutes to a day, and a record changed later in the DNS provider silently breaks a site; the state is otherwise only visible one site at a time in the console.
 
-**Independent Test**: run the command twice in a row; the first run connects the domains and prints the records, the second changes nothing and prints the same records with their state.
+**Independent Test**: with a product subdomain still proxied by the DNS provider, the command fails and names the domain, its states and the records to change; after the fix propagates, it succeeds.
 
 **Acceptance Scenarios**:
 
-1. **Given** a domain that is not connected yet, **When** the command runs, **Then** it connects the domain to its site and reports it as `created`.
-2. **Given** a domain already connected, **When** the command runs, **Then** it reports it as `exists` and changes nothing.
-3. **Given** connected domains, **When** the command runs, **Then** it prints for each domain the records to add (type, host as entered at Hostinger, value) and the records to remove, and never lists records of other names (mail, other subdomains).
-4. **Given** the project does not exist or the caller cannot manage it, **When** the command runs, **Then** it stops before changing anything and says why.
+1. **Given** a domain whose records are missing or wrong, **When** the command runs, **Then** it fails and lists that domain with its states and the records to add or remove.
+2. **Given** every domain verified, pointing only to Firebase and with an active certificate, **When** the command runs, **Then** it succeeds.
+3. **Given** a domain listed in the repository that is not connected to its site in Firebase, **When** the command runs, **Then** it fails and names it.
+4. **Given** the caller cannot read the project, **When** the command runs, **Then** it fails and says why.
 
 ---
 
-### User Story 3 - Check the state of the domains (Priority: P2)
+### User Story 3 - Deploys check the domains (Priority: P2)
 
-A maintainer runs a status command that shows, per domain, whether Firebase has verified the ownership, whether the domain points only to Firebase, and whether the certificate is active, and ends with success only when every domain is fully active. After a deploy, the address check also requests every domain.
+After a production deploy, the address check requests each published site's domain as well as its default address, and fails naming the domain when it does not answer the home page.
 
-**Why this priority**: DNS changes and certificates take from minutes to a day; the maintainer needs to know when it is done and to notice later if a record is changed at Hostinger.
+**Why this priority**: a broken record shows up on the next deploy at no extra cost.
 
-**Independent Test**: before the records are added, the status command fails and names the missing records; after they propagate, it succeeds.
+**Independent Test**: a deploy of `gedo` reports both `https://levix-gedo.web.app/` and `https://gedo.levix.digital/`.
 
 **Acceptance Scenarios**:
 
-1. **Given** a domain whose records are missing, **When** the status command runs, **Then** it fails and lists that domain with its state and the records still to add or remove.
-2. **Given** every domain verified, pointing only to Firebase and with an active certificate, **When** the status command runs, **Then** it succeeds.
-3. **Given** a production deploy of a site, **When** the deploy checks the published addresses, **Then** it requests the site's domain as well as its default address, and fails naming the domain when it does not answer the home page.
+1. **Given** a production deploy of a site, **When** the deploy checks the published addresses, **Then** it requests the default address and the domain, and lists both.
+2. **Given** a domain that answers "Site Not Found" or any status other than 200 HTML, **When** the check runs, **Then** it fails naming the domain.
 
 ### Edge Cases
 
-- The Hostinger zone has parking or website records on the apex or on `www` (A, AAAA or CNAME pointing elsewhere): they appear among the records to remove; leaving them makes the domain answer from two places and the status reports a conflict.
-- Mail records (MX, SPF and other TXT records on the apex used by mail) must stay: the new TXT record for Firebase is added next to them, never replacing them.
-- A CAA record on the zone that does not allow the certificate authorities Firebase uses blocks the certificate; the status shows the certificate stuck and the record Firebase found.
-- A subdomain created at Hostinger as a website (with its own folder or records) instead of only DNS records: its records appear among the records to remove.
-- A domain connected to another Firebase project: the command reports the ownership conflict and stops for that domain.
-- DNS propagation: records added may take up to 24 hours to be seen, and the certificate is issued after that; the status command can be run again at any time.
-- A new product site added later: adding its domain to the domain list and running the setup command again connects it, without changing the scripts.
+- A Firebase-hosted name proxied by the DNS provider: Firebase does not see its records, keeps the ownership missing and cannot issue the certificate; the subdomain answers "Site Not Found". The status command shows it with the records Firebase asks for.
+- The apex is proxied with a redirect rule for `www` at the DNS provider: it serves, but the certificate renewal of Firebase depends on the HTTP challenge passing through the proxy; the status command shows the certificate state so a failed renewal is seen.
+- Mail records (MX, SPF) and verification TXT records (Brevo, Google) on the apex must stay; the Firebase TXT record sits next to them.
+- A CAA record that does not allow the certificate authorities Firebase uses blocks the certificate; the status shows the certificate stuck.
+- A new product site added later: adding its domain to the domain list makes the status command and the deploy check include it, without changing the scripts.
 
 ## Requirements *(mandatory)*
 
 ### Functional Requirements
 
-- **FR-001**: The repository MUST keep one list of the custom domains of each hosting site: `levix.digital` and `www.levix.digital` (redirect to `levix.digital`) for the home site, and `<product>.levix.digital` for each product site.
-- **FR-002**: A setup command MUST connect every listed domain to its hosting site in the Firebase project, creating only what is missing, and report each domain as `created` or `exists`.
-- **FR-003**: The setup command MUST check, before changing anything, that the project exists and that the caller's login can manage its hosting.
-- **FR-004**: The setup and status commands MUST print, per domain, the DNS records Firebase needs that are missing (to add) and the records Firebase found that must be removed, with the host written as it is entered in the Hostinger DNS zone (`@` for the apex, the subdomain label otherwise).
-- **FR-005**: The status command MUST show per domain the ownership state, the host state and the certificate state, and MUST exit with success only when every domain is fully active.
-- **FR-006**: `www.levix.digital` MUST answer with a permanent redirect to the same path on `https://levix.digital`.
-- **FR-007**: The address check after a production deploy MUST request each published site's custom domain in addition to its default address.
-- **FR-008**: Neither command may change DNS records: the zone at Hostinger is changed by the maintainer.
-- **FR-009**: The commands MUST use the caller's own login and no stored credential; nothing new is added to the deploy identity.
-- **FR-010**: The behavior of the commands (what they create, what they print, when they fail) MUST be covered by automated tests that replace the calls to Google Cloud.
+- **FR-001**: The repository MUST keep one list of the custom domain of each hosting site: `levix.digital` for the home site and `<product>.levix.digital` for each product site.
+- **FR-002**: A read-only status command MUST show per listed domain the ownership state, the host state and the certificate state reported by Firebase, and the DNS records Firebase asks to add or remove, with the host written relative to the zone (`@` for the apex).
+- **FR-003**: The status command MUST exit with success only when every listed domain is connected to its site and has active ownership, host and certificate.
+- **FR-004**: `www.levix.digital` MUST answer with a permanent redirect to the same path on `https://levix.digital` (today a rule at the DNS provider); a manual test covers it.
+- **FR-005**: The address check after a production deploy MUST request each published site's custom domain in addition to its default address.
+- **FR-006**: No command may change DNS records or the domains in Firebase; the status command uses the caller's own login and no stored credential, and nothing is added to the deploy identity.
+- **FR-007**: The behavior of the status command and of the address check MUST be covered by automated tests that replace the calls to Google Cloud and the network.
+- **FR-008**: The technical documentation MUST record that the DNS of `levix.digital` is at Cloudflare and how the records of Firebase-hosted names are set (not proxied).
 
 ### Key Entities
 
-- **Custom domain**: a domain name, the hosting site it belongs to and, for `www`, the domain it redirects to.
-- **DNS record**: type, host, value and the action needed (add or remove), as reported by Firebase for one domain.
+- **Custom domain**: a domain name and the hosting site it belongs to.
+- **DNS record**: type, host, value and the action Firebase asks for (add or remove).
 - **Domain state**: ownership, host and certificate states of one domain.
 
 ## Success Criteria *(mandatory)*
@@ -97,13 +92,11 @@ A maintainer runs a status command that shows, per domain, whether Firebase has 
 
 - **SC-001**: All five domains answer their site's home page over HTTPS with a valid certificate, and `www.levix.digital` redirects to `levix.digital`.
 - **SC-002**: The status command reports every domain as active.
-- **SC-003**: Running the setup command a second time changes nothing.
-- **SC-004**: The mail of `levix.digital` keeps working after the records are changed (a message to contact@levix.digital is delivered).
-- **SC-005**: The first production deploy after the domains are active checks and passes every published domain.
+- **SC-003**: The mail of `levix.digital` keeps working (a message to contact@levix.digital is delivered).
+- **SC-004**: The first production deploy after the merge checks and passes every published domain.
 
 ## Assumptions
 
-- The DNS zone of `levix.digital` stays at Hostinger (technical specification) and the maintainer edits it in the Hostinger panel; the Hostinger API is not used.
-- The records needed (A, TXT and, while the certificate is issued, ACME challenge records) are whatever Firebase reports for each domain; the commands print them rather than hard-coding them.
-- `www.levix.digital` redirects to the apex; no other alias is served.
-- The firebase hosting API is already enabled in the project by FEAT-002.
+- The zone of `levix.digital` is at Cloudflare and is edited by Levi in the Cloudflare dashboard; the Cloudflare API is not used.
+- The domains were connected to their sites in the Firebase console; the repository does not create or delete them.
+- `www.levix.digital` is redirected by Cloudflare, not served by Firebase.
