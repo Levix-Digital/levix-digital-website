@@ -8,14 +8,6 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 
 ## Features
 
-### FEAT-003: Continuous integration and deployment
-- **Priority**: high
-- **Epic**: EPIC-001
-- **Status**: planned
-- **Found**: 2026-10-30
-- **Plan**: levix_digital_website_continuous_integration_and_production_deploy
-- **Description**: Type check, lint, unit tests, build and Lighthouse CI on every pull request; deploy each changed site on merge to main.
-
 ### FEAT-004: DNS for levix.digital and product subdomains
 - **Priority**: high
 - **Epic**: EPIC-001
@@ -345,3 +337,12 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 - **Plan**: levix_digital_website_firebase_hosting_sites_and_preview_channels
 - **Closed**: 2026-10-30, plan levix_digital_website_firebase_hosting_sites_and_preview_channels
 - **Description**: One Firebase project with a hosting site and target per domain, and preview channels for pull requests.
+
+### FEAT-003: Continuous integration and deployment
+- **Priority**: high
+- **Epic**: EPIC-001
+- **Status**: done
+- **Found**: 2026-10-30
+- **Plan**: levix_digital_website_continuous_integration_and_production_deploy
+- **Closed**: 2026-10-30, plan levix_digital_website_continuous_integration_and_production_deploy
+- **Description**: Type check, lint, unit tests, build and Lighthouse CI on every pull request; deploy each changed site on merge to main.

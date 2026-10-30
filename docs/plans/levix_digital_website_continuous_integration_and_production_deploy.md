@@ -4,10 +4,10 @@ project: levix-digital-website
 title: Continuous integration and production deploy
 kind: feature
 version: v0.1.0
-status: active
+status: completed
 author: LeviGuilherme
 created_at: '2026-10-30T17:40:00'
-updated_at: '2026-10-30T17:40:22'
+updated_at: '2026-10-30T17:56:09'
 session_id: null
 tags: []
 supersedes: null
@@ -18,15 +18,25 @@ backlog_items:
 spec_dir: specs/003-ci-deploy
 milestones:
 - name: Setup
-  done: false
+  done: true
+  done_at: '2026-10-30'
+  by: LeviGuilherme
 - name: US1 pull request checks
-  done: false
+  done: true
+  done_at: '2026-10-30'
+  by: LeviGuilherme
 - name: US2 deploy on merge
-  done: false
+  done: true
+  done_at: '2026-10-30'
+  by: LeviGuilherme
 - name: US3 manual deploy
-  done: false
+  done: true
+  done_at: '2026-10-30'
+  by: LeviGuilherme
 - name: Polish and documentation
-  done: false
+  done: true
+  done_at: '2026-10-30'
+  by: LeviGuilherme
 status_log:
 - at: '2026-10-30T17:40:00'
   by: LeviGuilherme
@@ -36,6 +46,25 @@ status_log:
   by: LeviGuilherme
   status: active
   note: Plan updated
+- at: '2026-10-30T17:56:03'
+  by: LeviGuilherme
+  note: Milestone 'Setup' completed
+- at: '2026-10-30T17:56:05'
+  by: LeviGuilherme
+  note: Milestone 'US1 pull request checks' completed
+- at: '2026-10-30T17:56:06'
+  by: LeviGuilherme
+  note: Milestone 'US2 deploy on merge' completed
+- at: '2026-10-30T17:56:07'
+  by: LeviGuilherme
+  note: Milestone 'US3 manual deploy' completed
+- at: '2026-10-30T17:56:09'
+  by: LeviGuilherme
+  note: Milestone 'Polish and documentation' completed
+- at: '2026-10-30T17:56:09'
+  by: LeviGuilherme
+  status: completed
+  note: All milestones completed
 ---
 
 # Continuous integration and production deploy
