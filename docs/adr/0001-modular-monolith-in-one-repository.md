@@ -1,7 +1,7 @@
 ---
 id: 1
 title: Modular monolith in one repository
-status: proposed
+status: accepted
 date: '2026-10-30'
 version: null
 subsystems: []

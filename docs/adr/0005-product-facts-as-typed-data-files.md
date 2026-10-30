@@ -1,7 +1,7 @@
 ---
 id: 5
 title: Product facts as typed data files
-status: proposed
+status: accepted
 date: '2026-10-30'
 version: null
 subsystems: []

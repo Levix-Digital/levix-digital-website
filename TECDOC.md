@@ -37,11 +37,11 @@ flowchart LR
 <!-- architecture-docs:adrs:start -->
 | ADR | Title | Status | Version | Date |
 |---|---|---|---|---|
-| [ADR-0005](docs/adr/0005-product-facts-as-typed-data-files.md) | Product facts as typed data files | proposed |  | 2026-10-30 |
-| [ADR-0004](docs/adr/0004-build-time-and-on-demand-translation-without-per-language-ur.md) | Build-time and on-demand translation without per-language URLs | proposed |  | 2026-10-30 |
-| [ADR-0003](docs/adr/0003-firebase-hosting-with-one-site-per-domain.md) | Firebase Hosting with one site per domain | proposed |  | 2026-10-30 |
-| [ADR-0002](docs/adr/0002-vue-3-with-vite-static-prerendering.md) | Vue 3 with Vite static prerendering | proposed |  | 2026-10-30 |
-| [ADR-0001](docs/adr/0001-modular-monolith-in-one-repository.md) | Modular monolith in one repository | proposed |  | 2026-10-30 |
+| [ADR-0005](docs/adr/0005-product-facts-as-typed-data-files.md) | Product facts as typed data files | accepted |  | 2026-10-30 |
+| [ADR-0004](docs/adr/0004-build-time-and-on-demand-translation-without-per-language-ur.md) | Build-time and on-demand translation without per-language URLs | accepted |  | 2026-10-30 |
+| [ADR-0003](docs/adr/0003-firebase-hosting-with-one-site-per-domain.md) | Firebase Hosting with one site per domain | accepted |  | 2026-10-30 |
+| [ADR-0002](docs/adr/0002-vue-3-with-vite-static-prerendering.md) | Vue 3 with Vite static prerendering | accepted |  | 2026-10-30 |
+| [ADR-0001](docs/adr/0001-modular-monolith-in-one-repository.md) | Modular monolith in one repository | accepted |  | 2026-10-30 |
 <!-- architecture-docs:adrs:end -->
 
 ## How to Update This Documentation

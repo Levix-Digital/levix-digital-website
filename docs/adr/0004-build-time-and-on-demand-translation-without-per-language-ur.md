@@ -1,7 +1,7 @@
 ---
 id: 4
 title: Build-time and on-demand translation without per-language URLs
-status: proposed
+status: accepted
 date: '2026-10-30'
 version: null
 subsystems: []

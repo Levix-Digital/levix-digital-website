@@ -1,7 +1,7 @@
 ---
 id: 2
 title: Vue 3 with Vite static prerendering
-status: proposed
+status: accepted
 date: '2026-10-30'
 version: null
 subsystems: []

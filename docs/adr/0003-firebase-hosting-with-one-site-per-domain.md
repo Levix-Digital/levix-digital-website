@@ -1,7 +1,7 @@
 ---
 id: 3
 title: Firebase Hosting with one site per domain
-status: proposed
+status: accepted
 date: '2026-10-30'
 version: null
 subsystems: []
