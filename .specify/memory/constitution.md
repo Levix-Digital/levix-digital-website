@@ -1,7 +1,7 @@
 <!-- dev-cycle-constitution
 generated-by: dev-cycle-protocol/constitution.py (do not edit; change a source and regenerate)
-sources-sha256: 49aae8eaaf3862455e80149e28aef06610ce66d4b1b226f9f9a220d6afd18173
-content-sha256: 6bac4186c5af4fce352f587c9d10fa74e9e534d0f2debc2bbc1f24e97ee8f4b5
+sources-sha256: 65aff2642551b61353464c45f95bbaaa3d0625cbebe935e14c49d1845d6e1207
+content-sha256: e236aba725b177fa6696135b67a9334b9c31f1ffc293d5b60b05363c17e77f8a
 -->
 # levix-digital-website Constitution
 
@@ -171,6 +171,7 @@ Accepted decisions; a plan that contradicts one needs a new ADR that supersedes 
 - ADR-0005: Product facts as typed data files (`docs/adr/0005-product-facts-as-typed-data-files.md`)
 - ADR-0006: Tailwind CSS 4 with a shared stylesheet theme (`docs/adr/0006-tailwind-css-4-with-a-shared-stylesheet-theme.md`)
 - ADR-0007: Keyless deploys with Workload Identity Federation (`docs/adr/0007-keyless-deploys-with-workload-identity-federation.md`)
+- ADR-0008: Continuous deploy of changed sites on merge (`docs/adr/0008-continuous-deploy-of-changed-sites-on-merge.md`)
 
 ## Governance
 
@@ -178,4 +179,4 @@ Accepted decisions; a plan that contradicts one needs a new ADR that supersedes 
 - Amendments change the source, not this file: an ADR for decisions, the technical specification for requirements and constraints, `.dev-cycle.json` for the architecture style, the skills for principles. Then run `constitution.py generate` and commit the result with the change.
 - Gate 3 of the development cycle blocks a plan while this file is stale or edited by hand.
 
-**Version**: 1.3.0 | **Ratified**: 2026-10-30 | **Last Amended**: 2026-10-30
+**Version**: 1.4.0 | **Ratified**: 2026-10-30 | **Last Amended**: 2026-10-30
