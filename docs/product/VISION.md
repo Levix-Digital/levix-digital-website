@@ -14,7 +14,7 @@ Levix Digital builds several software products and a research line, but has no p
 
 ## Target Users
 
-- **Developers and technical leads (primary).** People who build software, often with coding agents, and evaluate tools for their own work or their team. They want to understand quickly what a product does, whether it runs on their platform, whether it keeps their data private, how much it costs and how to install it.
+- **Developers and technical leads (primary).** People who build software and evaluate tools for their own work or their team. They want to understand quickly what a product does, whether it runs on their platform, whether it keeps their data private, how much it costs and how to install it.
 - **Decision makers in companies (secondary).** CTOs and engineering managers who compare tools for a team. They want plans, pricing, privacy and licensing facts, and a way to contact the company.
 - **Researchers and technical readers.** People interested in the LSIE algorithm: the paper, the method, the reproducible benchmark and the code.
 - **Partners, investors and candidates.** People who want to know who Levix Digital is and what it builds.
