@@ -6,7 +6,7 @@
 
 ## Summary
 
-Put the five sites on Firebase Hosting in one project (`levix-digital`): `.firebaserc` names the project and maps the targets `home`, `anycontext`, `devcycle`, `gedo` and `aurora` to their hosting sites; `firebase.json` serves each `sites/<site>/dist` with clean URLs and cache headers. An idempotent setup command creates the hosting sites and a keyless deploy identity (Workload Identity Federation limited to this repository, a service account with Firebase Hosting Admin only). A deploy command publishes all or some sites, live or to a preview channel, after checking they are built. A GitHub workflow previews every pull request from the repository and keeps one comment with the addresses. The hosting emulator checks the configuration offline. Decisions and alternatives are in [research.md](research.md); commands in [contracts/commands.md](contracts/commands.md).
+Put the five sites on Firebase Hosting in one project (`levix-digital`): `.firebaserc` names the project and maps the targets `home`, `anycontext`, `devcycle`, `gedo` and `aurora` to their hosting sites; `firebase.json` serves each `sites/<site>/dist` with clean URLs and cache headers. An idempotent setup command creates the hosting sites and a keyless deploy identity (Workload Identity Federation limited to this repository, a service account with Firebase Hosting Admin and Service Usage Consumer only). A deploy command publishes all or some sites, live or to a preview channel, after checking they are built. A GitHub workflow previews every pull request from the repository and keeps one comment with the addresses. The hosting emulator checks the configuration offline. Decisions and alternatives are in [research.md](research.md); commands in [contracts/commands.md](contracts/commands.md).
 
 ## Technical Context
 
@@ -38,7 +38,7 @@ Put the five sites on Firebase Hosting in one project (`levix-digital`): `.fireb
 | Simplicity first | No infrastructure tool for a dozen resources; one deploy script for local and automated use; previews of all sites instead of a change graph |
 | No speculative code | No production deploy workflow (FEAT-003), no domains (FEAT-004), no security headers (FEAT-005), no functions or Firestore |
 | Testability | Scripts take an injected command runner; their decisions are unit tested without Google; the hosting behavior is checked with Firebase's emulator |
-| Security | Keyless federation bound to the repository id, one narrow role, fork pull requests excluded, least workflow permissions |
+| Security | Keyless federation bound to the repository id, two narrow roles, fork pull requests excluded, least workflow permissions |
 | Repository content in English, no references to the tools used to write it | Code, docs, comments and the preview comment in English, authored by the repository identity |
 
 Re-check after design: passes; no violations to justify.

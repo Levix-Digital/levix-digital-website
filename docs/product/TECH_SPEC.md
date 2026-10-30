@@ -84,12 +84,9 @@ Details: [TECDOC.md](../../TECDOC.md).
 ## Constraints
 
 - Every fact on the site comes from the product's repository, its release channel or a reproducible measurement; unavailable products and unpublished research are labeled as such.
-- Hosting on Google Firebase, in one Firebase project.
+- Hosting on Google Firebase, in one Firebase project, `levix-digital`, on the Blaze plan with Levi's billing account; the services that have a region (Firestore, functions) run in Montreal (`northamerica-northeast1`), which keeps the data of the contact form in Canada.
 - DNS stays at Hostinger.
 - No per-language URLs.
 - The design follows the Ceramic and Aurora language of the original specification, with light as the default theme and a complete dark theme.
 - All repository content in English, with no reference to the tools used to write it.
 
-## Open Questions
-
-- Firebase project name, region and billing account (the Blaze plan is needed for functions and the Translation API).

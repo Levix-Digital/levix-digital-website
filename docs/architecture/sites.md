@@ -26,7 +26,7 @@ flowchart LR
 
 ## Behavior
 
-Each site is prerendered to static HTML at build time and hydrated in the browser. A product site's pages are overview, features, plans and pricing, and download; when the product is not available, every page shows the availability banner and the download buttons are disabled. Each site builds into `sites/<site>/dist` and is deployed to its Firebase Hosting target.
+Each site is prerendered to static HTML at build time and hydrated in the browser. A product site's pages are overview, features, plans and pricing, and download; when the product is not available, every page shows the availability banner and the download buttons are disabled. Each site builds into `sites/<site>/dist`, which the hosting target of the same name serves ([Hosting](hosting.md)).
 
 Module boundaries are checked by lint (`eslint.config.js`, eslint-plugin-boundaries): a site imports a package only through its entry points (`src/index.ts`, and `src/styles.css` for `ui`), a package never imports a site and a site never imports another site. Packages are consumed from source through the `exports` map of their `package.json`; nothing is built or published. Type checking uses TypeScript 6 with vue-tsc, because vue-tsc does not run on TypeScript 7.
 

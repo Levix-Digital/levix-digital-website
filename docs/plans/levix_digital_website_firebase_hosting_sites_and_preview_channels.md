@@ -4,10 +4,10 @@ project: levix-digital-website
 title: Firebase hosting sites and preview channels
 kind: feature
 version: v0.1.0
-status: active
+status: completed
 author: LeviGuilherme
 created_at: '2026-10-30T16:25:16'
-updated_at: '2026-10-30T16:25:38'
+updated_at: '2026-10-30T16:44:10'
 session_id: null
 tags: []
 supersedes: null
@@ -18,17 +18,29 @@ backlog_items:
 spec_dir: specs/002-firebase-hosting
 milestones:
 - name: Setup
-  done: false
+  done: true
+  done_at: '2026-10-30'
+  by: LeviGuilherme
 - name: Foundational
-  done: false
+  done: true
+  done_at: '2026-10-30'
+  by: LeviGuilherme
 - name: US1 setup command
-  done: false
+  done: true
+  done_at: '2026-10-30'
+  by: LeviGuilherme
 - name: US2 deploy command
-  done: false
+  done: true
+  done_at: '2026-10-30'
+  by: LeviGuilherme
 - name: US3 preview workflow
-  done: false
+  done: true
+  done_at: '2026-10-30'
+  by: LeviGuilherme
 - name: Polish and documentation
-  done: false
+  done: true
+  done_at: '2026-10-30'
+  by: LeviGuilherme
 status_log:
 - at: '2026-10-30T16:25:16'
   by: LeviGuilherme
@@ -38,6 +50,28 @@ status_log:
   by: LeviGuilherme
   status: active
   note: Plan updated
+- at: '2026-10-30T16:43:50'
+  by: LeviGuilherme
+  note: Milestone 'Setup' completed
+- at: '2026-10-30T16:44:05'
+  by: LeviGuilherme
+  note: Milestone 'Foundational' completed
+- at: '2026-10-30T16:44:06'
+  by: LeviGuilherme
+  note: Milestone 'US1 setup command' completed
+- at: '2026-10-30T16:44:08'
+  by: LeviGuilherme
+  note: Milestone 'US2 deploy command' completed
+- at: '2026-10-30T16:44:09'
+  by: LeviGuilherme
+  note: Milestone 'US3 preview workflow' completed
+- at: '2026-10-30T16:44:10'
+  by: LeviGuilherme
+  note: Milestone 'Polish and documentation' completed
+- at: '2026-10-30T16:44:10'
+  by: LeviGuilherme
+  status: completed
+  note: All milestones completed
 ---
 
 # Firebase hosting sites and preview channels

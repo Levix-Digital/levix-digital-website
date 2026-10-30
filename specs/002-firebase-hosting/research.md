@@ -16,8 +16,8 @@ Decisions taken while planning FEAT-002, with the alternatives considered. Versi
 
 ## Deploy identity
 
-- **Decision**: Workload Identity Federation. A pool `github` with an OIDC provider `github-actions` for `https://token.actions.githubusercontent.com`, whose attribute condition accepts only tokens of this repository (`assertion.repository_id`, which survives renames and cannot be reused by a new repository with the same name). The provider may impersonate one service account, `hosting-deployer@levix-digital.iam.gserviceaccount.com`, which holds `roles/firebasehosting.admin` only. Workflows use `google-github-actions/auth` with the provider and the service account, both stored as repository variables (identifiers, not secrets).
-- **Rationale**: no long-lived key exists anywhere (FR-011, SC-004); credentials last one hour and only this repository's workflows can get them. Hosting admin is the smallest role that creates releases and preview channels.
+- **Decision**: Workload Identity Federation. A pool `github` with an OIDC provider `github-actions` for `https://token.actions.githubusercontent.com`, whose attribute condition accepts only tokens of this repository (`assertion.repository_id`, which survives renames and cannot be reused by a new repository with the same name). The provider may impersonate one service account, `hosting-deployer@levix-digital.iam.gserviceaccount.com`, which holds `roles/firebasehosting.admin` and `roles/serviceusage.serviceUsageConsumer` (the Firebase CLI reads the state of the Hosting API before every deploy, found in firebase-tools 15.34.1). Workflows use `google-github-actions/auth` with the provider and the service account, both stored as repository variables (identifiers, not secrets).
+- **Rationale**: no long-lived key exists anywhere (FR-011, SC-004); credentials last one hour and only this repository's workflows can get them. Hosting Admin is the smallest role that creates releases and preview channels. Preview deploys pass `--no-authorized-domains`, since the sites do not use Firebase Authentication, so no Auth role is needed.
 - **Alternatives**: a service account key in a GitHub secret (what `firebase init hosting:github` creates: a long-lived key that must be rotated by hand, and the generated account also gets Auth admin and Cloud Run viewer roles this site does not need); `firebase login:ci` tokens (deprecated, tied to a person).
 
 ## Setup command
@@ -40,8 +40,8 @@ Decisions taken while planning FEAT-002, with the alternatives considered. Versi
 
 ## Checking the hosting behavior
 
-- **Decision**: `npm run verify:hosting` starts the Firebase hosting emulator for all targets (`firebase emulators:exec --only hosting --project demo-levix`) and probes each site: the home page answers 200 with `no-cache`, an asset answers with the immutable value, `/index.html` redirects to `/`, an unknown path answers 404. The emulator serves the targets on the hub's hosting port and its reserved ports, in `firebase.json` order. The preview workflow runs it before publishing.
-- **Rationale**: proves FR-007 and FR-008 with Firebase's own server, offline, without a project (`demo-` projects never call Google).
+- **Decision**: `npm run verify:hosting` starts the Firebase hosting emulator for all targets (`firebase emulators:exec --only hosting --project levix-digital`) and probes each site: the home page answers 200 with `no-cache`, an asset answers with the immutable value, `/index.html` redirects to `/`, an unknown path answers 404. The emulator serves the targets on the hub's hosting port and its reserved ports, in `firebase.json` order. The preview workflow runs it before publishing.
+- **Rationale**: proves FR-007 and FR-008 with Firebase's own server, offline and without a login (the targets of `.firebaserc` are bound to the project id, so a `demo-` project cannot be used).
 - **Alternatives**: probing the deployed preview (needs credentials and a network round trip; a broken rule would already be published).
 
 ## Rollback
