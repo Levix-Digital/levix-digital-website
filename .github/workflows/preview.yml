@@ -1,0 +1,77 @@
+name: Preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+concurrency:
+  group: preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  preview:
+    # Pull requests from forks never get the deploy credentials.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write
+      pull-requests: write
+    env:
+      CHANNEL: pr-${{ github.event.pull_request.number }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+      - run: npm run verify:dist
+      - run: npm run verify:hosting
+
+      - name: Check deploy configuration
+        id: configured
+        env:
+          PROVIDER: ${{ vars.FIREBASE_WIF_PROVIDER }}
+          SERVICE_ACCOUNT: ${{ vars.FIREBASE_DEPLOY_SERVICE_ACCOUNT }}
+        run: |
+          if [ -n "$PROVIDER" ] && [ -n "$SERVICE_ACCOUNT" ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::Preview skipped: set the repository variables FIREBASE_WIF_PROVIDER and FIREBASE_DEPLOY_SERVICE_ACCOUNT (npm run hosting:setup prints them)."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: google-github-actions/auth@v3
+        if: steps.configured.outputs.ready == 'true'
+        with:
+          workload_identity_provider: ${{ vars.FIREBASE_WIF_PROVIDER }}
+          service_account: ${{ vars.FIREBASE_DEPLOY_SERVICE_ACCOUNT }}
+
+      - name: Deploy preview
+        if: steps.configured.outputs.ready == 'true'
+        run: npm run --silent deploy:preview -- "$CHANNEL" > preview.md
+
+      - name: Comment preview addresses
+        if: steps.configured.outputs.ready == 'true'
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const body = require('fs').readFileSync('preview.md', 'utf8')
+            const marker = body.split('\n')[0]
+            const { owner, repo } = context.repo
+            const issue_number = context.payload.pull_request.number
+            const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number })
+            const existing = comments.find((comment) => comment.body?.startsWith(marker))
+            if (existing) {
+              await github.rest.issues.updateComment({ owner, repo, comment_id: existing.id, body })
+            } else {
+              await github.rest.issues.createComment({ owner, repo, issue_number, body })
+            }
