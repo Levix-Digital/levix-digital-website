@@ -1,7 +1,7 @@
 <!-- dev-cycle-constitution
 generated-by: dev-cycle-protocol/constitution.py (do not edit; change a source and regenerate)
-sources-sha256: 8fe6cb959bfc8fa0ac1abb3485a4d9c1b094a3cc7329369a6f603c1d2666fff1
-content-sha256: 2f2c6add4c14184d1bfa69f21a048c905e8db6fdba358b14a57d4db431fd0026
+sources-sha256: 49aae8eaaf3862455e80149e28aef06610ce66d4b1b226f9f9a220d6afd18173
+content-sha256: 6bac4186c5af4fce352f587c9d10fa74e9e534d0f2debc2bbc1f24e97ee8f4b5
 -->
 # levix-digital-website Constitution
 
@@ -154,7 +154,7 @@ If you cannot point to the problem in the left column, do not use the pattern. N
 ### Constraints
 
 - Every fact on the site comes from the product's repository, its release channel or a reproducible measurement; unavailable products and unpublished research are labeled as such.
-- Hosting on Google Firebase, in one Firebase project.
+- Hosting on Google Firebase, in one Firebase project, `levix-digital`, on the Blaze plan with Levi's billing account; the services that have a region (Firestore, functions) run in Montreal (`northamerica-northeast1`), which keeps the data of the contact form in Canada.
 - DNS stays at Hostinger.
 - No per-language URLs.
 - The design follows the Ceramic and Aurora language of the original specification, with light as the default theme and a complete dark theme.
@@ -170,6 +170,7 @@ Accepted decisions; a plan that contradicts one needs a new ADR that supersedes 
 - ADR-0004: Build-time and on-demand translation without per-language URLs (`docs/adr/0004-build-time-and-on-demand-translation-without-per-language-ur.md`)
 - ADR-0005: Product facts as typed data files (`docs/adr/0005-product-facts-as-typed-data-files.md`)
 - ADR-0006: Tailwind CSS 4 with a shared stylesheet theme (`docs/adr/0006-tailwind-css-4-with-a-shared-stylesheet-theme.md`)
+- ADR-0007: Keyless deploys with Workload Identity Federation (`docs/adr/0007-keyless-deploys-with-workload-identity-federation.md`)
 
 ## Governance
 
@@ -177,4 +178,4 @@ Accepted decisions; a plan that contradicts one needs a new ADR that supersedes 
 - Amendments change the source, not this file: an ADR for decisions, the technical specification for requirements and constraints, `.dev-cycle.json` for the architecture style, the skills for principles. Then run `constitution.py generate` and commit the result with the change.
 - Gate 3 of the development cycle blocks a plan while this file is stale or edited by hand.
 
-**Version**: 1.2.0 | **Ratified**: 2026-10-30 | **Last Amended**: 2026-10-30
+**Version**: 1.3.0 | **Ratified**: 2026-10-30 | **Last Amended**: 2026-10-30
