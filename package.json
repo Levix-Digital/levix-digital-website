@@ -14,10 +14,14 @@
   "scripts": {
     "build": "npm run build --workspaces --if-present",
     "verify:dist": "node scripts/verify-prerender.mjs",
-    "typecheck": "npm run typecheck --workspaces --if-present && vue-tsc --noEmit -p tooling/tsconfig.json",
+    "typecheck": "npm run typecheck --workspaces --if-present && vue-tsc --noEmit -p tooling/tsconfig.json && tsc --noEmit -p scripts/tsconfig.json",
     "lint": "eslint . --max-warnings 0",
     "test": "vitest run",
-    "check": "npm run typecheck && npm run lint && npm test"
+    "check": "npm run typecheck && npm run lint && npm test",
+    "hosting:setup": "node scripts/hosting-setup.mjs",
+    "deploy": "node scripts/hosting-deploy.mjs",
+    "deploy:preview": "node scripts/hosting-deploy.mjs --channel",
+    "verify:hosting": "firebase emulators:exec --only hosting --project levix-digital \"node scripts/verify-hosting.mjs\""
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",
