@@ -11,9 +11,9 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 ### FEAT-002: Firebase hosting sites and preview channels
 - **Priority**: high
 - **Epic**: EPIC-001
-- **Status**: open
+- **Status**: planned
 - **Found**: 2026-10-30
-- **Plan**: -
+- **Plan**: levix_digital_website_firebase_hosting_sites_and_preview_channels
 - **Description**: One Firebase project with a hosting site and target per domain, and preview channels for pull requests.
 
 ### FEAT-003: Continuous integration and deployment
