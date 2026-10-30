@@ -35,6 +35,6 @@ description: "Task list for custom domains"
 
 ## Phase 5: Polish and documentation
 
-- [ ] T006 [P] ADR-0009 (DNS at Cloudflare, Firebase-hosted names not proxied), amending ADR-0003; `docs/product/TECH_SPEC.md` (integration and constraint); `docs/architecture/hosting.md` (domains); `README.md` ("Domains" in "Hosting"); TECDOC index, `check_docs`, `check_readme`; regenerate the constitution
-- [ ] T007 [P] Manual tests: each domain over HTTPS, `www` redirect, mail delivered; `manual_tests validate`
+- [x] T006 [P] ADR-0009 (DNS at Cloudflare, Firebase-hosted names not proxied), amending ADR-0003; `docs/product/TECH_SPEC.md` (integration and constraint); `docs/architecture/hosting.md` (domains); `README.md` ("Domains" in "Hosting"); TECDOC index, `check_docs`, `check_readme`; regenerate the constitution
+- [x] T007 [P] Manual tests: each domain over HTTPS, `www` redirect, mail delivered; `manual_tests validate`
 - [ ] T008 `npm run check`, then the pull request; merge only after `domains:status` succeeds

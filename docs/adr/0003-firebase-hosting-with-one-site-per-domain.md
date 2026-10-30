@@ -8,7 +8,7 @@ subsystems: []
 supersedes: []
 superseded_by: []
 amends: []
-amended_by: []
+amended_by: [9]
 ---
 
 # ADR-0003: Firebase Hosting with one site per domain

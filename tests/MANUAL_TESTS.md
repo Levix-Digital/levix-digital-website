@@ -34,6 +34,43 @@ How to record a run: in each test of the current run, mark exactly one box of th
 - **Result**: [ ] Pass [ ] Fail [ ] Blocked
 - **Notes**:
 
+### MT-HOST-003: Each domain shows its site over HTTPS
+
+- **Covers**: `domains.json`, `npm run domains:status`, the Cloudflare DNS records
+- **Prerequisites**: `gcloud` logged in as an owner of `levix-digital`; `npm ci` done
+- **Steps**:
+  1. `npm run domains:status`
+  2. In a browser, open `https://levix.digital`, `https://anycontext.levix.digital`, `https://devcycle.levix.digital`, `https://gedo.levix.digital` and `https://aurora.levix.digital`.
+  3. Open `http://gedo.levix.digital`.
+- **Expected**:
+  - Every line of the status starts with `ok` and the command ends without error.
+  - Each address shows its own site with a valid certificate and no browser warning.
+  - The `http://` address moves to `https://gedo.levix.digital`.
+- **Result**: [ ] Pass [ ] Fail [ ] Blocked
+- **Notes**:
+
+### MT-HOST-004: www redirects to the apex
+
+- **Covers**: the Cloudflare redirect rule of `www.levix.digital`
+- **Prerequisites**: none
+- **Steps**:
+  1. In a browser, open `https://www.levix.digital/` and then `https://www.levix.digital/no-such-page`.
+- **Expected**:
+  - The first goes to `https://levix.digital/` and the second to `https://levix.digital/no-such-page`, each with a permanent redirect (301).
+- **Result**: [ ] Pass [ ] Fail [ ] Blocked
+- **Notes**:
+
+### MT-HOST-005: Mail to the domain is still delivered
+
+- **Covers**: the mail records of `levix.digital` at Cloudflare
+- **Prerequisites**: access to the mailbox that receives contact@levix.digital
+- **Steps**:
+  1. From an outside address, send a message to contact@levix.digital.
+- **Expected**:
+  - The message arrives within a few minutes and is not marked as spam.
+- **Result**: [ ] Pass [ ] Fail [ ] Blocked
+- **Notes**:
+
 ## Continuous integration and deploy
 
 ### MT-CI-001: A merge publishes only the changed site
