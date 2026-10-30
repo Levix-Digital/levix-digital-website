@@ -23,9 +23,18 @@ export const DEPLOY_ROLES = ['roles/firebasehosting.admin', 'roles/serviceusage.
 /**
  * @typedef {import('./lib/run.mjs').Runner} Runner
  * @typedef {{ resource: string, state: 'created' | 'exists' }} Step
+ * @typedef {(url: string, token: string) => Promise<Record<string, unknown>>} FetchJson
  */
 
 export class SetupError extends Error {}
+
+/** @type {FetchJson} */
+export async function fetchJson(url, token) {
+  const response = await fetch(url, { headers: { Authorization: `Bearer ${token}` } })
+  const body = await response.json()
+  if (!response.ok) throw new SetupError(`${url} answered ${response.status}: ${body.error?.message ?? ''}`)
+  return body
+}
 
 /**
  * @param {Runner} run
@@ -50,15 +59,19 @@ async function gcloudOk(run, args) {
  * Checks project, billing and the caller's ownership before anything is changed.
  * @param {Runner} run
  * @param {string} project
+ * @param {FetchJson} fetchJson
  * @returns {Promise<string>} the project number
  */
-export async function preflight(run, project) {
+export async function preflight(run, project, fetchJson) {
   const described = await gcloud(run, ['projects', 'describe', project, '--format=value(projectNumber)'])
   if (described.code !== 0) {
     throw new SetupError(`project ${project} not found or not accessible; create it in the Firebase console first`)
   }
-  const billing = await gcloudOk(run, ['billing', 'projects', 'describe', project, '--format=value(billingEnabled)'])
-  if (billing.toLowerCase() !== 'true') {
+  // The Cloud Billing API is asked directly: `gcloud billing projects` is missing from older
+  // gcloud releases.
+  const token = await gcloudOk(run, ['auth', 'print-access-token'])
+  const billing = await fetchJson(`https://cloudbilling.googleapis.com/v1/projects/${project}/billingInfo`, token)
+  if (billing.billingEnabled !== true) {
     throw new SetupError(`billing is not enabled on ${project}; switch it to the Blaze plan in the Firebase console`)
   }
   const account = await gcloudOk(run, ['config', 'get-value', 'account'])
@@ -155,10 +168,11 @@ async function ensureBinding(run, resource, target, role, member, extra = []) {
  * @param {string} project
  * @param {string[]} siteIds
  * @param {(step: Step) => void} report
+ * @param {FetchJson} getJson
  * @returns {Promise<{ provider: string, serviceAccount: string }>}
  */
-export async function setup(run, project, siteIds, report = () => {}) {
-  const projectNumber = await preflight(run, project)
+export async function setup(run, project, siteIds, report = () => {}, getJson = fetchJson) {
+  const projectNumber = await preflight(run, project, getJson)
   const location = ['--location=global', `--project=${project}`]
   const serviceAccount = `${SERVICE_ACCOUNT}@${project}.iam.gserviceaccount.com`
   const poolName = `projects/${projectNumber}/locations/global/workloadIdentityPools/${POOL}`
