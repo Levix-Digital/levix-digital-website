@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { windowsCommandLine } from './run.mjs'
+import { FIREBASE_CLI, runCommand, windowsCommandLine } from './run.mjs'
 
 describe('windowsCommandLine', () => {
   it('keeps arguments with spaces and single quotes whole', () => {
@@ -10,5 +10,13 @@ describe('windowsCommandLine', () => {
   it('refuses arguments cmd.exe would change', () => {
     expect(() => windowsCommandLine('gcloud', ['a"b'])).toThrow('cannot be passed')
     expect(() => windowsCommandLine('gcloud', ['%PATH%'])).toThrow('cannot be passed')
+  })
+})
+
+describe('runCommand', () => {
+  it('runs the pinned Firebase CLI without a shell', async () => {
+    const result = await runCommand(FIREBASE_CLI, ['--version'])
+    expect(result.code).toBe(0)
+    expect(result.stdout.trim()).toMatch(/^\d+\.\d+\.\d+$/)
   })
 })
