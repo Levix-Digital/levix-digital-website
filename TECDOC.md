@@ -37,6 +37,7 @@ flowchart LR
 <!-- architecture-docs:adrs:start -->
 | ADR | Title | Status | Version | Date |
 |---|---|---|---|---|
+| [ADR-0006](docs/adr/0006-tailwind-css-4-with-a-shared-stylesheet-theme.md) | Tailwind CSS 4 with a shared stylesheet theme | accepted | v0.1.0 | 2026-10-30 |
 | [ADR-0005](docs/adr/0005-product-facts-as-typed-data-files.md) | Product facts as typed data files | accepted |  | 2026-10-30 |
 | [ADR-0004](docs/adr/0004-build-time-and-on-demand-translation-without-per-language-ur.md) | Build-time and on-demand translation without per-language URLs | accepted |  | 2026-10-30 |
 | [ADR-0003](docs/adr/0003-firebase-hosting-with-one-site-per-domain.md) | Firebase Hosting with one site per domain | accepted |  | 2026-10-30 |

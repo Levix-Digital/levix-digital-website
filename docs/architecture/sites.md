@@ -14,7 +14,7 @@ Owns the pages of each site and their routes: the company home (`levix.digital`,
 
 ## Structure
 
-`sites/<site>/` is a Vite application: `src/pages/` (one file per route), `src/main.ts` (vite-ssg entry), `index.html`, its English strings in `src/locales/en.json`.
+`sites/<site>/` is a Vite application and an npm workspace named `@levix/site-<site>`: `src/pages/` (one file per route), `src/routes.ts` (the list of routes), `src/main.ts` (vite-ssg entry), `src/App.vue`, `src/styles.css` (imports `@levix/ui/styles.css`), `index.html`, `vite.config.ts` and its English strings in `src/locales/en.json`. Every site uses the same build configuration, `defineSiteConfig()` in `tooling/vite-site.ts` (Vue, Tailwind, prerendering, test settings); `tooling/` is build configuration, not a module.
 
 ```mermaid
 flowchart LR
@@ -27,6 +27,8 @@ flowchart LR
 ## Behavior
 
 Each site is prerendered to static HTML at build time and hydrated in the browser. A product site's pages are overview, features, plans and pricing, and download; when the product is not available, every page shows the availability banner and the download buttons are disabled. Each site builds into `sites/<site>/dist` and is deployed to its Firebase Hosting target.
+
+Module boundaries are checked by lint (`eslint.config.js`, eslint-plugin-boundaries): a site imports a package only through its entry points (`src/index.ts`, and `src/styles.css` for `ui`), a package never imports a site and a site never imports another site. Packages are consumed from source through the `exports` map of their `package.json`; nothing is built or published. Type checking uses TypeScript 6 with vue-tsc, because vue-tsc does not run on TypeScript 7.
 
 ## Interfaces
 

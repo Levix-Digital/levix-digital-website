@@ -14,7 +14,7 @@ Owns the Ceramic and Aurora design language: tokens (colors, typography, shadows
 
 ## Structure
 
-`packages/ui/src/tokens.css` (CSS variables per theme), `tailwind.preset.ts`, `components/`, `layout/`, `hero/` (Three.js scene, aurora shader, static fallback). Public entry point `packages/ui/src/index.ts`.
+`packages/ui/src/styles.css` (Tailwind, the `@theme` block and the CSS variables per theme, exported as `@levix/ui/styles.css` and imported by every site), `components/`, `layout/`, `hero/` (Three.js scene, aurora shader, static fallback). Public entry point `packages/ui/src/index.ts`.
 
 ## Behavior
 
@@ -27,3 +27,4 @@ Components receive text through props or the i18n `t()` function; they never imp
 ## Decisions
 
 - [ADR-0002](../adr/0002-vue-3-with-vite-static-prerendering.md): Vue 3, Tailwind and Three.js.
+- [ADR-0006](../adr/0006-tailwind-css-4-with-a-shared-stylesheet-theme.md): Tailwind CSS 4 with a shared stylesheet theme.
