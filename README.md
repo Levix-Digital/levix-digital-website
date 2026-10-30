@@ -10,10 +10,11 @@ Every site is generated as static, prerendered pages that share one design syste
 - Run one site locally with changes shown in the browser as you save
 - Check types, lint the module boundaries and run the unit tests with one command
 - Verify that every built site has a prerendered home page
+- Publish every site, or one, to Firebase Hosting, and preview every pull request at its own address
 
 ## Requirements
 
-- Node.js 22.22.2 or newer on the 22 line, or 24.15.0 or newer (`.nvmrc` selects 22) <!-- readme-ok -->
+- Node.js 22.22.2 or newer on the 22 line, or 24.15.0 or newer on the 24 line (`.nvmrc` selects 22); Node.js 26 is not supported yet because the Firebase CLI's hosting server does not support it <!-- readme-ok -->
 - npm 10 or newer (included with Node.js)
 - Linux, macOS or Windows
 
@@ -74,6 +75,44 @@ npm run verify:dist
 
 Run it after `npm run build`: it fails if a site has no prerendered home page with a heading.
 
+## Hosting
+
+Each site is served by its own Firebase Hosting site in the project `levix-digital`, at `https://<hosting site>.web.app` until its domain is connected:
+
+| Site | Hosting site |
+|---|---|
+| `home` | `levix-digital` |
+| `anycontext` | `levix-anycontext` |
+| `devcycle` | `levix-devcycle` |
+| `gedo` | `levix-gedo` |
+| `aurora` | `levix-aurora` |
+
+### One-time setup (project owner)
+
+1. In the [Firebase console](https://console.firebase.google.com/), create the project `levix-digital` and switch it to the Blaze plan.
+2. Log in with `gcloud auth login` and `npx firebase login`, or open [Cloud Shell](https://shell.cloud.google.com/), where both are already logged in.
+3. Run `npm run hosting:setup`. Every line ends in `created` or `exists`, and running it again creates nothing.
+4. In GitHub (Settings, Secrets and variables, Actions, Variables), add `FIREBASE_WIF_PROVIDER` and `FIREBASE_DEPLOY_SERVICE_ACCOUNT` with the values the setup prints. They are names, not secrets: workflows get one-hour credentials and no key exists.
+
+### Publish
+
+```bash
+npm run build
+npm run verify:hosting
+npm run deploy             # every site
+npm run deploy -- gedo     # one site
+```
+
+`verify:hosting` serves the built sites with the Firebase hosting emulator and checks clean URLs, not-found answers and cache headers. `deploy` refuses a site that is not built.
+
+### Preview a pull request
+
+Every pull request from a branch of this repository is built and published to the preview channel `pr-<number>`, and gets one comment with the address of each site, updated on every push. Previews expire seven days after the last push. Pull requests from forks are not previewed.
+
+### Roll back a site
+
+In the Firebase console, open Hosting, the site's release history, and choose "Rollback" on the previous release. Only that site changes.
+
 ## Troubleshooting
 
 | Problem | Fix |
@@ -81,6 +120,9 @@ Run it after `npm run build`: it fails if a site has no prerendered home page wi
 | `npm ci` fails with `EBADENGINE` | Install a supported Node.js version (see Requirements), for example with `nvm install` in the repository folder |
 | `npm ci` fails because the lock file does not match `package.json` | Run `npm install` to update `package-lock.json` and commit it with the change |
 | `npm run verify:dist` says `index.html not found` | Run `npm run build` first |
+| `npm run deploy` says `not built` | Run `npm run build` first |
+| `npm run hosting:setup` says billing is not enabled | Switch the project to the Blaze plan in the Firebase console, then run it again |
+| The preview workflow ends with "Preview skipped" | Set the two repository variables printed by `npm run hosting:setup` |
 | Lint reports `boundaries/dependencies` | Import the shared package by its name (for example `@levix/ui`) instead of a file inside it, and never import another site |
 
 ## Documentation

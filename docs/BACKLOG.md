@@ -8,14 +8,6 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 
 ## Features
 
-### FEAT-002: Firebase hosting sites and preview channels
-- **Priority**: high
-- **Epic**: EPIC-001
-- **Status**: open
-- **Found**: 2026-10-30
-- **Plan**: -
-- **Description**: One Firebase project with a hosting site and target per domain, and preview channels for pull requests.
-
 ### FEAT-003: Continuous integration and deployment
 - **Priority**: high
 - **Epic**: EPIC-001
@@ -344,3 +336,12 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 - **Plan**: levix_digital_website_workspace_and_build_setup
 - **Closed**: 2026-10-30, plan levix_digital_website_workspace_and_build_setup
 - **Description**: npm workspaces with Vite, Vue 3, TypeScript strict, Tailwind and vite-ssg, one folder per site and per package.
+
+### FEAT-002: Firebase hosting sites and preview channels
+- **Priority**: high
+- **Epic**: EPIC-001
+- **Status**: done
+- **Found**: 2026-10-30
+- **Plan**: levix_digital_website_firebase_hosting_sites_and_preview_channels
+- **Closed**: 2026-10-30, plan levix_digital_website_firebase_hosting_sites_and_preview_channels
+- **Description**: One Firebase project with a hosting site and target per domain, and preview channels for pull requests.

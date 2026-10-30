@@ -27,6 +27,7 @@ flowchart LR
 |---|---|
 | [Backend Functions](docs/architecture/functions.md) | Cloud Functions for the contact form and the shared translation cache. |
 | [Design System](docs/architecture/ui.md) | Ceramic and Aurora tokens, light and dark themes, shared layout, components and the 3D hero. |
+| [Hosting](docs/architecture/hosting.md) | One Firebase project with a hosting site per domain, keyless deploys from the repository and a preview channel per pull request. |
 | [Internationalization](docs/architecture/i18n.md) | English source strings, build-time French and Spanish bundles and on-demand languages cached in the browser. |
 | [Product Content](docs/architecture/content.md) | One typed data file per product, the single source of the facts the sites show. |
 | [Sites](docs/architecture/sites.md) | The company home and the product sites, each a prerendered Vite application deployed to its own Firebase Hosting site. |
@@ -37,6 +38,7 @@ flowchart LR
 <!-- architecture-docs:adrs:start -->
 | ADR | Title | Status | Version | Date |
 |---|---|---|---|---|
+| [ADR-0007](docs/adr/0007-keyless-deploys-with-workload-identity-federation.md) | Keyless deploys with Workload Identity Federation | accepted | v0.1.0 | 2026-10-30 |
 | [ADR-0006](docs/adr/0006-tailwind-css-4-with-a-shared-stylesheet-theme.md) | Tailwind CSS 4 with a shared stylesheet theme | accepted | v0.1.0 | 2026-10-30 |
 | [ADR-0005](docs/adr/0005-product-facts-as-typed-data-files.md) | Product facts as typed data files | accepted |  | 2026-10-30 |
 | [ADR-0004](docs/adr/0004-build-time-and-on-demand-translation-without-per-language-ur.md) | Build-time and on-demand translation without per-language URLs | accepted |  | 2026-10-30 |

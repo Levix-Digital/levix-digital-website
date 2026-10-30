@@ -17,7 +17,7 @@ for (const site of readdirSync(SITES_DIR)) {
     failures.push(`${site}: ${page} has no prerendered <h1>`)
     continue
   }
-  console.log(`ok ${site}: "${heading[1].trim()}"`)
+  console.log(`ok ${site}: "${(heading[1] ?? '').trim()}"`)
 }
 
 if (failures.length > 0) {
