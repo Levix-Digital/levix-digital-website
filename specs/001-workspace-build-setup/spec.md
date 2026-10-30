@@ -105,4 +105,4 @@ A developer runs one command that checks types in strict mode, lints the code (i
 - The `functions/` folder (contact and translation backend) is created by its own items (FEAT-033 and the translation items), not here.
 - Design tokens, themes, the header and footer, the 3D hero and Three.js itself come with FEAT-006, FEAT-008 and FEAT-011; this item only provides the shared stylesheet entry point and one trivial shared component.
 - Continuous integration (FEAT-003) and hosting configuration (FEAT-002) are separate items; this item provides the commands they will run.
-- The supported runtime is the current long-term-support Node.js line, the same one the backend functions will use (Node.js 22 or newer).
+- The supported runtime is the current long-term-support Node.js line, the same one the backend functions will use (Node.js 22, at the patch versions its dependencies require, or a newer long-term-support line).

@@ -8,14 +8,6 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 
 ## Features
 
-### FEAT-001: Workspace and build setup
-- **Priority**: high
-- **Epic**: EPIC-001
-- **Status**: in_progress
-- **Found**: 2026-10-30
-- **Plan**: levix_digital_website_workspace_and_build_setup
-- **Description**: npm workspaces with Vite, Vue 3, TypeScript strict, Tailwind and vite-ssg, one folder per site and per package.
-
 ### FEAT-002: Firebase hosting sites and preview channels
 - **Priority**: high
 - **Epic**: EPIC-001
@@ -54,7 +46,7 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 - **Status**: open
 - **Found**: 2026-10-30
 - **Plan**: -
-- **Description**: Ceramic and Aurora tokens as CSS variables with complete light and dark themes, and a Tailwind preset.
+- **Description**: Ceramic and Aurora tokens as CSS variables with complete light and dark themes, in the shared Tailwind theme of `@levix/ui` (ADR-0006).
 
 ### FEAT-007: Theme picker
 - **Priority**: high
@@ -343,3 +335,12 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 - **Description**: Contact function, consent and Google Analytics 4
 
 ## Closed
+
+### FEAT-001: Workspace and build setup
+- **Priority**: high
+- **Epic**: EPIC-001
+- **Status**: done
+- **Found**: 2026-10-30
+- **Plan**: levix_digital_website_workspace_and_build_setup
+- **Closed**: 2026-10-30, plan levix_digital_website_workspace_and_build_setup
+- **Description**: npm workspaces with Vite, Vue 3, TypeScript strict, Tailwind and vite-ssg, one folder per site and per package.

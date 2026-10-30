@@ -4,8 +4,8 @@ Decisions taken while planning FEAT-001, with the alternatives considered. Versi
 
 ## Package manager and workspace
 
-- **Decision**: npm workspaces (`sites/*`, `packages/*`), one committed `package-lock.json`, `engines.node >= 22` enforced with `engine-strict=true` in `.npmrc`, and `.nvmrc` set to 22.
-- **Rationale**: chosen in ADR-0001 and the technical specification; npm ships with Node.js, so there is nothing else to install. Node.js 22 is the runtime of the Cloud Functions in the technical specification.
+- **Decision**: npm workspaces (`sites/*`, `packages/*`), one committed `package-lock.json`, `engines.node` set to `^22.22.2 || >=24.15.0` and enforced with `engine-strict=true` in `.npmrc`, and `.nvmrc` set to 22.
+- **Rationale**: chosen in ADR-0001 and the technical specification; npm ships with Node.js, so there is nothing else to install. Node.js 22 is the runtime of the Cloud Functions in the technical specification; the minimum patch versions are the ones required by a dependency of `@vue/test-utils` (`nopt`), found when installing.
 - **Alternatives**: pnpm (stricter dependency isolation, but one more tool for contributors and CI); Turborepo or Nx (task caching that five small sites do not need yet).
 
 ## Consuming packages from source
@@ -17,7 +17,7 @@ Decisions taken while planning FEAT-001, with the alternatives considered. Versi
 ## Prerendering
 
 - **Decision**: vite-ssg 28 with vue-router 5 and `@unhead/vue`; each site lists its routes in `src/routes.ts` and exports `createApp = ViteSSG(App, { routes })` from `src/main.ts`.
-- **Rationale**: chosen in ADR-0002. An explicit routes list is enough for sites with a handful of pages.
+- **Rationale**: chosen in ADR-0002. An explicit routes list is enough for sites with a handful of pages. `@unhead/vue` stays on major version 2, the one vite-ssg 28 uses: with version 3 the page titles set by `useHead` are not prerendered (two head instances).
 - **Alternatives**: file-based routing plugin (one more plugin and generated types for a few routes); a hand-written prerender script with `@vue/server-renderer` (vite-ssg already does it, with head management).
 
 ## TypeScript version

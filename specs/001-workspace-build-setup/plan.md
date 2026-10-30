@@ -10,7 +10,7 @@ Set up the repository as one npm workspace with five prerendered Vue 3 sites (`s
 
 ## Technical Context
 
-**Language/Version**: TypeScript 6.0 (strict), Node.js 22 or newer
+**Language/Version**: TypeScript 6.0 (strict), Node.js 22.22.2 or newer on the 22 line, or 24.15.0 or newer
 
 **Primary Dependencies**: Vue 3.5, vue-router 5, vite 8, vite-ssg 28, @unhead/vue, Tailwind CSS 4 with @tailwindcss/vite, vue-tsc 3
 
@@ -62,7 +62,7 @@ specs/001-workspace-build-setup/
 ### Source Code (repository root)
 
 ```text
-package.json             # private root: workspaces, engines, root scripts
+package.json             # private root: workspaces, engines (^22.22.2 || >=24.15.0), root scripts
 package-lock.json
 .npmrc                   # engine-strict=true
 .nvmrc                   # 22

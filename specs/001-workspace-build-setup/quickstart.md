@@ -1,6 +1,6 @@
 # Quickstart: Workspace and Build Setup
 
-How to verify the feature by hand on a clean clone. Requires Node.js 22 or newer.
+How to verify the feature by hand on a clean clone. Requires Node.js 22.22.2 or newer on the 22 line, or 24.15.0 or newer.
 
 1. `npm ci`: installs without errors.
 2. `npm run build`: five folders `sites/{home,anycontext,devcycle,gedo,aurora}/dist` exist.

@@ -4,7 +4,7 @@ The commands a developer and CI (FEAT-003) run from the repository root. Each ex
 
 | Command | What it does |
 |---|---|
-| `npm ci` | Installs every workspace from `package-lock.json`; refuses Node.js older than 22 |
+| `npm ci` | Installs every workspace from `package-lock.json`; refuses a Node.js version outside `^22.22.2 || >=24.15.0` |
 | `npm run build` | Builds and prerenders every site into `sites/<site>/dist` |
 | `npm run build -w @levix/site-<site>` | Builds one site |
 | `npm run dev -w @levix/site-<site>` | Starts one site's development server with hot reload |
