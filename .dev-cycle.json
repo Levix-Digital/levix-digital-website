@@ -1,0 +1,26 @@
+{
+  "project_name": "levix-digital-website",
+  "docs": {
+    "user_doc": "README.md"
+  },
+  "devops": {
+    "branching": "trunk",
+    "production_branch": "main",
+    "version_files": []
+  },
+  "speckit": {
+    "enabled": true,
+    "version": "v1.2.5",
+    "integration": "claude",
+    "script": "sh",
+    "branch_prefix": "feat"
+  },
+  "architecture": {
+    "style": "modular-monolith",
+    "core_path": "packages",
+    "surfaces": [
+      "sites",
+      "functions"
+    ]
+  }
+}
