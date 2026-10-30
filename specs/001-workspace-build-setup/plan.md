@@ -40,7 +40,7 @@ Set up the repository as one npm workspace with five prerendered Vue 3 sites (`s
 | No speculative code | Packages export only what the placeholder pages use (`PageContainer`, company name, source language); tokens, header, footer, hero, translation come with their own items |
 | Testability | Every workspace has a unit test; each home page is rendered on the server in a test |
 | Evidence | `npm run check` and `npm run verify:dist` prove every requirement automatically |
-| Repository content in English, no references to the tools used to write it | Code, docs and commits in English; attribution off in `.claude/settings.json` |
+| Repository content in English, no references to the tools used to write it | Code, docs and commits in English, authored by the repository identity, with no attribution lines |
 
 Re-check after design: passes; no violations to justify.
 
