@@ -12,7 +12,7 @@ One reusable workflow, `CI`, runs the checks: a `check` job (type check, lint, u
 
 **Language/Version**: JavaScript (ES modules) for the scripts, typed with JSDoc and checked by `tsc --checkJs`, as in FEAT-002; Node.js 22 (pinned in `.nvmrc`) and 24
 
-**Primary Dependencies**: `@lhci/cli` 0.15.1 (dev dependency, pinned by the lock file); firebase-tools from FEAT-002; Chrome preinstalled on GitHub's Ubuntu runners; GitHub Actions `actions/checkout@v5`, `actions/setup-node@v5`, `actions/upload-artifact@v7`, `actions/download-artifact@v8`, `google-github-actions/auth@v3`
+**Primary Dependencies**: `@lhci/cli` 0.15.1 (dev dependency, pinned by the lock file) with Lighthouse 13.5.0 through `overrides`; firebase-tools from FEAT-002; Chrome preinstalled on GitHub's Ubuntu runners; GitHub Actions `actions/checkout@v5`, `actions/setup-node@v5`, `actions/upload-artifact@v7`, `actions/download-artifact@v8`, `google-github-actions/auth@v3`
 
 **Storage**: N/A (Lighthouse reports as run artifacts, kept 14 days)
 

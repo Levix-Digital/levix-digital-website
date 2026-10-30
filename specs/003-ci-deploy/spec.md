@@ -45,7 +45,7 @@ When a pull request is merged into `main`, the repository builds the sites, chec
 3. **Given** a merge that changes only documentation, specifications or the manual tests, **When** the deploy runs, **Then** nothing is published and the run says so.
 4. **Given** a merge whose checks fail on `main`, **When** the deploy runs, **Then** nothing is published and the run fails.
 5. **Given** a published site, **When** the deploy finishes, **Then** the run lists each published site with its address, and each address answers with the site's home page.
-6. **Given** two merges close together, **When** both deploys run, **Then** they run one after the other in merge order, and neither is cancelled.
+6. **Given** two merges close together, **When** both deploys run, **Then** they publish one at a time, and every change of both merges reaches production, either by its own deploy or by the next one.
 
 ---
 
@@ -65,7 +65,8 @@ A maintainer can start the production deploy by hand from the repository's Actio
 
 ### Edge Cases
 
-- The first push to `main` after this feature, or a push whose previous commit is unknown (force push, new branch history): every site is published.
+- The first push to `main` after this feature, or a last production deploy whose commit is no longer in the history (force push): every site is published.
+- A deploy fails: its changes stay unpublished until the next successful deploy, which counts changes from the last successful one; re-running the failed run or a manual deploy of every site publishes them at once. A manual deploy of only some sites after a failure counts as the last deploy, so it should name every site the failed run had.
 - A new site is added to the workspace: its folder maps to its own target and shared changes include it, without editing the change detection.
 - The repository variables of the deploy identity are missing: the deploy fails with the variables to set; the pull request checks still run.
 - A run of the deploy is cancelled or the hosting service fails part way: the run fails, the sites already published stay at their new release, and a manual run republishes the rest.
@@ -81,12 +82,12 @@ A maintainer can start the production deploy by hand from the repository's Actio
 - **FR-003**: Every pull request into `main` and every push to `main` MUST audit the prerendered pages of every site with Lighthouse, mobile profile, and fail when the median performance score or the median accessibility score of any page is below its budget.
 - **FR-004**: The Lighthouse budgets MUST be kept in one versioned configuration file; the reports MUST be kept as run artifacts so a failure can be inspected.
 - **FR-005**: A newer push to the same pull request MUST cancel the older check run.
-- **FR-006**: A push to `main` MUST publish to production exactly the sites the push changed, using the change rules below, and MUST publish only after the checks of FR-001 and FR-003 pass on that commit.
+- **FR-006**: A push to `main` MUST publish to production exactly the sites changed since the commit of the last successful production deploy, using the change rules below, and MUST publish only after the checks of FR-001 and FR-003 pass on that commit.
 - **FR-007**: Change rules: a file under `sites/<site>/` changes that site; a file under `docs/`, `specs/`, `.specify/`, `.claude/`, `tests/MANUAL_TESTS.md`, any Markdown file at the root, `LICENSE` or the preview workflow changes no site; any other file changes every site.
-- **FR-008**: When the previous commit of the push cannot be compared, the deploy MUST publish every site.
+- **FR-008**: When there is no successful production deploy yet, or its commit is not in the history, the deploy MUST publish every site.
 - **FR-009**: The deploy MUST publish the same build that passed the checks, not a second build.
 - **FR-010**: The deploy MUST be startable by hand for all sites or a chosen list of sites, and MUST refuse unknown site names before publishing.
-- **FR-011**: Production deploys MUST run one at a time in the order they started and MUST NOT cancel each other.
+- **FR-011**: Production deploys MUST run one at a time and MUST NOT be cancelled while publishing; a deploy still waiting MAY be replaced by a newer one, which then publishes its changes as well (FR-006).
 - **FR-012**: Production deploys MUST run in a deployment environment named `production` that records each deploy with its address, and MUST use the keyless deploy identity of FEAT-002 (no new credential).
 - **FR-013**: After publishing, the deploy MUST check that the default address of each published site answers its home page successfully, and fail otherwise.
 - **FR-014**: The change rules MUST be covered by automated tests.

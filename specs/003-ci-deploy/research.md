@@ -14,13 +14,13 @@
 
 ## Decision 3: Change rules by path
 
-- **Decision**: `sites/<site>/**` selects that site; a short list of paths selects none (docs, specs, Spec Kit and tool settings, root Markdown, `LICENSE`, manual tests, the preview workflow); everything else selects every site. An unknown base commit (`0000…`, a force push) selects every site.
+- **Decision**: `sites/<site>/**` selects that site; a short list of paths selects none (docs, specs, Spec Kit and tool settings, root Markdown, `LICENSE`, manual tests, the preview workflow); everything else selects every site. The base is the commit of the last successful deployment of the `production` environment (GitHub's deployments API), not the push's previous commit, so a failed deploy or a waiting deploy replaced by a newer one loses nothing; no deployment yet, or a base no longer in the history, selects every site.
 - **Rationale**: the sites depend on every shared package and on the build tooling, so a precise graph would select all of them for almost every shared change anyway. Unknown paths default to every site, so a new kind of file can only cause an extra publish, never a missed one.
 - **Alternatives**: a dependency graph of the workspace (more code, same answer today); publishing every site on every merge (simple, but spends releases and makes the release history noisy).
 
 ## Decision 4: Lighthouse CI on the static output
 
-- **Decision**: `@lhci/cli` 0.15.1, pinned, with one `staticDistDir` per site, three runs per page, mobile profile (the default), and assertions `categories:performance` and `categories:accessibility` at a minimum of 0.9 on the median; reports uploaded as an artifact (`upload.target: filesystem`).
+- **Decision**: `@lhci/cli` 0.15.1, pinned, with its Lighthouse overridden to 13.5.0 (0.15.1 bundles Lighthouse 12.6.1 from June 2025, older than the Chrome versions the runners ship), with one `staticDistDir` per site, three runs per page, mobile profile (the default), and assertions `categories:performance` and `categories:accessibility` at a minimum of 0.9 on the median; reports uploaded as an artifact (`upload.target: filesystem`).
 - **Rationale**: the technical specification sets 90 on mobile for performance; the static server of Lighthouse CI needs no hosting; median of three runs absorbs runner noise.
 - **Alternatives**: auditing the preview channel (depends on the deploy credentials and does not run for forks); temporary public storage for reports (sends the reports to a third party).
 - **Note**: the Lighthouse static server does not apply clean URLs; it audits the prerendered `.html` files directly, which is what hosting serves.
@@ -32,8 +32,8 @@
 
 ## Decision 6: Deployment environment and queueing
 
-- **Decision**: the deploy job runs in the `production` environment with the home site's address as its URL; `concurrency: { group: deploy-production, cancel-in-progress: false }`.
-- **Rationale**: the environment records every deploy and can be limited to `main` or given a reviewer; queued, not cancelled, deploys keep merge order and never leave a merge unpublished.
+- **Decision**: the deploy job runs in the `production` environment with the home site's address as its URL; `concurrency: { group: deploy-production, cancel-in-progress: false }` on the deploy job.
+- **Rationale**: the environment records every deploy and can be limited to `main` or given a reviewer; a deploy is never cancelled while publishing; GitHub keeps one waiting run per group and replaces an older waiting one, which is safe because the newer one counts changes from the last successful deploy (Decision 3).
 
 ## Decision 7: Address check after publishing
 

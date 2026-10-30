@@ -20,7 +20,7 @@ gh api -X PUT repos/Levix-Digital/levix-digital-website/environments/production 
 gh api -X POST repos/Levix-Digital/levix-digital-website/environments/production/deployment-branch-policies -f name=main -f type=branch
 ```
 
-Then Settings, Branches (or Rules), protect `main`: require a pull request, require the status checks `check (ubuntu-latest, 22)`, `check (ubuntu-latest, 24)`, `check (windows-latest, .nvmrc)` and `build`, require conversation resolution, block force pushes.
+Then Settings, Branches (or Rules), protect `main`: require a pull request, require the status checks `check (ubuntu-latest, 22)`, `check (ubuntu-latest, 24)`, `check (windows-latest, 22)` and `build`, require conversation resolution, block force pushes.
 
 ## Publish
 
