@@ -90,4 +90,4 @@ Run it after `npm run build`: it fails if a site has no prerendered home page wi
 
 ## License
 
-This repository does not include a license file yet. Contact Levix Digital at contact@levix.digital for usage and distribution terms.
+Proprietary software of Levix Digital Inc. - see [LICENSE](LICENSE). All rights reserved.
