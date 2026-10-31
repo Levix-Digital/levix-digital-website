@@ -4,10 +4,10 @@ project: levix-digital-website
 title: Security headers
 kind: feature
 version: v0.1.0
-status: completed
+status: in_progress
 author: LeviGuilherme
 created_at: '2026-10-30T23:07:05'
-updated_at: '2026-10-31T13:43:28'
+updated_at: '2026-10-31T13:44:22'
 session_id: null
 tags: []
 supersedes: null
@@ -30,9 +30,7 @@ milestones:
   done_at: '2026-10-31'
   by: LeviGuilherme
 - name: US3 deploy check
-  done: true
-  done_at: '2026-10-31'
-  by: LeviGuilherme
+  done: false
 - name: Polish and documentation
   done: true
   done_at: '2026-10-31'
@@ -65,6 +63,13 @@ status_log:
   by: LeviGuilherme
   status: completed
   note: All milestones completed
+- at: '2026-10-31T13:44:16'
+  by: LeviGuilherme
+  note: 'Milestone ''US3 deploy check'' reopened: Done when the first production deploy after the merge passes verify:live'
+- at: '2026-10-31T13:44:22'
+  by: LeviGuilherme
+  status: in_progress
+  note: Waiting for the merge and the production deploy check
 ---
 
 # Security headers
