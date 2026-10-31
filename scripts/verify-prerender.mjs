@@ -1,8 +1,8 @@
 // Checks that every built site has a prerendered home page with a non-empty heading, and that no
-// built page has inline code the Content Security Policy would block.
+// built page or stylesheet has inline code or fonts the Content Security Policy would block.
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { findInlineCode } from './lib/inline-code.mjs'
+import { countInlineFonts, findInlineCode } from './lib/inline-code.mjs'
 
 const SITES_DIR = 'sites'
 const HEADING = /<h1[^>]*>\s*([^<\s][^<]*)<\/h1>/
@@ -22,6 +22,11 @@ for (const site of readdirSync(SITES_DIR)) {
   console.log(`ok ${site}: "${(heading[1] ?? '').trim()}"`)
 
   for (const file of readdirSync(join(SITES_DIR, site, 'dist'), { recursive: true, encoding: 'utf8' })) {
+    if (file.endsWith('.css')) {
+      const fonts = countInlineFonts(readFileSync(join(SITES_DIR, site, 'dist', file), 'utf8'))
+      if (fonts > 0) failures.push(`${site}: ${file} has ${fonts} font(s) inlined as data URLs`)
+      continue
+    }
     if (!file.endsWith('.html')) continue
     const inline = findInlineCode(readFileSync(join(SITES_DIR, site, 'dist', file), 'utf8'))
     if (inline.length > 0) failures.push(`${site}: ${file} has inline ${inline.join(', ')}`)

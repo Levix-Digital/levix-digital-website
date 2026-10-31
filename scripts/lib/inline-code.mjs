@@ -21,3 +21,15 @@ export function findInlineCode(html) {
   if (JAVASCRIPT_URL.test(html)) found.push('javascript URL')
   return found
 }
+
+// The policy allows fonts only from the site's origin (`font-src 'self'`), so a font the build
+// inlined into a stylesheet as a data URL is blocked.
+const INLINE_FONT = /url\(\s*["']?data:(?:font\/|application\/(?:x-)?font)/gi
+
+/**
+ * @param {string} css a built stylesheet
+ * @returns {number} how many fonts are inlined as data URLs
+ */
+export function countInlineFonts(css) {
+  return [...css.matchAll(INLINE_FONT)].length
+}
