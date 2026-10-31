@@ -1,8 +1,10 @@
 // Checks that every built site has a prerendered home page with a non-empty heading, and that no
-// built page or stylesheet has inline code or fonts the Content Security Policy would block.
+// built page or stylesheet has inline code or fonts the Content Security Policy would block, and
+// that every page carries the theme script, the one inline script the policy allows (ADR-0012).
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { countInlineFonts, findInlineCode } from './lib/inline-code.mjs'
+import { countInlineFonts, findInlineCode, inlineScriptHashes } from './lib/inline-code.mjs'
+import { ALLOWED_SCRIPT_HASHES } from './lib/security-headers.mjs'
 
 const SITES_DIR = 'sites'
 const HEADING = /<h1[^>]*>\s*([^<\s][^<]*)<\/h1>/
@@ -28,8 +30,11 @@ for (const site of readdirSync(SITES_DIR)) {
       continue
     }
     if (!file.endsWith('.html')) continue
-    const inline = findInlineCode(readFileSync(join(SITES_DIR, site, 'dist', file), 'utf8'))
-    if (inline.length > 0) failures.push(`${site}: ${file} has inline ${inline.join(', ')}`)
+    const html = readFileSync(join(SITES_DIR, site, 'dist', file), 'utf8')
+    const inline = findInlineCode(html, ALLOWED_SCRIPT_HASHES)
+    if (inline.length > 0) failures.push(`${site}: ${file} has inline ${inline.join(', ')} the policy does not allow`)
+    const themeScripts = inlineScriptHashes(html).filter((hash) => hash === ALLOWED_SCRIPT_HASHES[0]).length
+    if (themeScripts !== 1) failures.push(`${site}: ${file} has the theme script ${themeScripts} times, not once`)
   }
 }
 

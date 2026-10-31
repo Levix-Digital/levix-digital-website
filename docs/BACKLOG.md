@@ -11,9 +11,9 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 ### FEAT-007: Theme picker
 - **Priority**: high
 - **Epic**: EPIC-002
-- **Status**: open
+- **Status**: in_progress
 - **Found**: 2026-10-30
-- **Plan**: -
+- **Plan**: levix_digital_website_theme_picker
 - **Description**: Light by default, dark following the system preference until the visitor chooses; the choice kept in local storage.
 
 ### FEAT-008: Shared header and footer

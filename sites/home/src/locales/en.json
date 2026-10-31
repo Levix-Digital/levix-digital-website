@@ -1,4 +1,8 @@
 {
   "home.title": "Levix Digital",
-  "home.notice": "This site is under construction."
+  "home.notice": "This site is under construction.",
+  "theme.legend": "Theme",
+  "theme.system": "System",
+  "theme.light": "Light",
+  "theme.dark": "Dark"
 }

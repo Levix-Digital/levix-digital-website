@@ -155,3 +155,26 @@ How to record a run: in each test of the current run, mark exactly one box of th
   - The scroll bar and any browser control follow the theme; the focus ring and the text selection are clearly visible.
 - **Result**: [ ] Pass [ ] Fail [ ] Blocked
 - **Notes**:
+
+### MT-UI-002: The theme choice is kept
+
+- **Covers**: `ThemePicker`, `useThemePreference()` and `theme-init.js` in `packages/ui`, the policy hash in `firebase.json`
+- **Prerequisites**: the sites deployed (production or a pull request preview); a browser on a computer whose system theme is light; the browser's developer tools
+- **Steps**:
+  1. Open the home page of a site. Note which option of the theme picker is selected.
+  2. Choose Dark. Reload the page, then open it in a new tab.
+  3. With two tabs of the same site open, choose Light in one and look at the other.
+  4. Choose System. Switch the system theme to dark and back.
+  5. Reload, press Tab until the picker shows focus and use the arrow keys; with a screen reader on, move to the picker.
+  6. Open another of the five sites.
+  7. Open the console of the developer tools and reload.
+- **Expected**:
+  - Step 1: System is selected and the page is light.
+  - Step 2: the page turns dark at once; after the reload and in the new tab it is dark from the first paint, with no flash of light, and Dark is selected.
+  - Step 3: the other tab turns light and selects Light without a reload.
+  - Step 4: the page follows the system theme again.
+  - Step 5: the focus ring is visible around the option; the arrow keys change the theme; the screen reader announces a "Theme" group with three options and the selected one.
+  - Step 6: the other site keeps its own choice (System unless chosen there).
+  - Step 7: no error in the console (a blocked script would show one).
+- **Result**: [ ] Pass [ ] Fail [ ] Blocked
+- **Notes**:
