@@ -16,6 +16,9 @@ export function defineSiteConfig(): UserConfig {
     build: {
       outDir: 'dist',
       emptyOutDir: true,
+      // Fonts stay files: the Content Security Policy allows fonts only from the site's origin
+      // (`font-src 'self'`), so a small font inlined as a data URL would be blocked.
+      assetsInlineLimit: (file) => (/\.(woff2?|ttf|otf)$/.test(file) ? false : undefined),
     },
     ssgOptions: {
       script: 'async',

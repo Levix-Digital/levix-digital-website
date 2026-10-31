@@ -1,5 +1,167 @@
-/* Shared styles of every site: Tailwind and the design tokens (FEAT-006). */
+/*
+ * Shared styles of every site: Tailwind, the Ceramic and Aurora design tokens and the light and
+ * dark themes (FEAT-006, ADR-0006, ADR-0011). The token list and its use: docs/architecture/ui.md.
+ *
+ * Every theme color is written as `--name: light-dark(#RRGGBB, #RRGGBB);` (light first) so both
+ * values stay together; src/theme.test.ts reads that form to check the contrast of each pair.
+ */
 @import "tailwindcss";
+
+/* Typefaces, served from the site's own origin (the Content Security Policy allows only it). */
+@import "@fontsource-variable/inter-tight";
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/jetbrains-mono";
 
 /* Components live outside the sites, so Tailwind must scan them explicitly. */
 @source "./components";
+
+/*
+ * Theme selection: light by default; dark when the system prefers it, unless the root element
+ * forces a theme with data-theme="light" or data-theme="dark" (the theme picker, FEAT-007).
+ * `color-scheme` picks the side of every light-dark() value and the browser's own controls.
+ */
+:root {
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+/* Tailwind's dark: variant follows the same rule as the tokens. */
+@custom-variant dark {
+  &:where([data-theme="dark"], [data-theme="dark"] *) {
+    @slot;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme="light"]), :root:not([data-theme="light"]) *) {
+      @slot;
+    }
+  }
+}
+
+/* Theme colors (light, dark). The bright aurora hues are the same in both themes. */
+:root {
+  /* Surfaces: the page backdrop and the plates on it. */
+  --levix-surface: light-dark(#FAFAFC, #0B0F19);
+  --levix-surface-raised: light-dark(#FFFFFF, #161F30);
+
+  /* Lines: bevels and seams between plates are decorative; control borders must be seen. */
+  --levix-bevel: light-dark(#E2E8F0, #334155);
+  --levix-control: light-dark(#64748B, #64748B);
+
+  /* Text: titles, body and secondary text. */
+  --levix-title: light-dark(#0A0D12, #F1F5F9);
+  --levix-body: light-dark(#475569, #CBD5E1);
+  --levix-muted: light-dark(#64748B, #94A3B8);
+
+  /* Interaction: links and highlights, text on an accent fill, the keyboard focus ring. */
+  --levix-accent: light-dark(#0E7490, #00F0FF);
+  --levix-on-accent: light-dark(#FFFFFF, #0B0F19);
+  --levix-focus: light-dark(#0E7490, #00F0FF);
+
+  /* Aurora inks: readable text in each aurora hue. */
+  --levix-ink-cyan: light-dark(#0E7490, #00F0FF);
+  --levix-ink-emerald: light-dark(#047857, #00FFA3);
+  --levix-ink-purple: light-dark(#7928CA, #C084FC);
+  --levix-ink-magenta: light-dark(#C8006A, #FF5CA8);
+
+  /* Status. */
+  --levix-success: light-dark(#047857, #00E5A3);
+  --levix-warning: light-dark(#B45309, #F59E0B);
+  --levix-error: light-dark(#B91C1C, #F87171);
+  --levix-info: light-dark(#0369A1, #38BDF8);
+
+  /* Shadow inks: the depth of a plate and the aurora light escaping from under it. */
+  --levix-shadow-depth: light-dark(rgb(0 0 0 / 0.03), rgb(0 0 0 / 0.45));
+  --levix-shadow-depth-active: light-dark(rgb(0 0 0 / 0.06), rgb(0 0 0 / 0.6));
+  --levix-shadow-glow: light-dark(rgb(0 240 255 / 0.04), rgb(0 240 255 / 0.08));
+  --levix-shadow-glow-active: light-dark(rgb(0 255 163 / 0.12), rgb(0 255 163 / 0.18));
+}
+
+/* Values that do not change with the theme. Each one becomes a Tailwind utility and a variable. */
+@theme {
+  /* Aurora hues of the original specification: seams, glows and the hero, never body text. */
+  --color-aurora-cyan: #00F0FF;
+  --color-aurora-emerald: #00FFA3;
+  --color-aurora-purple: #7928CA;
+  --color-aurora-magenta: #FF007A;
+
+  /* Typefaces: display titles, body text, telemetry, badges and code. */
+  --font-display: "Inter Tight Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, "Cascadia Code", monospace;
+}
+
+/* Theme values, exposed as utilities that read the variables above (bg-surface, text-body...). */
+@theme inline {
+  --color-surface: var(--levix-surface);
+  --color-surface-raised: var(--levix-surface-raised);
+  --color-bevel: var(--levix-bevel);
+  --color-control: var(--levix-control);
+  --color-title: var(--levix-title);
+  --color-body: var(--levix-body);
+  --color-muted: var(--levix-muted);
+  --color-accent: var(--levix-accent);
+  --color-on-accent: var(--levix-on-accent);
+  --color-focus: var(--levix-focus);
+  --color-ink-cyan: var(--levix-ink-cyan);
+  --color-ink-emerald: var(--levix-ink-emerald);
+  --color-ink-purple: var(--levix-ink-purple);
+  --color-ink-magenta: var(--levix-ink-magenta);
+  --color-success: var(--levix-success);
+  --color-warning: var(--levix-warning);
+  --color-error: var(--levix-error);
+  --color-info: var(--levix-info);
+
+  /* Ceramic shadows of the original specification, at rest and active (hover, highlight). */
+  --shadow-ceramic: 0 20px 40px -15px var(--levix-shadow-depth), 0 0 20px -5px var(--levix-shadow-glow);
+  --shadow-ceramic-active: 0 30px 60px -12px var(--levix-shadow-depth-active), 0 0 35px -5px var(--levix-shadow-glow-active);
+}
+
+/* The aurora gradient, for seams and emissive borders: bg-aurora. */
+@utility bg-aurora {
+  background-image: linear-gradient(
+    90deg,
+    var(--color-aurora-cyan),
+    var(--color-aurora-emerald),
+    var(--color-aurora-purple),
+    var(--color-aurora-magenta)
+  );
+}
+
+/* The page base, from the tokens. */
+@layer base {
+  html {
+    background-color: var(--color-surface);
+    color: var(--color-body);
+    font-family: var(--font-sans);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--color-title);
+    font-family: var(--font-display);
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+}
