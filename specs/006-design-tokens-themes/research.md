@@ -37,7 +37,7 @@
 ## R6. Typefaces
 
 - **Decision**: Inter Tight (display), Inter (body) and JetBrains Mono (telemetry, badges, code), as variable fonts from the Fontsource packages (`@fontsource-variable/*` 5.3.0, SIL Open Font License 1.1), imported by the shared stylesheet so Vite bundles the files under each site's `/assets/`.
-- **Rationale**: the Content Security Policy allows fonts only from the site's origin (ADR-0010), so a font service is out; the packages give `font-display: swap` and one file per script with `unicode-range`, so a page downloads only the latin files it uses (about 45 to 50 KB each; checked on the 2026-10-31 build). Inter Tight is the original specification's alternative to Geist Sans and matches the Inter body text.
+- **Rationale**: the Content Security Policy allows fonts only from the site's origin (ADR-0010), so a font service is out; the packages give `font-display: swap` and one file per script with `unicode-range`, so a page downloads only the latin files it uses (about 45 to 50 KB each; checked on the 2026-10-31 build). Vite inlines assets under 4 KB as data URLs, which `font-src 'self'` blocks (seen as a Lighthouse console error on the first build): `tooling/vite-site.ts` keeps fonts as files, and `verify:dist` fails on a font inlined in a stylesheet. Inter Tight is the original specification's alternative to Geist Sans and matches the Inter body text.
 - **Alternatives**: Geist Sans (the specification's first option; a second design family next to Inter); system fonts only (no download, but not the design language).
 
 ## R7. Shadows

@@ -36,6 +36,6 @@ description: "Task list for design tokens and themes"
 
 ## Phase 5: Polish and documentation
 
-- [ ] T007 [P] ADR-0011; `docs/architecture/ui.md`; README if needed; TECDOC index, `check_docs`, `check_readme`
-- [ ] T008 [P] Manual test "Light and dark themes"; `manual_tests validate`
-- [ ] T009 `npm run check`, build, `verify:dist`, `verify:hosting`, Lighthouse; the pull request
+- [x] T007 [P] ADR-0011; `docs/architecture/ui.md`; README if needed; TECDOC index, `check_docs`, `check_readme`
+- [x] T008 [P] Manual test "Light and dark themes"; `manual_tests validate`
+- [x] T009 Fonts never inlined (`tooling/vite-site.ts`), `verify:dist` fails on inlined fonts; `npm run check`, build, `verify:dist`, `verify:hosting`, Lighthouse; the pull request

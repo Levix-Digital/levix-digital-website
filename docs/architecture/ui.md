@@ -32,7 +32,7 @@ Every token is a Tailwind utility and a CSS variable; sites define no colors, sh
 | Shadows | `shadow-ceramic`, `shadow-ceramic-active` | Plates at rest; hover or highlight |
 | Typefaces | `font-display` (Inter Tight), `font-sans` (Inter, the page default), `font-mono` (JetBrains Mono) | Headings; body text; telemetry, badges and code |
 
-The values are in `styles.css`. Theme colors are written as `--levix-<name>: light-dark(<light>, <dark>);` and exposed as `--color-<name>` ([ADR-0011](../adr/0011-theme-colors-with-light-dark-and-color-scheme.md)). Light values come from the original specification; dark values from Aurora Dev Suite's dark theme. The typefaces are variable fonts from the Fontsource packages (SIL Open Font License), bundled into each site's `/assets/`; a page downloads only the files of the scripts it shows.
+The values are in `styles.css`. Theme colors are written as `--levix-<name>: light-dark(<light>, <dark>);` and exposed as `--color-<name>` ([ADR-0011](../adr/0011-theme-colors-with-light-dark-and-color-scheme.md)). Light values come from the original specification; dark values from Aurora Dev Suite's dark theme. The typefaces are variable fonts from the Fontsource packages (SIL Open Font License), bundled into each site's `/assets/` as files (the shared Vite configuration never inlines fonts, which the Content Security Policy would block, and `verify:dist` fails on a font inlined in a stylesheet); a page downloads only the files of the scripts it shows.
 
 The page base styles the root background (`surface`), text (`body`, `font-sans`), headings (`title`, `font-display`), selection and the focus ring from the tokens.
 
