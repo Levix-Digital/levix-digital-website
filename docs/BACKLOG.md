@@ -8,14 +8,6 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 
 ## Features
 
-### FEAT-007: Theme picker
-- **Priority**: high
-- **Epic**: EPIC-002
-- **Status**: in_progress
-- **Found**: 2026-10-30
-- **Plan**: levix_digital_website_theme_picker
-- **Description**: Light by default, dark following the system preference until the visitor chooses; the choice kept in local storage.
-
 ### FEAT-008: Shared header and footer
 - **Priority**: high
 - **Epic**: EPIC-002
@@ -349,3 +341,12 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 - **Plan**: levix_digital_website_design_tokens_and_themes
 - **Closed**: 2026-10-31, plan levix_digital_website_design_tokens_and_themes
 - **Description**: Ceramic and Aurora tokens as CSS variables with complete light and dark themes, in the shared Tailwind theme of `@levix/ui` (ADR-0006).
+
+### FEAT-007: Theme picker
+- **Priority**: high
+- **Epic**: EPIC-002
+- **Status**: done
+- **Found**: 2026-10-30
+- **Plan**: levix_digital_website_theme_picker
+- **Closed**: 2026-10-31, PR #11
+- **Description**: Light by default, dark following the system preference until the visitor chooses; the choice kept in local storage.
