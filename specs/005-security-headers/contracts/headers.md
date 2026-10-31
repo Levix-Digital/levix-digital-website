@@ -4,7 +4,7 @@ Every response of every hosting target (`home`, `anycontext`, `devcycle`, `gedo`
 
 | Header | Value |
 |---|---|
-| `Strict-Transport-Security` | `max-age=31536000; includeSubDomains` |
+| `Strict-Transport-Security` | `max-age=31536000; includeSubDomains` configured; Firebase serves its own value, accepted when `max-age` is one year or more (research R8) |
 | `Content-Security-Policy` | `default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests` |
 | `X-Content-Type-Options` | `nosniff` |
 | `X-Frame-Options` | `DENY` |

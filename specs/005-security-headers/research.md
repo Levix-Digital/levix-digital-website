@@ -46,3 +46,5 @@
 ## R8. Open point checked on the first preview
 
 Firebase Hosting may send its own `Strict-Transport-Security` on some addresses. The preview channel of the pull request is served by the real Firebase Hosting, so its headers are read before the merge (from a machine that can reach it); if Firebase replaces the configured value, the policy and the checks take the served value and the plan says so.
+
+**Result (2026-10-31)**: the previews served the six other headers exactly as configured, on pages and on the 404 answer, with no header twice. `Strict-Transport-Security` was Firebase's own, not the configured one: `max-age=31556926; includeSubDomains; preload` on `*.web.app` (the value of the `web.app` zone), and `max-age=31556926` on the custom domains before this change. The configured value stays in `firebase.json` (it applies wherever Firebase honors it), and the checks of served headers accept any HSTS that keeps HTTPS for a year or more (`max-age` ≥ 31536000). `includeSubDomains` on `levix.digital` cannot be guaranteed from the repository; if wanted, it is set in Cloudflare's HSTS setting for the apex.

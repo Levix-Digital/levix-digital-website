@@ -69,7 +69,7 @@ After a production deploy, the address check also confirms that the default addr
 
 ### Functional Requirements
 
-- **FR-001**: Every response of every site MUST carry: `Strict-Transport-Security` (one year or more, subdomains included, no preload), `Content-Security-Policy`, `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy` denying the powerful features the sites do not use, and `Cross-Origin-Opener-Policy: same-origin`.
+- **FR-001**: Every response of every site MUST carry: `Strict-Transport-Security` (one year or more; configured with subdomains and no preload, but Firebase serves its own value, see research R8), `Content-Security-Policy`, `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy` denying the powerful features the sites do not use, and `Cross-Origin-Opener-Policy: same-origin`.
 - **FR-002**: The Content Security Policy MUST allow scripts, styles, fonts, connections and manifests only from the site's own origin, images from the own origin and `data:`, no plugins (`object-src 'none'`), no `<base>` change, forms posting only to the own origin, no framing by any page, and MUST upgrade insecure requests. No `'unsafe-inline'` and no `'unsafe-eval'`.
 - **FR-003**: The policy MUST be defined once in the repository; the tests MUST fail when any site's configured headers differ from it.
 - **FR-004**: The hosting check in the emulator MUST verify the headers on the home page, an asset and an unknown path of every site.

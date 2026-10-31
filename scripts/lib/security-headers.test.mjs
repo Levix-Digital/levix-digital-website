@@ -23,6 +23,16 @@ describe('headerDifferences', () => {
     ])
   })
 
+  it('accepts the HSTS Firebase sends, but not a shorter one', () => {
+    const served = new Map(policy)
+    for (const hsts of ['max-age=31556926', 'max-age=31556926; includeSubDomains; preload']) {
+      served.set('Strict-Transport-Security', hsts)
+      expect(headerDifferences((name) => served.get(name))).toEqual([])
+    }
+    served.set('Strict-Transport-Security', 'max-age=86400')
+    expect(headerDifferences((name) => served.get(name))).toEqual(['Strict-Transport-Security is "max-age=86400"'])
+  })
+
   it('allows no inline code or eval in the content security policy', () => {
     const csp = policy.get('Content-Security-Policy') ?? ''
     expect(csp).not.toContain('unsafe-')
@@ -37,7 +47,7 @@ describe('firebase.json', () => {
     it(`${name} serves exactly the security headers on every path`, () => {
       const all = rules.find((rule) => rule.source === '**')
       const configured = new Map((all?.headers ?? []).map((header) => [header.key, header.value]))
-      expect(headerDifferences((key) => configured.get(key))).toEqual([])
+      for (const { key, value } of SECURITY_HEADERS) expect([key, configured.get(key)]).toEqual([key, value])
     })
 
     it(`${name} sets security headers only on the ** rule`, () => {

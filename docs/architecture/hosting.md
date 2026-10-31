@@ -44,7 +44,7 @@ The project's other services (Firestore, functions) run in Montreal (`northameri
 
 | Header | Value | Why |
 |---|---|---|
-| `Strict-Transport-Security` | `max-age=31536000; includeSubDomains` | HTTPS only for a year, subdomains included; no preload |
+| `Strict-Transport-Security` | `max-age=31536000; includeSubDomains` | HTTPS only for a year, subdomains included; no preload. Firebase replaces it with its own value (`max-age=31556926`, and `includeSubDomains; preload` on `*.web.app`), so the checks of served headers accept any value of one year or more |
 | `Content-Security-Policy` | `default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests` | Only files of the site's own origin run or load; no inline code, plugins or framing |
 | `X-Content-Type-Options` | `nosniff` | No guessing of file types |
 | `X-Frame-Options` | `DENY` | No framing in browsers that ignore `frame-ancestors` |

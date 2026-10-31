@@ -31,10 +31,10 @@ describe('checkAddress', () => {
   it('reports security headers that are missing or different', async () => {
     const changed = response(200, undefined, {
       'X-Frame-Options': null,
-      'Strict-Transport-Security': 'max-age=31556926; includeSubDomains; preload',
+      'Strict-Transport-Security': 'max-age=300',
     })
     expect(await checkAddress('u', async () => changed, 1, 0)).toBe(
-      'Strict-Transport-Security is "max-age=31556926; includeSubDomains; preload", X-Frame-Options is missing',
+      'Strict-Transport-Security is "max-age=300", X-Frame-Options is missing',
     )
   })
 })

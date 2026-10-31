@@ -18,10 +18,24 @@ const CONTENT_SECURITY_POLICY = [
   'upgrade-insecure-requests',
 ].join('; ')
 
-/** @type {ReadonlyArray<{ key: string, value: string }>} */
+/** One year, the shortest HSTS lifetime the checks accept. */
+const ONE_YEAR = 31536000
+
+/**
+ * Firebase Hosting sends its own Strict-Transport-Security in place of the configured one
+ * (`max-age=31556926` on custom domains, with `includeSubDomains; preload` on web.app), so a
+ * served value is accepted when it keeps HTTPS for a year or more.
+ * @param {string} value
+ */
+function keepsHttpsForAYear(value) {
+  const maxAge = /(?:^|;)\s*max-age=(\d+)/i.exec(value)?.[1]
+  return maxAge !== undefined && Number(maxAge) >= ONE_YEAR
+}
+
+/** @type {ReadonlyArray<{ key: string, value: string, accepts?: (served: string) => boolean }>} */
 export const SECURITY_HEADERS = Object.freeze([
-  // HTTPS only for a year, subdomains included; no preload (hard to undo).
-  { key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubDomains' },
+  // HTTPS only for a year, subdomains included; no preload (hard to undo). Firebase may replace it.
+  { key: 'Strict-Transport-Security', value: `max-age=${ONE_YEAR}; includeSubDomains`, accepts: keepsHttpsForAYear },
   { key: 'Content-Security-Policy', value: CONTENT_SECURITY_POLICY },
   // No guessing of file types.
   { key: 'X-Content-Type-Options', value: 'nosniff' },
@@ -36,17 +50,17 @@ export const SECURITY_HEADERS = Object.freeze([
 ])
 
 /**
- * Compares served or configured headers with the policy.
+ * Compares served headers with the policy: each must equal its value, or pass its own test.
  * @param {(name: string) => string | null | undefined} get the value of a header, by name
  * @returns {string[]} one line per header that is missing or different
  */
 export function headerDifferences(get) {
   /** @type {string[]} */
   const differences = []
-  for (const { key, value } of SECURITY_HEADERS) {
+  for (const { key, value, accepts } of SECURITY_HEADERS) {
     const actual = get(key)
     if (actual === null || actual === undefined) differences.push(`${key} is missing`)
-    else if (actual !== value) differences.push(`${key} is "${actual}"`)
+    else if (actual !== value && !accepts?.(actual)) differences.push(`${key} is "${actual}"`)
   }
   return differences
 }
