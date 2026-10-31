@@ -1,7 +1,7 @@
 <!-- dev-cycle-constitution
 generated-by: dev-cycle-protocol/constitution.py (do not edit; change a source and regenerate)
-sources-sha256: 676b4824282189f28c2de49f2f264a1356432c4b06e3a66dd2df120467dd4988
-content-sha256: 56e60f951b5ea0204a02df25b2388e1385bb64a24e2ad67f77483563e4e415fd
+sources-sha256: 521be0db065bd2632fe8fe587803c540b84278783880c8430d526409f20eb119
+content-sha256: 7f70094567a89ccba7339fa93d8e88399d27e099dc84cc2fc29922ef936d9057
 -->
 # levix-digital-website Constitution
 
@@ -174,6 +174,7 @@ Accepted decisions; a plan that contradicts one needs a new ADR that supersedes 
 - ADR-0008: Continuous deploy of changed sites on merge (`docs/adr/0008-continuous-deploy-of-changed-sites-on-merge.md`)
 - ADR-0009: DNS at Cloudflare with Firebase-hosted names not proxied (`docs/adr/0009-dns-at-cloudflare-with-firebase-hosted-names-not-proxied.md`)
 - ADR-0010: Strict Content Security Policy extended per feature (`docs/adr/0010-strict-content-security-policy-extended-per-feature.md`)
+- ADR-0011: Theme colors with light-dark and color-scheme (`docs/adr/0011-theme-colors-with-light-dark-and-color-scheme.md`)
 
 ## Governance
 
@@ -181,4 +182,4 @@ Accepted decisions; a plan that contradicts one needs a new ADR that supersedes 
 - Amendments change the source, not this file: an ADR for decisions, the technical specification for requirements and constraints, `.dev-cycle.json` for the architecture style, the skills for principles. Then run `constitution.py generate` and commit the result with the change.
 - Gate 3 of the development cycle blocks a plan while this file is stale or edited by hand.
 
-**Version**: 1.6.0 | **Ratified**: 2026-10-30 | **Last Amended**: 2026-10-31
+**Version**: 1.7.0 | **Ratified**: 2026-10-30 | **Last Amended**: 2026-10-31
