@@ -3,10 +3,10 @@ plan_id: levix_digital_website_design_tokens_and_themes
 project: levix-digital-website
 title: Design tokens and themes
 version: v0.1.0
-status: active
+status: in_progress
 author: LeviGuilherme
 created_at: '2026-10-31T14:35:14'
-updated_at: '2026-10-31T14:35:26'
+updated_at: '2026-10-31T14:41:37'
 session_id: null
 tags: []
 supersedes: null
@@ -17,13 +17,21 @@ backlog_items:
 spec_dir: specs/006-design-tokens-themes
 milestones:
 - name: Setup
-  done: false
+  done: true
+  done_at: '2026-10-31'
+  by: LeviGuilherme
 - name: US1 shared look
-  done: false
+  done: true
+  done_at: '2026-10-31'
+  by: LeviGuilherme
 - name: US2 dark theme
-  done: false
+  done: true
+  done_at: '2026-10-31'
+  by: LeviGuilherme
 - name: US3 contrast
-  done: false
+  done: true
+  done_at: '2026-10-31'
+  by: LeviGuilherme
 - name: Polish and documentation
   done: false
 status_log:
@@ -34,6 +42,18 @@ status_log:
 - at: '2026-10-31T14:35:26'
   by: LeviGuilherme
   note: 'Backlog items added: FEAT-006'
+- at: '2026-10-31T14:41:31'
+  by: LeviGuilherme
+  note: Milestone 'Setup' completed
+- at: '2026-10-31T14:41:33'
+  by: LeviGuilherme
+  note: Milestone 'US1 shared look' completed
+- at: '2026-10-31T14:41:35'
+  by: LeviGuilherme
+  note: Milestone 'US2 dark theme' completed
+- at: '2026-10-31T14:41:37'
+  by: LeviGuilherme
+  note: Milestone 'US3 contrast' completed
 ---
 
 # Design tokens and themes

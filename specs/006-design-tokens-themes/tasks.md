@@ -18,21 +18,21 @@ description: "Task list for design tokens and themes"
 
 ## Phase 1: Setup
 
-- [ ] T001 Add the three Fontsource packages to `packages/ui/package.json` and the lock file
+- [x] T001 Add the three Fontsource packages to `packages/ui/package.json` and the lock file
 
 ## Phase 2: User Story 1 - Every site shares the Ceramic and Aurora look (Priority: P1)
 
-- [ ] T002 [US1] `packages/ui/src/styles.css`: theme color variables, `@theme` (aurora hues, typefaces), `@theme inline` (utilities, shadows), `bg-aurora`, the page base
-- [ ] T003 [US1] `packages/ui/src/theme-build.test.ts`: the utilities and fonts reach the built stylesheet
+- [x] T002 [US1] `packages/ui/src/styles.css`: theme color variables, `@theme` (aurora hues, typefaces), `@theme inline` (utilities, shadows), `bg-aurora`, the page base
+- [x] T003 [US1] `packages/ui/src/theme-build.test.ts`: the utilities and fonts reach the built stylesheet
 
 ## Phase 3: User Story 2 - A complete dark theme (Priority: P1)
 
-- [ ] T004 [US2] `color-scheme` rules and the `dark:` custom variant in `styles.css`; `theme-build.test.ts` checks both
-- [ ] T005 [US2] Build the five sites; screenshots of a home page in light, dark (system) and forced themes
+- [x] T004 [US2] `color-scheme` rules and the `dark:` custom variant in `styles.css`; `theme-build.test.ts` checks both
+- [x] T005 [US2] Build the five sites; screenshots of a home page in light, dark (system) and forced themes
 
 ## Phase 4: User Story 3 - Readable in both themes (Priority: P1)
 
-- [ ] T006 [US3] `packages/ui/src/theme.test.ts`: token form and the contract's contrast pairs in both themes
+- [x] T006 [US3] `packages/ui/src/theme.test.ts`: token form and the contract's contrast pairs in both themes
 
 ## Phase 5: Polish and documentation
 

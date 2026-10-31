@@ -11,7 +11,7 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 ### FEAT-006: Design tokens and themes
 - **Priority**: high
 - **Epic**: EPIC-002
-- **Status**: planned
+- **Status**: in_progress
 - **Found**: 2026-10-30
 - **Plan**: levix_digital_website_design_tokens_and_themes
 - **Description**: Ceramic and Aurora tokens as CSS variables with complete light and dark themes, in the shared Tailwind theme of `@levix/ui` (ADR-0006).
