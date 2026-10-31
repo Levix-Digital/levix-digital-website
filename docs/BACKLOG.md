@@ -11,9 +11,9 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 ### FEAT-005: Security headers
 - **Priority**: medium
 - **Epic**: EPIC-001
-- **Status**: open
+- **Status**: planned
 - **Found**: 2026-10-30
-- **Plan**: -
+- **Plan**: levix_digital_website_security_headers
 - **Description**: HSTS, Content Security Policy and other security headers set in firebase.json for every site.
 
 ### FEAT-006: Design tokens and themes

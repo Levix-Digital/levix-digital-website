@@ -1,8 +1,10 @@
-// Checks that the default address and the custom domain of each published site answer its home page.
+// Checks that the default address and the custom domain of each published site answer its home page
+// with the security headers.
 // Usage: node scripts/verify-live.mjs <site>...
 import { pathToFileURL } from 'node:url'
 import { readDomains } from './lib/domains-config.mjs'
 import { readHostingConfig, selectTargets } from './lib/hosting-config.mjs'
+import { headerDifferences } from './lib/security-headers.mjs'
 
 /**
  * @typedef {(url: string) => Promise<{ status: number, headers: { get(name: string): string | null } }>} Fetch
@@ -20,7 +22,7 @@ export function domainAddress(domain) {
 }
 
 /**
- * Requests one address until it answers 200 with HTML or the attempts run out.
+ * Requests one address until it answers 200 with HTML and the security headers, or the attempts run out.
  * @param {string} url
  * @param {Fetch} fetcher
  * @param {number} attempts
@@ -33,8 +35,13 @@ export async function checkAddress(url, fetcher, attempts, delayMs) {
     try {
       const response = await fetcher(url)
       const type = response.headers.get('content-type') ?? ''
-      if (response.status === 200 && type.includes('text/html')) return null
-      problem = `status ${response.status}, ${type || 'no content type'}`
+      if (response.status === 200 && type.includes('text/html')) {
+        const differences = headerDifferences((name) => response.headers.get(name))
+        if (differences.length === 0) return null
+        problem = differences.join(', ')
+      } else {
+        problem = `status ${response.status}, ${type || 'no content type'}`
+      }
     } catch (error) {
       problem = /** @type {Error} */ (error).message
     }

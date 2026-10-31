@@ -1,9 +1,14 @@
 import { describe, expect, it, vi } from 'vitest'
+import { SECURITY_HEADERS } from './lib/security-headers.mjs'
 import { checkAddress, domainAddress, liveAddress, main } from './verify-live.mjs'
 
-/** A response with a status and a content type. */
-function response(/** @type {number} */ status, type = 'text/html; charset=utf-8') {
-  return { status, headers: { get: (/** @type {string} */ name) => (name === 'content-type' ? type : null) } }
+/** A response with a status, a content type and the security headers, with some overridden. */
+function response(/** @type {number} */ status, type = 'text/html; charset=utf-8', /** @type {Record<string, string | null>} */ overrides = {}) {
+  /** @type {Map<string, string | null>} */
+  const headers = new Map([['content-type', type]])
+  for (const header of SECURITY_HEADERS) headers.set(header.key.toLowerCase(), header.value)
+  for (const [name, value] of Object.entries(overrides)) headers.set(name.toLowerCase(), value)
+  return { status, headers: { get: (/** @type {string} */ name) => headers.get(name.toLowerCase()) ?? null } }
 }
 
 describe('checkAddress', () => {
@@ -21,6 +26,16 @@ describe('checkAddress', () => {
     expect(await checkAddress('u', async () => response(503), 2, 0)).toBe('status 503, text/html; charset=utf-8')
     expect(await checkAddress('u', async () => response(200, 'application/json'), 1, 0)).toBe('status 200, application/json')
     expect(await checkAddress('u', async () => { throw new Error('getaddrinfo ENOTFOUND') }, 1, 0)).toBe('getaddrinfo ENOTFOUND')
+  })
+
+  it('reports security headers that are missing or different', async () => {
+    const changed = response(200, undefined, {
+      'X-Frame-Options': null,
+      'Strict-Transport-Security': 'max-age=300',
+    })
+    expect(await checkAddress('u', async () => changed, 1, 0)).toBe(
+      'Strict-Transport-Security is "max-age=300", X-Frame-Options is missing',
+    )
   })
 })
 

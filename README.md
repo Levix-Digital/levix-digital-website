@@ -9,7 +9,7 @@ Every site is generated as static, prerendered pages that share one design syste
 - Build the five sites into static folders ready for any static host
 - Run one site locally with changes shown in the browser as you save
 - Check types, lint the module boundaries and run the unit tests with one command
-- Verify that every built site has a prerendered home page
+- Verify that every built site has a prerendered home page and serves the security headers
 - Publish every site, or one, to Firebase Hosting, and preview every pull request at its own address
 
 ## Requirements
@@ -73,7 +73,7 @@ Runs the strict type check, the lint (including the rules that keep sites and sh
 npm run verify:dist
 ```
 
-Run it after `npm run build`: it fails if a site has no prerendered home page with a heading.
+Run it after `npm run build`: it fails if a site has no prerendered home page with a heading, or if a page has inline code (a `<script>` without `src`, a `<style>` element, a `style` or `on...` attribute, a `javascript:` link) that the Content Security Policy would block. Load scripts and styles from files instead.
 
 ## Hosting
 
@@ -103,7 +103,7 @@ npm run deploy             # every site
 npm run deploy -- gedo     # one site
 ```
 
-`verify:hosting` serves the built sites with the Firebase hosting emulator and checks clean URLs, not-found answers and cache headers. `deploy` refuses a site that is not built.
+`verify:hosting` serves the built sites with the Firebase hosting emulator and checks clean URLs, not-found answers, cache headers and the security headers (HSTS, Content Security Policy and others, defined in `scripts/lib/security-headers.mjs`). `deploy` refuses a site that is not built.
 
 ### Domains
 
@@ -130,7 +130,7 @@ In the Firebase console, open Hosting, the site's release history, and choose "R
 
 ## Continuous integration and deploy
 
-Every pull request into `main` runs the `CI` checks: type check, lint and unit tests (Ubuntu with Node.js 22 and 24, Windows with Node.js 22), then the build, `verify:dist`, `verify:hosting` and a Lighthouse audit of every page of every site. A page fails the audit when its median mobile score for performance or accessibility is below 90. Run the same audit locally after a build:
+Every pull request into `main` runs the `CI` checks: type check, lint and unit tests (Ubuntu with Node.js 22 and 24, Windows with Node.js 22), then the build, `verify:dist`, `verify:hosting` and a Lighthouse audit of every page of every site. A page fails the audit when its median mobile score for performance or accessibility is below 90, or when it logs a console error (a resource blocked by the Content Security Policy is one). Run the same audit locally after a build:
 
 ```bash
 npm run build
@@ -158,6 +158,8 @@ To publish by hand, open Actions, Deploy, "Run workflow", and leave `sites` empt
 | `npm run deploy` says `not built` | Run `npm run build` first |
 | `npm run domains:status` shows `OWNERSHIP_MISSING` and asks to add a `CNAME` | The record is missing or proxied in Cloudflare: set it to the value shown with the proxy off ("DNS only"), then wait for Firebase to check again |
 | The `Deploy` run fails at "Check the addresses" on a domain | Run `npm run domains:status` and fix the records it lists |
+| The `Deploy` run fails at "Check the addresses" with a header "is missing" or a different value | Something between the visitor and Firebase changed the header: for the apex, look for a Cloudflare transform rule or feature that adds or removes headers |
+| The Lighthouse audit fails on `errors-in-console` | Open the report: a "Refused to load" error names what the Content Security Policy blocked; load it from the site's own files or add its source to the policy (see the hosting documentation) |
 | `npm run hosting:setup` says billing is not enabled | Switch the project to the Blaze plan in the Firebase console, then run it again |
 | The preview workflow ends with "Preview skipped" | Set the two repository variables printed by `npm run hosting:setup` |
 | `npm run lighthouse` fails with a score below budget | Open the site's HTML report in `.lighthouseci/<site>/` (or the `lighthouse` artifact of the run) and fix the audits it lists |

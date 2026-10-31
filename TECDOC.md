@@ -28,7 +28,7 @@ flowchart LR
 | [Backend Functions](docs/architecture/functions.md) | Cloud Functions for the contact form and the shared translation cache. |
 | [Continuous integration and deploy](docs/architecture/ci.md) | Checks on every pull request into main and production deploys of the changed sites on every merge. |
 | [Design System](docs/architecture/ui.md) | Ceramic and Aurora tokens, light and dark themes, shared layout, components and the 3D hero. |
-| [Hosting](docs/architecture/hosting.md) | One Firebase project with a hosting site per domain (DNS at Cloudflare), keyless deploys from the repository and a preview channel per pull request. |
+| [Hosting](docs/architecture/hosting.md) | One Firebase project with a hosting site per domain (DNS at Cloudflare), the same security headers on every site, keyless deploys from the repository and a preview channel per pull request. |
 | [Internationalization](docs/architecture/i18n.md) | English source strings, build-time French and Spanish bundles and on-demand languages cached in the browser. |
 | [Product Content](docs/architecture/content.md) | One typed data file per product, the single source of the facts the sites show. |
 | [Sites](docs/architecture/sites.md) | The company home and the product sites, each a prerendered Vite application deployed to its own Firebase Hosting site. |
@@ -39,6 +39,7 @@ flowchart LR
 <!-- architecture-docs:adrs:start -->
 | ADR | Title | Status | Version | Date |
 |---|---|---|---|---|
+| [ADR-0010](docs/adr/0010-strict-content-security-policy-extended-per-feature.md) | Strict Content Security Policy extended per feature | accepted | v0.1.0 | 2026-10-31 |
 | [ADR-0009](docs/adr/0009-dns-at-cloudflare-with-firebase-hosted-names-not-proxied.md) | DNS at Cloudflare with Firebase-hosted names not proxied | accepted | v0.1.0 | 2026-10-30 |
 | [ADR-0008](docs/adr/0008-continuous-deploy-of-changed-sites-on-merge.md) | Continuous deploy of changed sites on merge | accepted | v0.1.0 | 2026-10-30 |
 | [ADR-0007](docs/adr/0007-keyless-deploys-with-workload-identity-federation.md) | Keyless deploys with Workload Identity Federation | accepted | v0.1.0 | 2026-10-30 |

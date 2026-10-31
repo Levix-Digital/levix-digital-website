@@ -4,6 +4,7 @@ import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { emulatorBases } from './lib/emulator.mjs'
 import { readHostingConfig } from './lib/hosting-config.mjs'
+import { headerDifferences } from './lib/security-headers.mjs'
 
 const PAGE_CACHE = 'no-cache'
 const ASSET_CACHE = 'public, max-age=31536000, immutable'
@@ -43,6 +44,13 @@ for (const target of targets) {
 
   const missing = await get('/no-such-page')
   expectThat(target.name, 'unknown paths are not found', missing.status === 404, `status ${missing.status}`)
+
+  /** @type {[string, Response][]} */
+  const responses = [['/', home], [`/assets/${asset}`, assetResponse], ['/no-such-page', missing]]
+  for (const [path, response] of responses) {
+    const differences = headerDifferences((name) => response.headers.get(name))
+    expectThat(target.name, `security headers on ${path}`, differences.length === 0, differences.join(', '))
+  }
 }
 
 if (failures.length > 0) {

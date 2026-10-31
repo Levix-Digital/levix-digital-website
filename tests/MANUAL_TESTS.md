@@ -71,6 +71,30 @@ How to record a run: in each test of the current run, mark exactly one box of th
 - **Result**: [ ] Pass [ ] Fail [ ] Blocked
 - **Notes**:
 
+### MT-HOST-006: The company site is rated A or better for its security headers
+
+- **Covers**: the security headers in `firebase.json`, the Cloudflare proxy of the apex
+- **Prerequisites**: the current `main` published
+- **Steps**:
+  1. Scan `levix.digital` with the Mozilla HTTP Observatory (https://developer.mozilla.org/en-US/observatory).
+  2. Scan `gedo.levix.digital` the same way.
+- **Expected**:
+  - Both scans rate the site A or better, with no failed test for Content Security Policy, HSTS, X-Frame-Options or X-Content-Type-Options.
+- **Result**: [ ] Pass [ ] Fail [ ] Blocked
+- **Notes**:
+
+### MT-HOST-007: Nothing is blocked in a real browser on the domains
+
+- **Covers**: the Content Security Policy as served through the domains (Cloudflare on the apex)
+- **Prerequisites**: the current `main` published
+- **Steps**:
+  1. Open `https://levix.digital` and each of the four product domains in Chrome or Edge with the developer tools open on the Console tab.
+  2. Reload each page.
+- **Expected**:
+  - Each page shows its site and the console has no error, in particular no "Refused to load" or "Refused to execute" message.
+- **Result**: [ ] Pass [ ] Fail [ ] Blocked
+- **Notes**:
+
 ## Continuous integration and deploy
 
 ### MT-CI-001: A merge publishes only the changed site
