@@ -4,10 +4,10 @@ project: levix-digital-website
 title: Theme picker
 kind: feature
 version: v0.1.0
-status: in_progress
+status: completed
 author: LeviGuilherme
 created_at: '2026-10-31T15:13:01'
-updated_at: '2026-10-31T15:25:00'
+updated_at: '2026-10-31T15:40:00'
 session_id: null
 tags: []
 supersedes: null
@@ -69,6 +69,10 @@ status_log:
   by: LeviGuilherme
   status: in_progress
   note: Kept in progress until the merge and the verified production deploy
+- at: '2026-10-31T15:40:00'
+  by: LeviGuilherme
+  status: completed
+  note: 'PR #11 merged; Deploy run 41215234146 green, verify:live ok on all 10 addresses'
 ---
 
 # Theme picker
