@@ -1,7 +1,7 @@
 <!-- dev-cycle-constitution
 generated-by: dev-cycle-protocol/constitution.py (do not edit; change a source and regenerate)
-sources-sha256: e8583c849e90199f1f0d43650d9ba37bc33671234ff2ef027b5ada14bd9d181d
-content-sha256: dee3f287c0b8ab84a21b822bbf77e5703ead7ac8e2cc67c2387d4846bd5037c8
+sources-sha256: 676b4824282189f28c2de49f2f264a1356432c4b06e3a66dd2df120467dd4988
+content-sha256: 56e60f951b5ea0204a02df25b2388e1385bb64a24e2ad67f77483563e4e415fd
 -->
 # levix-digital-website Constitution
 
@@ -135,7 +135,7 @@ If you cannot point to the problem in the left column, do not use the pattern. N
 - The contact and translation functions validate their input, limit request rates per client, and are protected with Firebase App Check; the translation function accepts only strings that exist in the English source.
 - No API key in the pages: the Translation API is called only from functions and build scripts with a service account.
 - Firestore rules deny all client access; only functions read and write.
-- HTTPS everywhere with HSTS, and a Content Security Policy that allows only the site's own origin, Google Analytics and the functions.
+- HTTPS everywhere with HSTS, and a Content Security Policy that allows only the site's own origin, Google Analytics and the functions; each source is added by the feature that needs it ([ADR-0010](../adr/0010-strict-content-security-policy-extended-per-feature.md)).
 - Privacy policy, cookie notice and terms of use applicable to a company in Alberta, Canada (PIPEDA and Alberta PIPA); analytics follows the visitor's consent.
 
 #### Availability and Recovery
@@ -173,6 +173,7 @@ Accepted decisions; a plan that contradicts one needs a new ADR that supersedes 
 - ADR-0007: Keyless deploys with Workload Identity Federation (`docs/adr/0007-keyless-deploys-with-workload-identity-federation.md`)
 - ADR-0008: Continuous deploy of changed sites on merge (`docs/adr/0008-continuous-deploy-of-changed-sites-on-merge.md`)
 - ADR-0009: DNS at Cloudflare with Firebase-hosted names not proxied (`docs/adr/0009-dns-at-cloudflare-with-firebase-hosted-names-not-proxied.md`)
+- ADR-0010: Strict Content Security Policy extended per feature (`docs/adr/0010-strict-content-security-policy-extended-per-feature.md`)
 
 ## Governance
 
@@ -180,4 +181,4 @@ Accepted decisions; a plan that contradicts one needs a new ADR that supersedes 
 - Amendments change the source, not this file: an ADR for decisions, the technical specification for requirements and constraints, `.dev-cycle.json` for the architecture style, the skills for principles. Then run `constitution.py generate` and commit the result with the change.
 - Gate 3 of the development cycle blocks a plan while this file is stale or edited by hand.
 
-**Version**: 1.5.0 | **Ratified**: 2026-10-30 | **Last Amended**: 2026-10-30
+**Version**: 1.6.0 | **Ratified**: 2026-10-30 | **Last Amended**: 2026-10-31

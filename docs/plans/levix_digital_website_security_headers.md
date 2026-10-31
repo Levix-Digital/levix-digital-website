@@ -4,10 +4,10 @@ project: levix-digital-website
 title: Security headers
 kind: feature
 version: v0.1.0
-status: active
+status: completed
 author: LeviGuilherme
 created_at: '2026-10-30T23:07:05'
-updated_at: '2026-10-30T23:07:20'
+updated_at: '2026-10-31T13:43:28'
 session_id: null
 tags: []
 supersedes: null
@@ -18,15 +18,25 @@ backlog_items:
 spec_dir: specs/005-security-headers
 milestones:
 - name: Setup
-  done: false
+  done: true
+  done_at: '2026-10-31'
+  by: LeviGuilherme
 - name: US2 one policy
-  done: false
+  done: true
+  done_at: '2026-10-31'
+  by: LeviGuilherme
 - name: US1 headers served
-  done: false
+  done: true
+  done_at: '2026-10-31'
+  by: LeviGuilherme
 - name: US3 deploy check
-  done: false
+  done: true
+  done_at: '2026-10-31'
+  by: LeviGuilherme
 - name: Polish and documentation
-  done: false
+  done: true
+  done_at: '2026-10-31'
+  by: LeviGuilherme
 status_log:
 - at: '2026-10-30T23:07:05'
   by: LeviGuilherme
@@ -36,6 +46,25 @@ status_log:
   by: LeviGuilherme
   status: active
   note: Plan updated
+- at: '2026-10-31T13:43:08'
+  by: LeviGuilherme
+  note: Milestone 'Setup' completed
+- at: '2026-10-31T13:43:24'
+  by: LeviGuilherme
+  note: Milestone 'US2 one policy' completed
+- at: '2026-10-31T13:43:26'
+  by: LeviGuilherme
+  note: Milestone 'US1 headers served' completed
+- at: '2026-10-31T13:43:27'
+  by: LeviGuilherme
+  note: Milestone 'US3 deploy check' completed
+- at: '2026-10-31T13:43:28'
+  by: LeviGuilherme
+  note: Milestone 'Polish and documentation' completed
+- at: '2026-10-31T13:43:28'
+  by: LeviGuilherme
+  status: completed
+  note: All milestones completed
 ---
 
 # Security headers

@@ -45,7 +45,7 @@ Details: [TECDOC.md](../../TECDOC.md).
 - The contact and translation functions validate their input, limit request rates per client, and are protected with Firebase App Check; the translation function accepts only strings that exist in the English source.
 - No API key in the pages: the Translation API is called only from functions and build scripts with a service account.
 - Firestore rules deny all client access; only functions read and write.
-- HTTPS everywhere with HSTS, and a Content Security Policy that allows only the site's own origin, Google Analytics and the functions.
+- HTTPS everywhere with HSTS, and a Content Security Policy that allows only the site's own origin, Google Analytics and the functions; each source is added by the feature that needs it ([ADR-0010](../adr/0010-strict-content-security-policy-extended-per-feature.md)).
 - Privacy policy, cookie notice and terms of use applicable to a company in Alberta, Canada (PIPEDA and Alberta PIPA); analytics follows the visitor's consent.
 
 ### Availability and Recovery
