@@ -40,4 +40,4 @@ description: "Task list for security headers"
 
 - [x] T009 [P] ADR-0010; `docs/architecture/hosting.md`; `docs/product/TECH_SPEC.md` link; `README.md` if needed; TECDOC index, `check_docs`, `check_readme`
 - [x] T010 [P] Manual tests: Observatory grade, clean console on the five domains; `manual_tests validate`
-- [ ] T011 `npm run check`, the pull request, the preview's headers read (R8); after the merge, the deploy's `verify:live` passes
+- [x] T011 `npm run check`, the pull request, the preview's headers read (R8); after the merge, the deploy's `verify:live` passes

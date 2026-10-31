@@ -8,14 +8,6 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 
 ## Features
 
-### FEAT-005: Security headers
-- **Priority**: medium
-- **Epic**: EPIC-001
-- **Status**: planned
-- **Found**: 2026-10-30
-- **Plan**: levix_digital_website_security_headers
-- **Description**: HSTS, Content Security Policy and other security headers set in firebase.json for every site.
-
 ### FEAT-006: Design tokens and themes
 - **Priority**: high
 - **Epic**: EPIC-002
@@ -347,3 +339,12 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 - **Plan**: levix_digital_website_custom_domains
 - **Closed**: 2026-10-30, PR #5
 - **Description**: DNS records (Cloudflare, ADR-0009) pointing the apex and each product subdomain to Firebase Hosting, verified by Firebase.
+
+### FEAT-005: Security headers
+- **Priority**: medium
+- **Epic**: EPIC-001
+- **Status**: done
+- **Found**: 2026-10-30
+- **Plan**: levix_digital_website_security_headers
+- **Closed**: 2026-10-31, PR #7
+- **Description**: HSTS, Content Security Policy and other security headers set in firebase.json for every site.
