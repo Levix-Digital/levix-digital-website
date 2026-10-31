@@ -6,7 +6,7 @@ version: v0.1.0
 status: in_progress
 author: LeviGuilherme
 created_at: '2026-10-31T14:35:14'
-updated_at: '2026-10-31T14:41:37'
+updated_at: '2026-10-31T14:51:40'
 session_id: null
 tags: []
 supersedes: null
@@ -33,7 +33,9 @@ milestones:
   done_at: '2026-10-31'
   by: LeviGuilherme
 - name: Polish and documentation
-  done: false
+  done: true
+  done_at: '2026-10-31'
+  by: LeviGuilherme
 status_log:
 - at: '2026-10-31T14:35:14'
   by: LeviGuilherme
@@ -54,6 +56,17 @@ status_log:
 - at: '2026-10-31T14:41:37'
   by: LeviGuilherme
   note: Milestone 'US3 contrast' completed
+- at: '2026-10-31T14:51:29'
+  by: LeviGuilherme
+  note: Milestone 'Polish and documentation' completed
+- at: '2026-10-31T14:51:29'
+  by: LeviGuilherme
+  status: completed
+  note: All milestones completed
+- at: '2026-10-31T14:51:40'
+  by: LeviGuilherme
+  status: in_progress
+  note: Kept in progress until the merge and the verified production deploy
 ---
 
 # Design tokens and themes
