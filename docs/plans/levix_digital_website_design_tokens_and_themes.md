@@ -3,10 +3,10 @@ plan_id: levix_digital_website_design_tokens_and_themes
 project: levix-digital-website
 title: Design tokens and themes
 version: v0.1.0
-status: in_progress
+status: completed
 author: LeviGuilherme
 created_at: '2026-10-31T14:35:14'
-updated_at: '2026-10-31T14:51:40'
+updated_at: '2026-10-31T15:04:38'
 session_id: null
 tags: []
 supersedes: null
@@ -67,6 +67,10 @@ status_log:
   by: LeviGuilherme
   status: in_progress
   note: Kept in progress until the merge and the verified production deploy
+- at: '2026-10-31T15:04:38'
+  by: LeviGuilherme
+  status: completed
+  note: 'PR #9 merged; Deploy run 41212637479 green, verify:live ok on all 10 addresses'
 ---
 
 # Design tokens and themes
