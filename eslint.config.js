@@ -4,7 +4,7 @@ import globals from 'globals'
 import tseslint from 'typescript-eslint'
 
 // Public entry points of a package, relative to its folder (the `exports` of its package.json).
-const PACKAGE_ENTRY_POINTS = ['src/index.ts', 'src/styles.css']
+const PACKAGE_ENTRY_POINTS = ['src/index.ts', 'src/styles.css', 'src/theme/theme-init.js']
 
 export default tseslint.config(
   { ignores: ['**/dist/**', '**/node_modules/**', '**/.vite-ssg-temp/**', 'coverage/**'] },

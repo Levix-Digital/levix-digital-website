@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { readHostingConfig } from './hosting-config.mjs'
-import { SECURITY_HEADERS, headerDifferences } from './security-headers.mjs'
+import { scriptHash } from './inline-code.mjs'
+import { ALLOWED_SCRIPT_HASHES, SECURITY_HEADERS, THEME_INIT_SCRIPT, headerDifferences } from './security-headers.mjs'
 
 /** @typedef {{ source: string, headers: { key: string, value: string }[] }} HeaderRule */
 
@@ -37,6 +38,21 @@ describe('headerDifferences', () => {
     const csp = policy.get('Content-Security-Policy') ?? ''
     expect(csp).not.toContain('unsafe-')
     expect(csp).toContain("frame-ancestors 'none'")
+  })
+})
+
+describe('Content-Security-Policy', () => {
+  const policy = SECURITY_HEADERS.find((header) => header.key === 'Content-Security-Policy')?.value ?? ''
+  const scriptSrc = policy.split('; ').find((directive) => directive.startsWith('script-src ')) ?? ''
+
+  it('allows scripts from the site and the theme script by its hash only', () => {
+    expect(THEME_INIT_SCRIPT).toContain('levix-theme')
+    expect(ALLOWED_SCRIPT_HASHES).toEqual([scriptHash(THEME_INIT_SCRIPT)])
+    expect(scriptSrc).toBe(`script-src 'self' ${scriptHash(THEME_INIT_SCRIPT)}`)
+  })
+
+  it('never allows inline code or eval in general', () => {
+    expect(policy).not.toMatch(/'unsafe-(inline|eval|hashes)'|'strict-dynamic'/)
   })
 })
 

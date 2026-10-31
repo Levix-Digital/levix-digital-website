@@ -1,10 +1,23 @@
 // The security headers every response of every site carries (ADR-0010). firebase.json holds one
 // copy per hosting target on its `**` rule; the tests keep those copies equal to this list.
+import { readFileSync } from 'node:fs'
+import { createRequire } from 'node:module'
+import { scriptHash } from './inline-code.mjs'
+
+/** The only inline script of the sites: it applies a stored theme before paint (ADR-0012). */
+export const THEME_INIT_SCRIPT = readFileSync(
+  createRequire(import.meta.url).resolve('@levix/ui/theme-init.js'),
+  'utf8',
+).trim()
+
+/** The hashes of the inline scripts the policy allows; the build check refuses any other. */
+export const ALLOWED_SCRIPT_HASHES = Object.freeze([scriptHash(THEME_INIT_SCRIPT)])
 
 /** Allowed sources per resource type. Later features add what they load, with their tests. */
 const CONTENT_SECURITY_POLICY = [
   "default-src 'self'",
-  "script-src 'self'",
+  // Files of the site, and the inline theme script by its hash (the same text the build inlines).
+  `script-src 'self' ${ALLOWED_SCRIPT_HASHES.join(' ')}`,
   "style-src 'self'",
   // data: covers small images inlined in the stylesheets.
   "img-src 'self' data:",

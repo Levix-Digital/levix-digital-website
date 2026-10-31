@@ -1,10 +1,17 @@
 <script setup lang="ts">
 import { company } from '@levix/content'
-import { PageContainer } from '@levix/ui'
+import { PageContainer, ThemePicker } from '@levix/ui'
 import { useHead } from '@unhead/vue'
 import strings from '../locales/en.json'
 
 useHead({ title: strings['home.title'] })
+
+const themeLabels = {
+  legend: strings['theme.legend'],
+  system: strings['theme.system'],
+  light: strings['theme.light'],
+  dark: strings['theme.dark'],
+}
 </script>
 
 <template>
@@ -19,6 +26,10 @@ useHead({ title: strings['home.title'] })
       <p class="mt-8 text-sm">
         {{ company.name }}
       </p>
+      <ThemePicker
+        class="mt-8"
+        :labels="themeLabels"
+      />
     </PageContainer>
   </main>
 </template>

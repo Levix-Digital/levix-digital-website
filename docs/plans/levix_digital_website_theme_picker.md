@@ -4,10 +4,10 @@ project: levix-digital-website
 title: Theme picker
 kind: feature
 version: v0.1.0
-status: active
+status: in_progress
 author: LeviGuilherme
 created_at: '2026-10-31T15:13:01'
-updated_at: '2026-10-31T15:17:14'
+updated_at: '2026-10-31T15:25:00'
 session_id: null
 tags: []
 supersedes: null
@@ -18,15 +18,25 @@ backlog_items:
 spec_dir: specs/007-theme-picker
 milestones:
 - name: Preference core
-  done: false
+  done: true
+  done_at: '2026-10-31'
+  by: LeviGuilherme
 - name: US1 choose
-  done: false
+  done: true
+  done_at: '2026-10-31'
+  by: LeviGuilherme
 - name: US2 remembered
-  done: false
+  done: true
+  done_at: '2026-10-31'
+  by: LeviGuilherme
 - name: US3 accessible
-  done: false
+  done: true
+  done_at: '2026-10-31'
+  by: LeviGuilherme
 - name: Polish and documentation
-  done: false
+  done: true
+  done_at: '2026-10-31'
+  by: LeviGuilherme
 status_log:
 - at: '2026-10-31T15:13:01'
   by: LeviGuilherme
@@ -36,6 +46,29 @@ status_log:
   by: LeviGuilherme
   status: active
   note: Plan updated
+- at: '2026-10-31T15:24:54'
+  by: LeviGuilherme
+  note: Milestone 'Preference core' completed
+- at: '2026-10-31T15:24:56'
+  by: LeviGuilherme
+  note: Milestone 'US1 choose' completed
+- at: '2026-10-31T15:24:58'
+  by: LeviGuilherme
+  note: Milestone 'US2 remembered' completed
+- at: '2026-10-31T15:24:59'
+  by: LeviGuilherme
+  note: Milestone 'US3 accessible' completed
+- at: '2026-10-31T15:25:00'
+  by: LeviGuilherme
+  note: Milestone 'Polish and documentation' completed
+- at: '2026-10-31T15:25:00'
+  by: LeviGuilherme
+  status: completed
+  note: All milestones completed
+- at: '2026-10-31T15:40:00'
+  by: LeviGuilherme
+  status: in_progress
+  note: Kept in progress until the merge and the verified production deploy
 ---
 
 # Theme picker

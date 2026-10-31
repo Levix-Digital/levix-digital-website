@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { countInlineFonts, findInlineCode } from './inline-code.mjs'
+import { countInlineFonts, findInlineCode, inlineScriptHashes, scriptHash } from './inline-code.mjs'
 
 describe('findInlineCode', () => {
   it('accepts scripts and stylesheets loaded from files', () => {
@@ -15,6 +15,22 @@ describe('findInlineCode', () => {
     expect(findInlineCode('<div class="a" style="color:red"></div>')).toEqual(['style attribute'])
     expect(findInlineCode('<button onclick="go()">Go</button>')).toEqual(['event handler'])
     expect(findInlineCode('<a href="javascript:go()">Go</a>')).toEqual(['javascript URL'])
+  })
+})
+
+describe('inline scripts allowed by hash', () => {
+  const allowed = 'try{document.documentElement.dataset.a="b"}catch(e){}'
+  const page = `<head><script>${allowed}</script><script type="module" src="/assets/app.js"></script></head>`
+
+  it('gives the policy hash of each inline script, not of scripts loaded from files', () => {
+    expect(scriptHash('')).toBe("'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='")
+    expect(inlineScriptHashes(page)).toEqual([scriptHash(allowed)])
+  })
+
+  it('accepts an inline script whose hash is allowed, and only that one', () => {
+    expect(findInlineCode(page, [scriptHash(allowed)])).toEqual([])
+    expect(findInlineCode(`${page}<script>alert(1)</script>`, [scriptHash(allowed)])).toEqual(['script'])
+    expect(findInlineCode(page.replace('"b"', '"c"'), [scriptHash(allowed)])).toEqual(['script'])
   })
 })
 

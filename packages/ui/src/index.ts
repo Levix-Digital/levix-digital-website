@@ -1,1 +1,5 @@
 export { default as PageContainer } from './components/PageContainer.vue'
+export { default as ThemePicker } from './components/ThemePicker.vue'
+export type { ThemePickerLabels } from './components/ThemePicker.vue'
+export type { ThemePreference } from './theme/preference'
+export { useThemePreference, type ThemePreferenceState } from './theme/useThemePreference'
