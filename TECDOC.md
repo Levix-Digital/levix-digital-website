@@ -39,6 +39,7 @@ flowchart LR
 <!-- architecture-docs:adrs:start -->
 | ADR | Title | Status | Version | Date |
 |---|---|---|---|---|
+| [ADR-0011](docs/adr/0011-theme-colors-with-light-dark-and-color-scheme.md) | Theme colors with light-dark and color-scheme | accepted | v0.1.0 | 2026-10-31 |
 | [ADR-0010](docs/adr/0010-strict-content-security-policy-extended-per-feature.md) | Strict Content Security Policy extended per feature | accepted | v0.1.0 | 2026-10-31 |
 | [ADR-0009](docs/adr/0009-dns-at-cloudflare-with-firebase-hosted-names-not-proxied.md) | DNS at Cloudflare with Firebase-hosted names not proxied | accepted | v0.1.0 | 2026-10-30 |
 | [ADR-0008](docs/adr/0008-continuous-deploy-of-changed-sites-on-merge.md) | Continuous deploy of changed sites on merge | accepted | v0.1.0 | 2026-10-30 |

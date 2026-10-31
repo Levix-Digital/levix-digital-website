@@ -137,3 +137,21 @@ How to record a run: in each test of the current run, mark exactly one box of th
   - After the fix, all checks pass and the pull request can be merged.
 - **Result**: [ ] Pass [ ] Fail [ ] Blocked
 - **Notes**:
+
+## Design system
+
+### MT-UI-001: Every site follows the system's light and dark theme
+
+- **Covers**: `packages/ui/src/styles.css` (design tokens and themes)
+- **Prerequisites**: the sites deployed (production or a pull request preview); a browser on a computer whose system theme can be switched
+- **Steps**:
+  1. Set the system theme to light and open the home page of each of the five sites.
+  2. Set the system theme to dark and reload each page; then open each page again in a new tab.
+  3. On one page in dark, press Tab until a link or the page itself shows focus, and select some text.
+- **Expected**:
+  - In light: an off-white backdrop, near-black headings and slate body text; in dark: a deep navy backdrop with light text; no part of the page stays in the other theme.
+  - Opening a page in dark shows no flash of the light theme.
+  - Headings use Inter Tight and body text uses Inter (the browser's font inspector names them, served from the site's own `/assets/`).
+  - The scroll bar and any browser control follow the theme; the focus ring and the text selection are clearly visible.
+- **Result**: [ ] Pass [ ] Fail [ ] Blocked
+- **Notes**:
