@@ -14,7 +14,7 @@ Owns the Ceramic and Aurora design language: tokens (colors, typography, shadows
 
 ## Structure
 
-`packages/ui/src/styles.css` (Tailwind, the design tokens, the theme selection and the page base, exported as `@levix/ui/styles.css` and imported by every site), `components/`, `layout/`, `hero/` (Three.js scene, aurora shader, static fallback). Public entry point `packages/ui/src/index.ts`.
+`packages/ui/src/styles.css` (Tailwind, the design tokens, the theme selection and the page base, exported as `@levix/ui/styles.css` and imported by every site), `components/` (the layout components, the theme picker), `layout/` (the props types of the layout and the build year), `hero/` (Three.js scene, aurora shader, static fallback). Public entry point `packages/ui/src/index.ts`.
 
 ## Design Tokens
 
@@ -53,6 +53,16 @@ The page base styles the root background (`surface`), text (`body`, `font-sans`)
 
 `src/theme.test.ts` checks that every theme color has both values and that each declared pair passes WCAG 2.2 AA in both themes: text tokens on both surfaces and `on-accent` on `accent` at 4.5:1, `focus` and `control` on both surfaces at 3:1. `src/theme-build.test.ts` builds the stylesheet with Tailwind and checks the utilities, the theme rules and the `dark:` variant.
 
+## Layout
+
+`SiteLayout` frames every page: a "Skip to content" link (first in the tab order, visible on focus), the header, the page in `<main id="main" tabindex="-1">` and `SiteFooter`. Its props are the current `site` id, `company` (name, email, location), `companySite` and `products` (name and address of each site) and `strings` (the shared layout text); the site passes them from `@levix/content` and `@levix/i18n` ([ADR-0013](../adr/0013-shared-layout-with-facts-and-text-passed-in.md)).
+
+- **Headers.** On the home (`site` is not a product), `CompanyHeader`: the monogram and "LEVIX DIGITAL" linked to the home, `MainNavigation` (a `<nav>` named by `layout.nav` with the product links) and the theme picker. On a product site, `ProductHeader`: the product's name linked to `/`, a small "by Levix Digital" link with the monogram to the company home, and the theme picker; it shares the tokens, not the layout, of the company header, and each product's own look (logo, accent, menu) is added to it by the product site items. Both headers sit on `HeaderBar` and have a `pickers` slot next to the theme picker for the language picker.
+- **Small screens.** Below the `md` breakpoint (768 px) `HeaderBar` folds the navigation and the pickers behind a menu button (`aria-expanded`, `aria-controls`); Escape closes it and returns the focus to the button, and following a link closes it. The prerendered page shows them unfolded and the button appears once mounted, so the page works without JavaScript and the hydrated markup matches the prerendered one.
+- **Footer.** `SiteFooter`, the same on the five sites: contact (email as a `mailto:` link, city, province, country), the product links with `aria-current="page"` on the current site, and "© <year> <company>". The year is the build year in the prerendered page (`__BUILD_YEAR__`, defined by `tooling/vite-site.ts`; `src/layout/build-year.ts`) and the visitor's current year once mounted.
+- **Monogram.** `LevixMonogram` is the "LD" symbol of the company logo file (`levix-digital-logo.svg`) as inline SVG, without the file's light background and text: the groove follows the `bevel` token, the opal metal keeps its colors, the sheen uses the `mix-blend-screen` class instead of an inline style, and each instance gets its own gradient and filter ids. It is decorative (`aria-hidden`); the link around it carries the name.
+- **Adding a link.** Contact, legal and research links are passed from the site's data by the items that create those pages; the components do not change.
+
 ## Behavior
 
 Light is the default theme; dark follows the system preference (see Themes). A visitor's choice in the theme picker overrides the system preference on that site (see Themes). The hero loads Three.js after the first paint, only with WebGL and without a reduced-motion preference; otherwise it shows a static image. It pauses when off screen.
@@ -67,3 +77,4 @@ Components receive text through props or the i18n `t()` function; they never imp
 - [ADR-0006](../adr/0006-tailwind-css-4-with-a-shared-stylesheet-theme.md): Tailwind CSS 4 with a shared stylesheet theme.
 - [ADR-0011](../adr/0011-theme-colors-with-light-dark-and-color-scheme.md): Theme colors with light-dark and color-scheme.
 - [ADR-0012](../adr/0012-stored-theme-applied-by-a-hashed-inline-script.md): Stored theme applied by a hashed inline script.
+- [ADR-0013](../adr/0013-shared-layout-with-facts-and-text-passed-in.md): Shared layout with facts and text passed in.

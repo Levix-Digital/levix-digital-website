@@ -14,7 +14,7 @@ Owns the facts about each product: name, availability, features, platforms and r
 
 ## Structure
 
-`packages/content/src/products/<product>.ts`, one per product, typed by `Product` in `src/types.ts`; `src/releases.ts` reads the latest GitHub release at build time. Public entry point `packages/content/src/index.ts`.
+`packages/content/src/products/<product>.ts`, one per product, typed by `Product` in `src/types.ts`; `src/releases.ts` reads the latest GitHub release at build time. Public entry point `packages/content/src/index.ts`, which also exports the company facts (`company`: name, email, location) and the site links of the shared layout (`companySite`, `products`: id, name, production address); a test checks each address against `domains.json`.
 
 ## Behavior
 

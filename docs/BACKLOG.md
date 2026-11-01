@@ -11,9 +11,9 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 ### FEAT-008: Shared header and footer
 - **Priority**: high
 - **Epic**: EPIC-002
-- **Status**: open
+- **Status**: in_progress
 - **Found**: 2026-10-30
-- **Plan**: -
+- **Plan**: levix_digital_website_shared_header_and_footer
 - **Description**: Header with navigation, theme and language pickers; footer with contact@levix.digital, Calgary, Alberta, Canada and legal links.
 
 ### FEAT-009: Ceramic components

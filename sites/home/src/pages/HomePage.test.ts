@@ -23,4 +23,10 @@ describe('HomePage', () => {
     expect(wrapper.find('h1').text()).toBe(strings['home.title'])
     expect(wrapper.text()).toContain(strings['home.notice'])
   })
+
+  it('leaves the theme picker to the header', () => {
+    const wrapper = mount(HomePage, { global: { plugins: [createHead()] } })
+
+    expect(wrapper.find('fieldset').exists()).toBe(false)
+  })
 })
