@@ -4,10 +4,10 @@ project: levix-digital-website
 title: Shared header and footer
 kind: feature
 version: v0.1.0
-status: in_progress
+status: completed
 author: LeviGuilherme
 created_at: '2026-11-01T17:53:53'
-updated_at: '2026-11-01T18:16:30'
+updated_at: '2026-11-01T19:51:45'
 session_id: null
 tags: []
 supersedes: null
@@ -76,6 +76,10 @@ status_log:
   by: LeviGuilherme
   status: in_progress
   note: Kept in progress until the merge and the verified production deploy
+- at: '2026-11-01T19:51:45'
+  by: LeviGuilherme
+  status: completed
+  note: 'PR #13 merged; Deploy run 41343426423 green, verify:live ok on all 10 addresses'
 ---
 
 # Shared header and footer

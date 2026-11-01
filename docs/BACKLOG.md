@@ -8,14 +8,6 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 
 ## Features
 
-### FEAT-008: Shared header and footer
-- **Priority**: high
-- **Epic**: EPIC-002
-- **Status**: in_progress
-- **Found**: 2026-10-30
-- **Plan**: levix_digital_website_shared_header_and_footer
-- **Description**: Header with navigation, theme and language pickers; footer with contact@levix.digital, Calgary, Alberta, Canada and legal links.
-
 ### FEAT-009: Ceramic components
 - **Priority**: high
 - **Epic**: EPIC-002
@@ -350,3 +342,12 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 - **Plan**: levix_digital_website_theme_picker
 - **Closed**: 2026-10-31, PR #11
 - **Description**: Light by default, dark following the system preference until the visitor chooses; the choice kept in local storage.
+
+### FEAT-008: Shared header and footer
+- **Priority**: high
+- **Epic**: EPIC-002
+- **Status**: done
+- **Found**: 2026-10-30
+- **Plan**: levix_digital_website_shared_header_and_footer
+- **Closed**: 2026-11-01, PR #13
+- **Description**: Header with navigation, theme and language pickers; footer with contact@levix.digital, Calgary, Alberta, Canada and legal links.
