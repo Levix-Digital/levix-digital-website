@@ -161,7 +161,7 @@ How to record a run: in each test of the current run, mark exactly one box of th
 - **Covers**: `ThemePicker`, `useThemePreference()` and `theme-init.js` in `packages/ui`, the policy hash in `firebase.json`
 - **Prerequisites**: the sites deployed (production or a pull request preview); a browser on a computer whose system theme is light; the browser's developer tools
 - **Steps**:
-  1. Open the home page of a site. Note which option of the theme picker is selected.
+  1. Open the home page of a site. Note which option of the theme picker, in the header, is selected.
   2. Choose Dark. Reload the page, then open it in a new tab.
   3. With two tabs of the same site open, choose Light in one and look at the other.
   4. Choose System. Switch the system theme to dark and back.
@@ -176,5 +176,30 @@ How to record a run: in each test of the current run, mark exactly one box of th
   - Step 5: the focus ring is visible around the option; the arrow keys change the theme; the screen reader announces a "Theme" group with three options and the selected one.
   - Step 6: the other site keeps its own choice (System unless chosen there).
   - Step 7: no error in the console (a blocked script would show one).
+- **Result**: [ ] Pass [ ] Fail [ ] Blocked
+- **Notes**:
+
+### MT-UI-003: Header and footer on every site
+
+- **Covers**: `SiteLayout`, `CompanyHeader`, `ProductHeader`, `HeaderBar`, `MainNavigation`, `SiteFooter` and `LevixMonogram` in `packages/ui`; each site's `App.vue`
+- **Prerequisites**: the sites deployed (production or a pull request preview); a browser with its developer tools; a screen reader (NVDA, VoiceOver or Narrator)
+- **Steps**:
+  1. Open the company home at a window width of about 1280 px, in the light theme and then in the dark theme (theme picker).
+  2. Open each of the four product sites the same way.
+  3. On any site, follow each product link of the header (home) or of the footer, the "by Levix Digital" link and the logo.
+  4. Narrow the window to about 375 px (or use the device toolbar of the developer tools). Press the menu button, then press Escape; open it again and follow a link.
+  5. Reload a page and press Tab once, then Enter.
+  6. With the screen reader, list the landmarks of a page.
+  7. Turn JavaScript off in the developer tools, reload at 375 px, then turn it back on.
+  8. Open the console and reload.
+- **Expected**:
+  - Step 1: the header shows the "LD" monogram and LEVIX DIGITAL, the four product links and the theme picker; the footer shows Contact (contact@levix.digital, Calgary, Alberta, Canada), Products and "© <current year> Levix Digital Inc."; everything is legible in both themes and the company name turns light in the dark theme.
+  - Step 2: each product site shows its own header, with the product's name in front and "by Levix Digital" under it, not the company header; the footer is the same, with the current product in bold.
+  - Step 3: every link opens the right site at its levix.digital address.
+  - Step 4: the links and the picker are hidden behind the menu button; the button opens and closes them and says whether it is expanded; Escape closes the menu and the focus stays on the button.
+  - Step 5: the first Tab shows a "Skip to content" link; Enter moves the focus to the page content.
+  - Step 6: banner, navigation "Main" (home only), main and content information are listed.
+  - Step 7: without JavaScript the links and the picker are shown under the header, with no menu button.
+  - Step 8: no error in the console.
 - **Result**: [ ] Pass [ ] Fail [ ] Blocked
 - **Notes**:

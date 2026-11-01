@@ -26,7 +26,7 @@
 
 **Constraints**: Content Security Policy without `'unsafe-inline'` (ADR-0010): no `style` attributes or inline handlers; WCAG 2.2 AA; no hydration mismatch; works without JavaScript
 
-**Scale/Scope**: six components, two data exports, one dictionary, five sites
+**Scale/Scope**: seven components, two data exports, one dictionary, five sites
 
 ## Constitution Check
 
@@ -65,15 +65,17 @@ packages/content/src/index.test.ts        # addresses match domains.json (change
 packages/i18n/src/index.ts                # layoutStrings export (changed)
 packages/i18n/src/layout.en.json          # shared English layout text (new)
 packages/i18n/src/index.test.ts           # (changed)
-packages/ui/src/env.d.ts                  # __BUILD_YEAR__ declaration (new)
+packages/ui/src/layout/types.ts           # props types of the layout (new)
+packages/ui/src/layout/build-year.ts      # __BUILD_YEAR__ with a fallback (new)
+packages/ui/src/layout/fixtures.ts        # test facts and text (new)
 packages/ui/src/components/LevixMonogram.vue      # (new) + test
+packages/ui/src/components/HeaderBar.vue          # frame and menu button of both headers (new) + test
 packages/ui/src/components/MainNavigation.vue     # (new) + test
 packages/ui/src/components/CompanyHeader.vue      # (new) + test
 packages/ui/src/components/ProductHeader.vue      # (new) + test
 packages/ui/src/components/SiteFooter.vue         # (new) + test
 packages/ui/src/components/SiteLayout.vue         # (new) + test
 packages/ui/src/index.ts                  # exports (changed)
-packages/ui/vitest.config.ts              # defines __BUILD_YEAR__ (changed)
 tooling/vite-site.ts                      # defines __BUILD_YEAR__ (changed)
 sites/*/src/App.vue                       # SiteLayout around the pages (changed)
 sites/*/src/pages/HomePage.vue            # <main> and the picker removed (changed)

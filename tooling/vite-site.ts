@@ -29,6 +29,8 @@ function themeInit(): Plugin {
 export function defineSiteConfig(): UserConfig {
   const config: SiteConfig = {
     plugins: [vue(), tailwindcss(), themeInit()],
+    // The footer shows the build year in the prerendered page, then the visitor's current year.
+    define: { __BUILD_YEAR__: JSON.stringify(new Date().getFullYear()) },
     build: {
       outDir: 'dist',
       emptyOutDir: true,

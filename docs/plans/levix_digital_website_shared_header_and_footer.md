@@ -4,10 +4,10 @@ project: levix-digital-website
 title: Shared header and footer
 kind: feature
 version: v0.1.0
-status: active
+status: in_progress
 author: LeviGuilherme
 created_at: '2026-11-01T17:53:53'
-updated_at: '2026-11-01T17:54:18'
+updated_at: '2026-11-01T18:16:30'
 session_id: null
 tags: []
 supersedes: null
@@ -18,17 +18,29 @@ backlog_items:
 spec_dir: specs/008-header-footer
 milestones:
 - name: Facts and text
-  done: false
+  done: true
+  done_at: '2026-11-01'
+  by: LeviGuilherme
 - name: US1 navigate
-  done: false
+  done: true
+  done_at: '2026-11-01'
+  by: LeviGuilherme
 - name: US2 contact
-  done: false
+  done: true
+  done_at: '2026-11-01'
+  by: LeviGuilherme
 - name: US3 theme in header
-  done: false
+  done: true
+  done_at: '2026-11-01'
+  by: LeviGuilherme
 - name: US4 phone and keyboard
-  done: false
+  done: true
+  done_at: '2026-11-01'
+  by: LeviGuilherme
 - name: Polish and documentation
-  done: false
+  done: true
+  done_at: '2026-11-01'
+  by: LeviGuilherme
 status_log:
 - at: '2026-11-01T17:53:53'
   by: LeviGuilherme
@@ -38,6 +50,32 @@ status_log:
   by: LeviGuilherme
   status: active
   note: Plan updated
+- at: '2026-11-01T18:15:46'
+  by: LeviGuilherme
+  note: Milestone 'Facts and text' completed
+- at: '2026-11-01T18:15:54'
+  by: LeviGuilherme
+  note: Milestone 'US1 navigate' completed
+- at: '2026-11-01T18:15:55'
+  by: LeviGuilherme
+  note: Milestone 'US2 contact' completed
+- at: '2026-11-01T18:15:56'
+  by: LeviGuilherme
+  note: Milestone 'US3 theme in header' completed
+- at: '2026-11-01T18:15:57'
+  by: LeviGuilherme
+  note: Milestone 'US4 phone and keyboard' completed
+- at: '2026-11-01T18:15:58'
+  by: LeviGuilherme
+  note: Milestone 'Polish and documentation' completed
+- at: '2026-11-01T18:15:58'
+  by: LeviGuilherme
+  status: completed
+  note: All milestones completed
+- at: '2026-11-01T18:16:30'
+  by: LeviGuilherme
+  status: in_progress
+  note: Kept in progress until the merge and the verified production deploy
 ---
 
 # Shared header and footer

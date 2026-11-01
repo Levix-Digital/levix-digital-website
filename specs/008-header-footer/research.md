@@ -34,7 +34,7 @@
 
 ## R5. The year in the footer
 
-**Decision**: the shared Vite configuration defines `__BUILD_YEAR__` (the year at build time); `SiteFooter` renders it, then sets the visitor's current year (`new Date().getFullYear()`) once mounted. The UI test configuration defines it too.
+**Decision**: the shared Vite configuration defines `__BUILD_YEAR__` (the year at build time); `SiteFooter` renders it, then sets the visitor's current year (`new Date().getFullYear()`) once mounted. Where it is not defined (unit tests), `src/layout/build-year.ts` falls back to the current year.
 
 **Rationale**: a site that is not rebuilt for months after New Year still shows the current year (raised by the product owner); changing it after mount keeps the first client render equal to the server render, so there is no hydration mismatch; without JavaScript the build year is shown.
 

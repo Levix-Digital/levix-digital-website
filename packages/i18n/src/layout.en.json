@@ -1,0 +1,12 @@
+{
+  "layout.skip": "Skip to content",
+  "layout.nav": "Main",
+  "layout.menu": "Menu",
+  "layout.products": "Products",
+  "layout.contact": "Contact",
+  "layout.by": "by",
+  "theme.legend": "Theme",
+  "theme.system": "System",
+  "theme.light": "Light",
+  "theme.dark": "Dark"
+}
