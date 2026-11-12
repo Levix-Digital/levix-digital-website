@@ -1,0 +1,39 @@
+{
+  "schema": "aurora.integrations",
+  "schema_version": "1.0",
+  "project": "levix-website",
+  "name": "Levix Digital Website",
+  "repository": "https://github.com/Levix-Digital/levix-digital-website",
+  "counterparts": [
+    {
+      "slug": "dev-cycle-protocol",
+      "name": "Dev Cycle Protocol",
+      "url": "https://github.com/Levix-Digital/ai-code-agent-skills.git"
+    },
+    {
+      "slug": "aurora-dev-suite",
+      "name": "Aurora Dev Suite",
+      "url": "https://github.com/Levix-Digital/aurora-dev-suite.git"
+    },
+    {
+      "slug": "gedo",
+      "name": "Gedo",
+      "url": "https://github.com/Levix-Digital/gedo.git"
+    },
+    {
+      "slug": "any-context",
+      "name": "AnyContext",
+      "url": "https://github.com/Levix-Digital/any-context.git"
+    },
+    {
+      "slug": "docmapper",
+      "name": "DocMapper",
+      "url": "https://github.com/Levix-Digital/DocMapper.git"
+    },
+    {
+      "slug": "levix-admin-hub",
+      "name": "Levix Admin Hub",
+      "url": "https://github.com/Levix-Digital/levix-admin-hub.git"
+    }
+  ]
+}
