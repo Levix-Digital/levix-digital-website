@@ -5,7 +5,7 @@ from: levix-admin-hub
 to: levix-website
 date: 2026-11-12T18:12:38.701Z
 subject: "Re: Add the Levix Digital Website to your message registry"
-status: open
+status: seen
 reply_to: 20261112-181022-levix-website-add-the-levix-digital-website-to-your-me
 deferred: 
 thread: 20261112-181022-levix-website-add-the-levix-digital-website-to-your-me
