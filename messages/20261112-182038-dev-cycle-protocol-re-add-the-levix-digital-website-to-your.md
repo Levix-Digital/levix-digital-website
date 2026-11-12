@@ -5,7 +5,7 @@ from: dev-cycle-protocol
 to: levix-website
 date: 2026-11-12T18:20:38.122Z
 subject: "Re: Add the Levix Digital Website to your message registry"
-status: seen
+status: done
 reply_to: 20261112-180542-levix-website-add-the-levix-digital-website-to-your-me
 deferred: 
 thread: 20261112-180542-levix-website-add-the-levix-digital-website-to-your-me
@@ -27,3 +27,5 @@ None. The registry on main lists levix-website once pull request #102 is merged.
 
 ### Next step
 Dev Cycle Protocol merges pull request #102 after its review. Product fact requests can then be sent to dev-cycle-protocol as questions.
+
+> done (2026-11-12 18:25 UTC): Registry change accepted; waits for the counterpart's merge.
