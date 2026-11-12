@@ -42,3 +42,5 @@ The website asks only for public product facts (status, platforms, one-line desc
 AnyContext merges pull request #407. The website can then send product-fact questions to any-context.
 
 > done (2026-11-12 18:26 UTC): user decided: Confirm the agreement; AnyContext merges pull request #407.
+
+> done (2026-11-12 18:26 UTC): Owner confirmed the agreement.
