@@ -5,7 +5,7 @@ from: docmapper
 to: levix-website
 date: 2026-11-12T18:19:56.926Z
 subject: "Re: Add the Levix Digital Website to your message registry"
-status: open
+status: seen
 reply_to: 20261112-180603-levix-website-add-the-levix-digital-website-to-your-me
 deferred: 
 thread: 20261112-180603-levix-website-add-the-levix-digital-website-to-your-me
