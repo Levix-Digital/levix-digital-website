@@ -24,14 +24,6 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 - **Plan**: -
 - **Description**: Full-width banner at the top of every page of a product not yet available, saying it will be available soon.
 
-### FEAT-011: 3D hero
-- **Priority**: high
-- **Epic**: EPIC-002
-- **Status**: open
-- **Found**: 2026-10-30
-- **Plan**: -
-- **Description**: Three.js icosahedron of ceramic plates over an aurora shader core, loaded after first paint, paused off screen, static fallback without WebGL or with reduced motion.
-
 ### FEAT-012: Plans and pricing table
 - **Priority**: medium
 - **Epic**: EPIC-002
@@ -224,6 +216,14 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 - **Plan**: -
 - **Description**: Download clicks and contact submissions recorded as Google Analytics 4 events.
 
+### FEAT-036: DocMapper site
+- **Priority**: medium
+- **Epic**: EPIC-005
+- **Status**: open
+- **Found**: 2026-11-12
+- **Plan**: -
+- **Description**: Overview, features and status of DocMapper at its own subdomain, with the availability banner while it has no installers; adds docmapper to domains.json and the site links.
+
 ## Improvements
 
 ## Adjustments
@@ -351,3 +351,12 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 - **Plan**: levix_digital_website_shared_header_and_footer
 - **Closed**: 2026-11-01, PR #13
 - **Description**: Header with navigation, theme and language pickers; footer with contact@levix.digital, Calgary, Alberta, Canada and legal links.
+
+### FEAT-011: 3D hero
+- **Priority**: high
+- **Epic**: EPIC-002
+- **Status**: dropped
+- **Found**: 2026-10-30
+- **Plan**: -
+- **Closed**: 2026-11-12, Replaced by the sober text hero of the company home (FEAT-017, ADR-0014); the 3D direction was rejected by the product owner on 2026-11-12.
+- **Description**: Three.js icosahedron of ceramic plates over an aurora shader core, loaded after first paint, paused off screen, static fallback without WebGL or with reduced motion.

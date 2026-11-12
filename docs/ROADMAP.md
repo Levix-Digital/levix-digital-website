@@ -7,12 +7,12 @@ Each release: `## vX.Y.Z: <name>` with the fields `Status` (planned, in_progress
 ## v0.1.0: Company home
 - **Status**: planned
 - **Goal**: Visitors at levix.digital see who Levix Digital is and its product portfolio in the Ceramic and Aurora design, in light or dark, and can contact the company; legal pages and consent-based analytics are in place.
-- **Items**: FEAT-001, FEAT-002, FEAT-003, FEAT-004, FEAT-005, FEAT-006, FEAT-007, FEAT-008, FEAT-009, FEAT-011, FEAT-014, FEAT-015, FEAT-017, FEAT-018, FEAT-019, FEAT-021, FEAT-029, FEAT-033, FEAT-034
+- **Items**: FEAT-001, FEAT-002, FEAT-003, FEAT-004, FEAT-005, FEAT-006, FEAT-007, FEAT-008, FEAT-009, FEAT-014, FEAT-015, FEAT-017, FEAT-018, FEAT-019, FEAT-021, FEAT-029, FEAT-033, FEAT-034
 
 ## v0.2.0: Product sites
 - **Status**: planned
 - **Goal**: Each product has its own site at its subdomain with features, plans and a download page; AnyContext can be downloaded, the others show the availability banner.
-- **Items**: FEAT-010, FEAT-012, FEAT-013, FEAT-016, FEAT-020, FEAT-022, FEAT-023, FEAT-024, FEAT-025, FEAT-035
+- **Items**: FEAT-010, FEAT-012, FEAT-013, FEAT-016, FEAT-020, FEAT-022, FEAT-023, FEAT-024, FEAT-025, FEAT-035, FEAT-036
 
 ## v0.3.0: Every language
 - **Status**: planned

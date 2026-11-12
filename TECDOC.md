@@ -39,6 +39,7 @@ flowchart LR
 <!-- architecture-docs:adrs:start -->
 | ADR | Title | Status | Version | Date |
 |---|---|---|---|---|
+| [ADR-0014](docs/adr/0014-portfolio-with-three-availability-statuses.md) | Portfolio with three availability statuses | accepted | v0.1.0 | 2026-11-12 |
 | [ADR-0013](docs/adr/0013-shared-layout-with-facts-and-text-passed-in.md) | Shared layout with facts and text passed in | accepted | v0.1.0 | 2026-11-01 |
 | [ADR-0012](docs/adr/0012-stored-theme-applied-by-a-hashed-inline-script.md) | Stored theme applied by a hashed inline script | accepted | v0.1.0 | 2026-10-31 |
 | [ADR-0011](docs/adr/0011-theme-colors-with-light-dark-and-color-scheme.md) | Theme colors with light-dark and color-scheme | accepted | v0.1.0 | 2026-10-31 |

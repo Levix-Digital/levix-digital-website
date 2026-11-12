@@ -63,9 +63,18 @@ The page base styles the root background (`surface`), text (`body`, `font-sans`)
 - **Monogram.** `LevixMonogram` is the "LD" symbol of the company logo file (`levix-digital-logo.svg`) as inline SVG, without the file's light background and text: the groove follows the `bevel` token, the opal metal keeps its colors, the sheen uses the `mix-blend-screen` class instead of an inline style, and each instance gets its own gradient and filter ids. It is decorative (`aria-hidden`); the link around it carries the name.
 - **Adding a link.** Contact, legal and research links are passed from the site's data by the items that create those pages; the components do not change.
 
+## Components
+
+Building blocks for page sections, on the design tokens, in both themes, without inline styles:
+
+- `SectionHeading`: an optional eyebrow (mono, accent), the title at level 1, 2 or 3 with an optional `id` for `aria-labelledby`, and an optional lead.
+- `CeramicCard`: a raised plate with the bevel border, the ceramic shadow and a decorative aurora seam on top. With `href` the whole card is one link whose name is the title (a stretched link inside the heading); without it, the card has no link.
+- `StatusBadge`: the availability as a text label (`available`, `preview`, `in-development`) colored by the success, info or muted tokens; the color never carries the status alone.
+- `ActionLink`: a link styled as a button, primary (accent fill) or secondary (outlined).
+
 ## Behavior
 
-Light is the default theme; dark follows the system preference (see Themes). A visitor's choice in the theme picker overrides the system preference on that site (see Themes). The hero loads Three.js after the first paint, only with WebGL and without a reduced-motion preference; otherwise it shows a static image. It pauses when off screen.
+Light is the default theme; dark follows the system preference (see Themes). A visitor's choice in the theme picker overrides the system preference on that site (see Themes). The company home's hero is static text with a CSS aurora seam; there is no 3D scene (FEAT-011 was dropped on 2026-11-12).
 
 ## Interfaces
 
@@ -73,7 +82,7 @@ Components receive text through props or the i18n `t()` function; they never imp
 
 ## Decisions
 
-- [ADR-0002](../adr/0002-vue-3-with-vite-static-prerendering.md): Vue 3, Tailwind and Three.js.
+- [ADR-0002](../adr/0002-vue-3-with-vite-static-prerendering.md): Vue 3 with static prerendering.
 - [ADR-0006](../adr/0006-tailwind-css-4-with-a-shared-stylesheet-theme.md): Tailwind CSS 4 with a shared stylesheet theme.
 - [ADR-0011](../adr/0011-theme-colors-with-light-dark-and-color-scheme.md): Theme colors with light-dark and color-scheme.
 - [ADR-0012](../adr/0012-stored-theme-applied-by-a-hashed-inline-script.md): Stored theme applied by a hashed inline script.
