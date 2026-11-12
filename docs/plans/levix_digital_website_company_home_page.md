@@ -6,12 +6,14 @@ version: v0.1.0
 status: completed
 author: LeviGuilherme
 created_at: '2026-11-12T17:56:58'
-updated_at: '2026-11-12T18:33:51'
+updated_at: '2026-11-12T21:03:00'
 session_id: null
 tags: []
 supersedes: null
 superseded_by: null
 parent_plan_id: null
+backlog_items:
+- FEAT-017
 spec_dir: specs/009-company-home
 milestones:
 - name: Product data
@@ -51,6 +53,9 @@ status_log:
   by: LeviGuilherme
   status: completed
   note: All milestones completed
+- at: '2026-11-12T21:03:00'
+  by: LeviGuilherme
+  note: 'PR #17 merged; Deploy run 43304882805 green (after the repository became public), the address check passed'
 ---
 
 ## Goal and decisions
