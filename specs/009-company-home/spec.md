@@ -6,7 +6,7 @@
 
 **Status**: Draft
 
-**Input**: Backlog item FEAT-017: "Hero, introduction of Levix Digital Inc. and the product portfolio linking to each product site", with the minimum of FEAT-009 (ceramic components) and FEAT-014/FEAT-015 (product data) the page needs. Decisions taken with the product owner on 2026-11-12: the home is built now, before the product sites; the hero is sober, with no 3D scene (the 3D vault prototype was rejected and is not reused); the company's distribution and positioning document (`/mnt/project-files/website-planning/estrategia-distribuicao-posicionamento.pdf`, 2026-11-05) guides priorities and tone but is not a source of facts, since parts of it (notably the platform layer) do not match the repositories. Confirmed by the product owner on 2026-11-12: the portfolio shows five products in two lines, documents (DocMapper, AnyContext) first and software development with agents (Dev Cycle Protocol, Gedo, Aurora Dev Suite) second; the administration server ("Admin Hub") and the platform layer are not presented until a repository backs them.
+**Input**: Backlog item FEAT-017: "Hero, introduction of Levix Digital Inc. and the product portfolio linking to each product site", with the minimum of FEAT-009 (ceramic components) and FEAT-014/FEAT-015 (product data) the page needs. Decisions taken with the product owner on 2026-11-12: the home is built now, before the product sites; the hero is sober, with no 3D scene (the 3D vault prototype was rejected and is not reused); the company's distribution and positioning document (`/mnt/project-files/website-planning/estrategia-distribuicao-posicionamento.pdf`, 2026-11-05) guides priorities and tone but is not a source of facts, since parts of it (notably the platform layer) do not match the repositories. Also confirmed by the product owner on 2026-11-12: the company is presented clearly as one that develops products that run only inside the customer's perimeter; and the portfolio shows five products in two lines, documents (DocMapper, AnyContext) first and software development with agents (Dev Cycle Protocol, Gedo, Aurora Dev Suite) second; the administration server ("Admin Hub") and the platform layer are not presented until a repository backs them.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -14,7 +14,7 @@ The users of this page are the visitors of `levix.digital`: technical and securi
 
 ### User Story 1 - Understand what Levix Digital does in seconds (Priority: P1)
 
-A visitor lands on the home and, without scrolling, reads what Levix Digital builds and for whom: software and AI that run where the customer's data lives, governed by the customer, and open to inspection.
+A visitor lands on the home and, without scrolling, reads what Levix Digital is: a company that builds products made to run only inside the customer's perimeter (their machines and network), governed by the customer and open to inspection.
 
 **Why this priority**: the home is the company's first impression; the positioning document makes the category ("AI where the cloud does not go") the frame of everything else.
 
@@ -91,8 +91,10 @@ A visitor sees a short research section presenting the LSIE line (deterministic,
 ### Functional Requirements
 
 - **FR-001**: The home MUST present, in this order: hero, product portfolio, about, research, contact.
-- **FR-002**: The hero MUST show a headline and one supporting sentence that state the positioning (software and AI that run inside the customer's perimeter, governed by the customer, verifiable), and two actions: "See the products" (to the portfolio) and "Contact" (to the contact section).
+- **FR-002**: The hero MUST show a headline and one supporting sentence that state, without ambiguity, that Levix Digital focuses on products that run inside the customer's perimeter, governed by the customer and verifiable, and two actions: "See the products" (to the portfolio) and "Contact" (to the contact section).
 - **FR-003**: The hero MUST NOT contain a 3D scene, an animation loop or WebGL; any decoration is static and purely visual (hidden from assistive technology).
+- **FR-016**: The about section MUST repeat the focus in its first sentence: Levix Digital develops products that run inside the customer's perimeter, never as a service hosted by Levix Digital.
+- **FR-017**: A product card MUST NOT claim more than its product does today: where a product can use an outside service by the customer's choice (for example AnyContext with a cloud model), the card does not say it never connects out.
 - **FR-004**: The positioning copy MUST NOT state absolute guarantees ("100% secure", "unbreakable", "nothing ever leaves") or facts not backed by a repository: no customers, certifications, audits, metrics or prices.
 - **FR-005**: The portfolio MUST group the products in two lines, documents and knowledge (DocMapper, AnyContext) first and software development with agents (Dev Cycle Protocol, Gedo, Aurora Dev Suite) second, each line with a heading and a one-sentence description.
 - **FR-006**: Each product card MUST show the product's name, a one-sentence value statement and its availability status, all read from the product data.

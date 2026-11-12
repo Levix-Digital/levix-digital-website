@@ -44,8 +44,8 @@
 
 ## R6. Positioning copy
 
-- **Decision**: headline "Software and AI that stay where your data lives."; supporting sentence "Levix Digital builds tools for documents, knowledge and software development that run on your own machines, under your control, and can be inspected." No absolute claims, no numbers.
-- **Rationale**: follows the category of the positioning document ("AI where the cloud does not go") in a form every listed product meets today (each runs on the user's machine). Claims such as zero-knowledge administration, signed offline licenses or published penetration tests describe things not yet in the repositories and are left out.
+- **Decision**: headline "Software that runs inside your perimeter."; supporting sentence "Levix Digital builds products for documents, knowledge and software development that run on your own machines and network, under your control. Your data is never sent to us." The about section opens with the same focus. No absolute claims, no numbers.
+- **Rationale**: the product owner asked that the company be clearly presented as focused on products that run only inside the customer's perimeter. It follows the category of the positioning document ("AI where the cloud does not go") in a form every listed product meets today (each runs on the user's machine). Claims such as zero-knowledge administration, signed offline licenses or published penetration tests describe things not yet in the repositories and are left out.
 
 ## R7. Research section
 
