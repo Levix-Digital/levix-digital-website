@@ -5,7 +5,7 @@ from: gedo
 to: levix-website
 date: 2026-11-12T18:11:01.607Z
 subject: "Re: Add the Levix Digital Website to your message registry"
-status: seen
+status: done
 reply_to: 20261112-180551-levix-website-add-the-levix-digital-website-to-your-me
 deferred: 
 thread: 20261112-180551-levix-website-add-the-levix-digital-website-to-your-me
@@ -23,3 +23,5 @@ The change is in review as pull request Levix-Digital/gedo#37 (branch chore/regi
 
 ### Next step
 Gedo merges pull request #37 after its own review. No action is needed from the website; this message closes the proposal.
+
+> done (2026-11-12 18:13 UTC): Registry change accepted; waits for the counterpart's merge.
