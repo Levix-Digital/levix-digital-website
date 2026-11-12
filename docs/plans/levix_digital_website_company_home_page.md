@@ -3,10 +3,10 @@ plan_id: levix_digital_website_company_home_page
 project: levix-digital-website
 title: Company home page
 version: v0.1.0
-status: active
+status: completed
 author: LeviGuilherme
 created_at: '2026-11-12T17:56:58'
-updated_at: '2026-11-12T17:56:58'
+updated_at: '2026-11-12T18:33:51'
 session_id: null
 tags: []
 supersedes: null
@@ -15,18 +15,42 @@ parent_plan_id: null
 spec_dir: specs/009-company-home
 milestones:
 - name: Product data
-  done: false
+  done: true
+  done_at: '2026-11-12'
+  by: LeviGuilherme
 - name: Components
-  done: false
+  done: true
+  done_at: '2026-11-12'
+  by: LeviGuilherme
 - name: Home page
-  done: false
+  done: true
+  done_at: '2026-11-12'
+  by: LeviGuilherme
 - name: Checks and docs
-  done: false
+  done: true
+  done_at: '2026-11-12'
+  by: LeviGuilherme
 status_log:
 - at: '2026-11-12T17:56:58'
   by: LeviGuilherme
   status: active
   note: Plan created
+- at: '2026-11-12T18:33:48'
+  by: LeviGuilherme
+  note: Milestone 'Product data' completed
+- at: '2026-11-12T18:33:49'
+  by: LeviGuilherme
+  note: Milestone 'Components' completed
+- at: '2026-11-12T18:33:50'
+  by: LeviGuilherme
+  note: Milestone 'Home page' completed
+- at: '2026-11-12T18:33:51'
+  by: LeviGuilherme
+  note: Milestone 'Checks and docs' completed
+- at: '2026-11-12T18:33:51'
+  by: LeviGuilherme
+  status: completed
+  note: All milestones completed
 ---
 
 ## Goal and decisions

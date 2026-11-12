@@ -203,3 +203,28 @@ How to record a run: in each test of the current run, mark exactly one box of th
   - Step 8: no error in the console.
 - **Result**: [ ] Pass [ ] Fail [ ] Blocked
 - **Notes**:
+
+## Company home
+
+### MT-HOME-001: The home page reads right
+
+- **Covers**: `sites/home/src/pages/HomePage.vue` and its sections, `CeramicCard`, `SectionHeading`, `StatusBadge` and `ActionLink` in `packages/ui`, the portfolio in `packages/content`
+- **Prerequisites**: the home deployed (production or a pull request preview); a browser with its developer tools; a screen reader (NVDA, VoiceOver or Narrator)
+- **Steps**:
+  1. Open the home at about 1280 px in the light theme. Look at the first screen for five seconds, then say what Levix Digital does and for whom.
+  2. Scroll the whole page, then switch to the dark theme and scroll again.
+  3. Set the window (or the device toolbar) to 320, 375 and 1920 px wide.
+  4. Press "See the products", then reload and press "Contact".
+  5. Using only the keyboard, Tab through the page; press Enter on a product card.
+  6. With the screen reader, list the headings of the page.
+  7. Compare each product's status and sentence with its repository's README.
+- **Expected**:
+  - Step 1: the reviewer names the perimeter focus (products that run on the customer's own machines and network) without scrolling.
+  - Step 2: hero, products in two lines (DocMapper and AnyContext, then Dev Cycle Protocol, Gedo and Aurora Dev Suite), about, research and contact, all legible in both themes; no 3D or animation.
+  - Step 3: no horizontal scrolling; the cards stack in one column on narrow screens.
+  - Step 4: the page moves to the products, then to the contact section.
+  - Step 5: every card with a site and every link shows a visible focus ring and opens the right address; DocMapper's card is not focusable and says "Site coming later".
+  - Step 6: one level-1 heading (the headline), then a level-2 heading per section, level 3 per product line and level 4 per product.
+  - Step 7: every status and sentence matches its repository; nothing on the page claims customers, certifications, audits, metrics or prices.
+- **Result**: [ ] Pass [ ] Fail [ ] Blocked
+- **Notes**:

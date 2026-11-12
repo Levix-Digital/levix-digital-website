@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import domains from '../../../domains.json'
-import { company, companySite, products } from './index'
+import { company, companySite, portfolio, products } from './index'
 
 describe('@levix/content', () => {
   it('exposes the company facts', () => {
@@ -16,6 +16,12 @@ describe('@levix/content', () => {
       ['gedo', 'Gedo'],
       ['aurora', 'Aurora Dev Suite'],
     ])
+  })
+
+  it('derives the products with a site from the portfolio', () => {
+    expect(products.map((product) => product.url)).toEqual(
+      portfolio.flatMap((product) => (product.site === undefined ? [] : [product.site])),
+    )
   })
 
   it('links every site at its production domain from domains.json', () => {
