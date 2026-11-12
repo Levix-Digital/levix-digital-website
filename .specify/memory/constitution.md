@@ -1,7 +1,7 @@
 <!-- dev-cycle-constitution
 generated-by: dev-cycle-protocol/constitution.py (do not edit; change a source and regenerate)
-sources-sha256: a17e1ad6477fadb089ee814fc37c80d183ff802990826dbbdbb10cb2f1b614bc
-content-sha256: 04f05618284b16ed66b8e112acc8611fe6a7b096222b412cd81b60bca5e7ffce
+sources-sha256: a1ac7cc9d6e58d7114ee3269b109aecf6fd8368d26a0eac62e60d2740efdd05c
+content-sha256: 49640200ebedd37d486a0f957ac42b2bdab46e23697c00ca074a722d3f04806d
 -->
 # levix-digital-website Constitution
 
@@ -176,6 +176,7 @@ Accepted decisions; a plan that contradicts one needs a new ADR that supersedes 
 - ADR-0010: Strict Content Security Policy extended per feature (`docs/adr/0010-strict-content-security-policy-extended-per-feature.md`)
 - ADR-0011: Theme colors with light-dark and color-scheme (`docs/adr/0011-theme-colors-with-light-dark-and-color-scheme.md`)
 - ADR-0012: Stored theme applied by a hashed inline script (`docs/adr/0012-stored-theme-applied-by-a-hashed-inline-script.md`)
+- ADR-0013: Shared layout with facts and text passed in (`docs/adr/0013-shared-layout-with-facts-and-text-passed-in.md`)
 
 ## Governance
 
@@ -183,4 +184,4 @@ Accepted decisions; a plan that contradicts one needs a new ADR that supersedes 
 - Amendments change the source, not this file: an ADR for decisions, the technical specification for requirements and constraints, `.dev-cycle.json` for the architecture style, the skills for principles. Then run `constitution.py generate` and commit the result with the change.
 - Gate 3 of the development cycle blocks a plan while this file is stale or edited by hand.
 
-**Version**: 1.8.0 | **Ratified**: 2026-10-30 | **Last Amended**: 2026-10-31
+**Version**: 1.9.0 | **Ratified**: 2026-10-30 | **Last Amended**: 2026-11-12
