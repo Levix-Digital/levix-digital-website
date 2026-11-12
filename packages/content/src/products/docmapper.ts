@@ -1,11 +1,11 @@
 import type { Product } from '../types'
 
-/** Source: DocMapper README ("There are no installers yet (they come with version 1.0)"). */
+/** Sources: DocMapper README ("There are no installers yet (they come with version 1.0)") and docs/product/VISION.md. */
 export const docmapper: Product = {
   id: 'docmapper',
   name: 'DocMapper',
   line: 'documents',
   statement:
-    'Deterministic data extraction for the logistics, customs and billing documents you process every day, on your own machine.',
+    'Map the fields of a sample PDF once, and DocMapper copies them from every similar document into your own documents and data files, on each user\'s computer.',
   status: 'in-development',
 }

@@ -128,7 +128,7 @@ A visitor sees a short research section presenting the LSIE line (deterministic,
 
 - The product line-up and order were confirmed by the product owner on 2026-11-12.
 - DocMapper joins the product data without a site or subdomain; its site is a separate backlog item.
-- Initial statuses, to be confirmed against the repositories in the plan: AnyContext available (public releases with installers); Dev Cycle Protocol available (open source, installable from its repository); Aurora Dev Suite preview (release candidates published); Gedo in development (a library without a command yet); DocMapper in development (no installers before 1.0).
+- Initial statuses, to be confirmed against the repositories in the plan: AnyContext available (public releases with installers); Dev Cycle Protocol available (open source, installable from its repository); Aurora Dev Suite in development (becoming a self-hosted web application, not released); Gedo in development (a library without a command yet); DocMapper in development (no installers before 1.0).
 - FEAT-011 (3D hero) is replaced by the sober hero of this feature; the plan proposes removing it from v0.1.0.
 - The contact form (FEAT-018), legal pages (FEAT-019), language picker (FEAT-029), analytics (FEAT-034), the research pages (v0.4) and the product sites (v0.2) are out of scope.
 - The home stays a single page; "About" is a section here, and FEAT-020 (About page) remains in v0.2.

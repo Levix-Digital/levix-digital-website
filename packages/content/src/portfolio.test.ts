@@ -23,7 +23,7 @@ describe('portfolio', () => {
       anycontext: 'available',
       devcycle: 'available',
       gedo: 'in-development',
-      aurora: 'preview',
+      aurora: 'in-development',
     })
   })
 

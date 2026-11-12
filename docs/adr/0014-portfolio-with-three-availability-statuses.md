@@ -15,7 +15,7 @@ amended_by: []
 
 ## Context
 
-The company home (FEAT-017) presents every product with an honest availability. ADR-0005 foresaw two statuses (available, coming soon), but Aurora Dev Suite publishes pre-release builds, which is neither. DocMapper joins the portfolio without a site of its own, while the header and footer must link only sites that exist.
+The company home (FEAT-017) presents every product with an honest availability. ADR-0005 foresaw two statuses (available, coming soon), but a product can publish pre-release builds (Aurora Dev Suite published desktop release candidates), which is neither. DocMapper joins the portfolio without a site of its own, while the header and footer must link only sites that exist.
 
 ## Decision
 
@@ -23,7 +23,7 @@ Each product is one typed data file in `packages/content/src/products/` with its
 
 ## Alternatives Considered
 
-- **Keep two statuses**: Aurora would be either overstated as available or hidden as coming soon although it can be downloaded.
+- **Keep two statuses**: a product with pre-release builds would be either overstated as available or hidden as coming soon although it can be downloaded.
 - **A separate list of site links**: two sources for one fact, which drift.
 
 ## Consequences

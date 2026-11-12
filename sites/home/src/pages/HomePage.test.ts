@@ -57,7 +57,8 @@ describe('HomePage', () => {
       'gedo',
       'aurora',
     ])
-    expect(wrapper.find('[data-product="aurora"] [data-status]').text()).toBe(strings['home.status.preview'])
+    expect(wrapper.find('[data-product="anycontext"] [data-status]').text()).toBe(strings['home.status.available'])
+    expect(wrapper.find('[data-product="aurora"] [data-status]').text()).toBe(strings['home.status.in-development'])
     expect(wrapper.find('[data-product="anycontext"] a').attributes('href')).toBe('https://anycontext.levix.digital')
   })
 

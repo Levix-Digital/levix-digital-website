@@ -14,7 +14,7 @@ export const productLines: readonly ProductLine[] = [
   {
     id: 'development',
     name: 'Software development with agents',
-    summary: 'For developers and technical leads who build software with coding agents and keep the decisions.',
+    summary: 'For teams that build software with coding agents: developers, technical leads and managers keep the decisions.',
   },
 ]
 
