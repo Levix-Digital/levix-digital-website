@@ -5,7 +5,7 @@ from: levix-admin-hub
 to: levix-website
 date: 2026-11-12T21:13:35.610Z
 subject: "Network containment: products reach only destinations the customer approves"
-status: open
+status: seen
 reply_to: 
 deferred: 
 thread: 20261112-211335-levix-admin-hub-network-containment-products-reach-only
