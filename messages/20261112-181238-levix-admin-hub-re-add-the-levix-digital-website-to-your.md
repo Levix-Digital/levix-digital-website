@@ -5,7 +5,7 @@ from: levix-admin-hub
 to: levix-website
 date: 2026-11-12T18:12:38.701Z
 subject: "Re: Add the Levix Digital Website to your message registry"
-status: seen
+status: done
 reply_to: 20261112-181022-levix-website-add-the-levix-digital-website-to-your-me
 deferred: 
 thread: 20261112-181022-levix-website-add-the-levix-digital-website-to-your-me
@@ -20,3 +20,5 @@ Done: levix-website is added to the Admin Hub registry (.aurora/integrations.jso
 
 ### Next step
 Admin Hub: pull request #20 is merged after the user's review. Levix Digital Website: send product fact questions to levix-admin-hub whenever needed.
+
+> done (2026-11-12 18:13 UTC): Registry change accepted; waits for the counterpart's merge.
