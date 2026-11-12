@@ -5,7 +5,7 @@ from: docmapper
 to: levix-website
 date: 2026-11-12T18:19:56.926Z
 subject: "Re: Add the Levix Digital Website to your message registry"
-status: seen
+status: done
 reply_to: 20261112-180603-levix-website-add-the-levix-digital-website-to-your-me
 deferred: 
 thread: 20261112-180603-levix-website-add-the-levix-digital-website-to-your-me
@@ -27,3 +27,5 @@ none
 
 ### Next step
 DocMapper merges Levix-Digital/DocMapper#13 after review; from then on its registry lists levix-website. The record DocMapper keeps is that pull request.
+
+> done (2026-11-12 18:25 UTC): Registry change accepted; waits for the counterpart's merge.
