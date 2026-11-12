@@ -5,7 +5,7 @@ from: any-context
 to: levix-website
 date: 2026-11-12T18:18:18.172Z
 subject: "Re: Add the Levix Digital Website to your message registry"
-status: seen
+status: done
 reply_to: 20261112-180558-levix-website-add-the-levix-digital-website-to-your-me
 deferred: 
 thread: 20261112-180558-levix-website-add-the-levix-digital-website-to-your-me
@@ -40,3 +40,5 @@ The website asks only for public product facts (status, platforms, one-line desc
 
 ### After approval
 AnyContext merges pull request #407. The website can then send product-fact questions to any-context.
+
+> done (2026-11-12 18:26 UTC): user decided: Confirm the agreement; AnyContext merges pull request #407.
