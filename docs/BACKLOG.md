@@ -64,14 +64,6 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 - **Plan**: -
 - **Description**: Latest version and download links of released products read from their GitHub Releases during the build.
 
-### FEAT-017: Home page
-- **Priority**: high
-- **Epic**: EPIC-004
-- **Status**: open
-- **Found**: 2026-10-30
-- **Plan**: -
-- **Description**: Hero, introduction of Levix Digital Inc. and the product portfolio linking to each product site.
-
 ### FEAT-018: Contact page and form
 - **Priority**: high
 - **Epic**: EPIC-004
@@ -360,3 +352,12 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 - **Plan**: -
 - **Closed**: 2026-11-12, Replaced by the sober text hero of the company home (FEAT-017, ADR-0014); the 3D direction was rejected by the product owner on 2026-11-12.
 - **Description**: Three.js icosahedron of ceramic plates over an aurora shader core, loaded after first paint, paused off screen, static fallback without WebGL or with reduced motion.
+
+### FEAT-017: Home page
+- **Priority**: high
+- **Epic**: EPIC-004
+- **Status**: done
+- **Found**: 2026-10-30
+- **Plan**: levix_digital_website_company_home_page
+- **Closed**: 2026-11-12, PR #17
+- **Description**: Hero, introduction of Levix Digital Inc. and the product portfolio linking to each product site.
