@@ -9,7 +9,7 @@ export const aurora: Product = {
   name: 'Aurora Dev Suite',
   line: 'development',
   statement:
-    'A web application hosted in your own network that shows the phases, decisions and approvals of every project in one place, for leads, architects and managers.',
+    'The phases, decisions and approvals of every project in one place, for leads, architects and managers.',
   status: 'in-development',
   site: 'https://aurora.levix.digital',
 }

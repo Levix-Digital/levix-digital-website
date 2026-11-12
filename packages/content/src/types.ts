@@ -14,7 +14,10 @@ export interface ProductLine {
   readonly summary: string
 }
 
-/** A product of the portfolio. `site` is set only for products that have their own site. */
+/**
+ * A product of the portfolio. `site` is set only for products that have their own site. `statement` says what the
+ * product is for, never its application type (desktop, web, command line): that belongs to the product's own site.
+ */
 export interface Product {
   readonly id: string
   readonly name: string

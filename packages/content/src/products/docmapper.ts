@@ -6,6 +6,6 @@ export const docmapper: Product = {
   name: 'DocMapper',
   line: 'documents',
   statement:
-    'Map the fields of a sample PDF once, and DocMapper copies them from every similar document into your own documents and data files, on each user\'s computer.',
+    'Map the fields of a sample PDF once, and DocMapper copies them from every similar document into your own documents and data files.',
   status: 'in-development',
 }

@@ -35,12 +35,12 @@
 ## R5. One-line value statements
 
 - **Decision**: one sentence per product, written from its README and its product vision, revised with the product owner on review (2026-11-12):
-  - DocMapper: "Map the fields of a sample PDF once, and DocMapper copies them from every similar document into your own documents and data files, on each user's computer."
+  - DocMapper: "Map the fields of a sample PDF once, and DocMapper copies them from every similar document into your own documents and data files."
   - AnyContext: "Answers from your own folders and documentation, citing the files. In organizations the models run locally or in your own VPC; individuals may also choose a cloud provider."
   - Dev Cycle Protocol: the approved one-line description of its vision: "The agent writes the code. Dev Cycle Protocol makes sure it was done the right way: specification, plan, tests, review and release, with no steps skipped."
   - Gedo: "Git, supercharged for teams and coding agents: it spots conflicts while the code is still being written, long before the merge, and merges by meaning instead of by line."
-  - Aurora Dev Suite: "A web application hosted in your own network that shows the phases, decisions and approvals of every project in one place, for leads, architects and managers."
-- **Rationale**: each sentence follows the product's own documents. AnyContext separates organizations (local or VPC models) from individuals (who may choose a cloud provider), so the card does not contradict the perimeter focus; Aurora follows its ADR-0014 (self-hosted web application, never a Levix-hosted service).
+  - Aurora Dev Suite: "The phases, decisions and approvals of every project in one place, for leads, architects and managers."
+- **Rationale**: each sentence follows the product's own documents and says what the product is for, not its application type, which can change (Aurora moved from desktop to a self-hosted web application) and is described on the product's site (FR-018). AnyContext separates organizations (local or VPC models) from individuals (who may choose a cloud provider), so the card does not contradict the perimeter focus; Aurora follows its ADR-0014 (self-hosted web application, never a Levix-hosted service).
 
 ## R6. Positioning copy
 

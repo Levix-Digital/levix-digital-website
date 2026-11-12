@@ -95,6 +95,7 @@ A visitor sees a short research section presenting the LSIE line (deterministic,
 - **FR-003**: The hero MUST NOT contain a 3D scene, an animation loop or WebGL; any decoration is static and purely visual (hidden from assistive technology).
 - **FR-016**: The about section MUST repeat the focus in its first sentence: Levix Digital develops products that run inside the customer's perimeter, never as a service hosted by Levix Digital.
 - **FR-017**: A product card MUST NOT claim more than its product does today: where a product can use an outside service by the customer's choice (for example AnyContext with a cloud model), the card does not say it never connects out.
+- **FR-018**: A product's statement MUST describe its purpose, not its application type (desktop, web, command line, hosting model), so the home does not change when a product changes form; the product's own site carries those details.
 - **FR-004**: The positioning copy MUST NOT state absolute guarantees ("100% secure", "unbreakable", "nothing ever leaves") or facts not backed by a repository: no customers, certifications, audits, metrics or prices.
 - **FR-005**: The portfolio MUST group the products in two lines, documents and knowledge (DocMapper, AnyContext) first and software development with agents (Dev Cycle Protocol, Gedo, Aurora Dev Suite) second, each line with a heading and a one-sentence description.
 - **FR-006**: Each product card MUST show the product's name, a one-sentence value statement and its availability status, all read from the product data.
