@@ -31,4 +31,4 @@
 
 ## Notes
 
-- The product line-up (five products in two lines) is the recommendation pending the product owner's confirmation; see Assumptions.
+- The product line-up (five products in two lines) is the recommendation confirmed by the product owner on 2026-11-12.

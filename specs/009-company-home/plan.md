@@ -88,7 +88,7 @@ None.
 
 ### Backlog items and release
 
-FEAT-017 (Home page, EPIC-004) in full; the part of FEAT-009 (Ceramic components), FEAT-014 (Product data schema) and FEAT-015 (Product data files) the home needs. Release v0.1.0 "Company home". Proposed backlog changes, applied with the plan: FEAT-011 (3D hero) removed from v0.1.0 and closed as replaced by the sober hero; a new item "DocMapper site" in v0.2.0 if the product owner keeps DocMapper in the portfolio.
+FEAT-017 (Home page, EPIC-004) in full; the part of FEAT-009 (Ceramic components), FEAT-014 (Product data schema) and FEAT-015 (Product data files) the home needs. Release v0.1.0 "Company home". Proposed backlog changes, applied with the plan: FEAT-011 (3D hero) removed from v0.1.0 and closed as replaced by the sober hero; a new item "DocMapper site" in v0.2.0.
 
 ### Tests (quality-assurance)
 

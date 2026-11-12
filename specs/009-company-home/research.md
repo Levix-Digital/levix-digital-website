@@ -10,7 +10,7 @@
 
 - **Decision**: five products in two lines. "Documents and knowledge": DocMapper, AnyContext. "Software development with agents": Dev Cycle Protocol, Gedo, Aurora Dev Suite. The administration server and the platform layer are not shown.
 - **Rationale**: the positioning document puts DocMapper and AnyContext first (they open accounts) and says Gedo must not lead the company's message; it also warns that its own description of the platform layer is not accurate, and no repository in the portfolio backs an administration server today, so the site cannot describe one (vision: "only facts that are true").
-- **Alternatives considered**: the vision's four products (leaves out DocMapper, the entry product of the strategy); six products with the administration server marked as coming (a claim without a repository). Pending the product owner's confirmation.
+- **Alternatives considered**: the vision's four products (leaves out DocMapper, the entry product of the strategy); six products with the administration server marked as coming (a claim without a repository). Confirmed by the product owner on 2026-11-12.
 
 ## R3. Availability statuses
 

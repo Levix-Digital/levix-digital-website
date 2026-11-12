@@ -6,7 +6,7 @@
 
 **Status**: Draft
 
-**Input**: Backlog item FEAT-017: "Hero, introduction of Levix Digital Inc. and the product portfolio linking to each product site", with the minimum of FEAT-009 (ceramic components) and FEAT-014/FEAT-015 (product data) the page needs. Decisions taken with the product owner on 2026-11-12: the home is built now, before the product sites; the hero is sober, with no 3D scene (the 3D vault prototype was rejected and is not reused); the company's distribution and positioning document (`/mnt/project-files/website-planning/estrategia-distribuicao-posicionamento.pdf`, 2026-11-05) guides priorities and tone but is not a source of facts, since parts of it (notably the platform layer) do not match the repositories. Recommended to the product owner and pending confirmation: the portfolio shows five products in two lines, documents (DocMapper, AnyContext) first and software development with agents (Dev Cycle Protocol, Gedo, Aurora Dev Suite) second; the administration server ("Admin Hub") and the platform layer are not presented until a repository backs them.
+**Input**: Backlog item FEAT-017: "Hero, introduction of Levix Digital Inc. and the product portfolio linking to each product site", with the minimum of FEAT-009 (ceramic components) and FEAT-014/FEAT-015 (product data) the page needs. Decisions taken with the product owner on 2026-11-12: the home is built now, before the product sites; the hero is sober, with no 3D scene (the 3D vault prototype was rejected and is not reused); the company's distribution and positioning document (`/mnt/project-files/website-planning/estrategia-distribuicao-posicionamento.pdf`, 2026-11-05) guides priorities and tone but is not a source of facts, since parts of it (notably the platform layer) do not match the repositories. Confirmed by the product owner on 2026-11-12: the portfolio shows five products in two lines, documents (DocMapper, AnyContext) first and software development with agents (Dev Cycle Protocol, Gedo, Aurora Dev Suite) second; the administration server ("Admin Hub") and the platform layer are not presented until a repository backs them.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -124,8 +124,8 @@ A visitor sees a short research section presenting the LSIE line (deterministic,
 
 ## Assumptions
 
-- The product line-up and order follow the recommendation above; if the product owner chooses otherwise, only FR-005, the product data and the story 2 scenarios change.
-- DocMapper joins the product data without a site or subdomain; its site is a separate backlog item to be added if the product owner keeps it in the portfolio.
+- The product line-up and order were confirmed by the product owner on 2026-11-12.
+- DocMapper joins the product data without a site or subdomain; its site is a separate backlog item.
 - Initial statuses, to be confirmed against the repositories in the plan: AnyContext available (public releases with installers); Dev Cycle Protocol available (open source, installable from its repository); Aurora Dev Suite preview (release candidates published); Gedo in development (a library without a command yet); DocMapper in development (no installers before 1.0).
 - FEAT-011 (3D hero) is replaced by the sober hero of this feature; the plan proposes removing it from v0.1.0.
 - The contact form (FEAT-018), legal pages (FEAT-019), language picker (FEAT-029), analytics (FEAT-034), the research pages (v0.4) and the product sites (v0.2) are out of scope.
