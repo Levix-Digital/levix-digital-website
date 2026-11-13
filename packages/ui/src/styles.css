@@ -140,6 +140,8 @@
 /* The page base, from the tokens. */
 @layer base {
   html {
+    /* Room for the sticky header, so in-page links do not land under it. */
+    scroll-padding-top: 5rem;
     background-color: var(--color-surface);
     color: var(--color-body);
     font-family: var(--font-sans);
