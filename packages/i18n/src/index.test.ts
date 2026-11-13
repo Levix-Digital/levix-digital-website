@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { CONSENT_VERSION, SOURCE_LANGUAGE, availabilityStrings, formatText, layoutStrings } from './index'
+import { CONSENT_VERSION, SOURCE_LANGUAGE, availabilityStrings, layoutStrings } from './index'
 
 describe('@levix/i18n', () => {
   it('uses English as the source language', () => {
@@ -40,15 +40,5 @@ describe('availability strings', () => {
     expect(consent).toContain('release candidates of {product}')
     expect(consent).toContain('withdraw my consent at any time')
     expect(CONSENT_VERSION).toMatch(/^\d{4}-\d{2}-\d{2}$/)
-  })
-})
-
-describe('formatText', () => {
-  it('fills every placeholder', () => {
-    expect(formatText('Back to {product} ({product})', { product: 'Gedo' })).toBe('Back to Gedo (Gedo)')
-  })
-
-  it('refuses a placeholder without a value', () => {
-    expect(() => formatText('Write to {email}', {})).toThrow('No value for {email}')
   })
 })

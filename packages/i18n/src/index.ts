@@ -17,11 +17,3 @@ export const availabilityStrings: AvailabilityStrings = availability
 /** The date of the consent wording (`signup.consent`); change it whenever that wording changes. */
 export const CONSENT_VERSION = '2026-11-13'
 
-/** Replaces each `{name}` in the text with its value; a placeholder without a value is an error. */
-export function formatText(text: string, values: Readonly<Record<string, string>>): string {
-  return text.replace(/\{(\w+)\}/g, (_match, name: string) => {
-    const value = values[name]
-    if (value === undefined) throw new Error(`No value for {${name}} in "${text}"`)
-    return value
-  })
-}

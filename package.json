@@ -6,7 +6,8 @@
   "type": "module",
   "workspaces": [
     "packages/*",
-    "sites/*"
+    "sites/*",
+    "functions"
   ],
   "engines": {
     "node": "^22.22.2 || ^24.15.0"
@@ -25,7 +26,9 @@
     "lighthouse": "firebase emulators:exec --only hosting --project levix-digital \"node scripts/lighthouse.mjs\"",
     "sites:changed": "node scripts/changed-sites.mjs",
     "verify:live": "node scripts/verify-live.mjs",
-    "domains:status": "node scripts/domains-status.mjs"
+    "domains:status": "node scripts/domains-status.mjs",
+    "announce": "npm run build -w @levix/functions && node functions/lib/announce-cli.js",
+    "announce:watch": "npm run build -w @levix/functions && node functions/lib/watch-cli.js"
   },
   "devDependencies": {
     "@lhci/cli": "^0.15.1",
