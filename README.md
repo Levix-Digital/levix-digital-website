@@ -12,6 +12,7 @@ Every site is generated as static, prerendered pages that share one design syste
 - Verify that every built site has a prerendered home page and serves the security headers
 - Publish every site, or one, to Firebase Hosting, and preview every pull request at its own address
 - Collect release candidate subscriptions with double opt-in, and email each new release candidate to its subscribers
+- Show the latest version and a direct installer link per operating system on each product site, and republish a site when its product releases
 
 ## Requirements
 
@@ -174,6 +175,20 @@ npm run announce -- --product gedo --version v0.2.0-rc.1 --url <same address> --
 
 Without `--send` it prints how many subscribers would receive it and the first email; with `--send` it queues the emails, and a second run for the same version refuses.
 
+## Download links that follow each release
+
+When a product site is built, it reads the latest release of its product's public releases repository (`Levix-Digital/<product>-releases`) and shows "Latest release: vX.Y.Z" with one download action per operating system, as declared in `releases.downloads` of the product's data file in `packages/content/src/products/`. Each product site publishes the version it shows at `/release.json`.
+
+Every hour, the `Release refresh` workflow compares each product site's `/release.json` with the latest release and starts `Deploy` for the sites that differ, so a new release reaches the site within about an hour. To check at once, run `Release refresh` from the Actions tab (tick "Only report" to see what it would do), or locally:
+
+```bash
+GITHUB_TOKEN=<token> node scripts/release-refresh.mjs --dry-run
+```
+
+To see a product page with a release without network access to GitHub, point the build to another API address: `RELEASES_API_BASE=http://127.0.0.1:8787 npm run build`.
+
+For a product that starts shipping installers, add the asset name of each operating system to `releases.downloads`; the names must stay the same in every release.
+
 ## Troubleshooting
 
 | Problem | Fix |
@@ -190,6 +205,8 @@ Without `--send` it prints how many subscribers would receive it and the first e
 | The preview workflow ends with "Preview skipped" | Set the two repository variables printed by `npm run hosting:setup` |
 | `npm run lighthouse` fails with a score below budget | Open the site's HTML report in `.lighthouseci/<site>/` (or the `lighthouse` artifact of the run) and fix the audits it lists |
 | The `Deploy` run fails at "Check deploy configuration" | Set the two repository variables printed by `npm run hosting:setup` |
+| The build prints `release info: ... not read (HTTP 403)` | The GitHub API limit was reached: set `GITHUB_TOKEN`; the site is still built, with the general download link |
+| A product site shows no version or no link for a system | The latest release has no asset with the name in `releases.downloads`, or the release could not be read: see the build log, then run `Release refresh` |
 | Lint reports `boundaries/dependencies` | Import the shared package by its name (for example `@levix/ui`) instead of a file inside it, and never import another site |
 
 ## Documentation

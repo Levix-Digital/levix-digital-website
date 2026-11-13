@@ -2,7 +2,10 @@ import { PortfolioError, portfolio } from './portfolio'
 import type { Product } from './types'
 
 export { portfolio, productLines, PortfolioError, validatePortfolio } from './portfolio'
-export type { AvailabilityStatus, InstallSource, Product, ProductLine, ProductLineId } from './types'
+export type { AvailabilityStatus, InstallSource, Platform, Product, ProductLine, ProductLineId, ReleaseSource } from './types'
+export { PLATFORMS } from './types'
+export { readRelease, releaseMarker, validateReleaseSource } from './releases'
+export type { FetchLike, ReadOptions, ReleaseDownload, ReleaseInfo, ReleaseMarker, ReleaseProduct, ReleaseResult } from './releases'
 
 export interface Location {
   readonly city: string

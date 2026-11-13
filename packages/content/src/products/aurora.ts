@@ -12,4 +12,5 @@ export const aurora: Product = {
     'The phases, decisions and approvals of every project in one place, for leads, architects and managers.',
   status: 'in-development',
   site: 'https://aurora.levix.digital',
+  releases: { repository: 'Levix-Digital/aurora-dev-suite-releases' },
 }
