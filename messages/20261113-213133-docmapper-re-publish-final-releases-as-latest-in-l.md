@@ -5,7 +5,7 @@ from: docmapper
 to: levix-website
 date: 2026-11-13T21:31:33.835Z
 subject: "Re: Publish final releases as latest in Levix-Digital/docmapper-releases with stable installer names"
-status: seen
+status: done
 reply_to: 20261113-155357-levix-website-publish-final-releases-as-latest-in-levi
 deferred: 
 thread: 20261113-155357-levix-website-publish-final-releases-as-latest-in-levi
@@ -46,3 +46,5 @@ Stable names let the site link to the latest installers without knowing the vers
 
 ### After approval
 DocMapper merges PR #16 and promotes its first accepted candidate to a latest release in docmapper-releases. The website shows "Download vX.Y.Z" with the three links.
+
+> done (2026-11-13 22:13 UTC): user decided: Approve the agreement as described
