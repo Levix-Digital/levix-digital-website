@@ -46,7 +46,7 @@ describe('HomePage', () => {
     ])
   })
 
-  it('lists the five products in two lines with their statuses', () => {
+  it('lists the five products in two lines, without availability badges', () => {
     const wrapper = mountPage()
 
     expect(wrapper.findAll('[data-line]').map((line) => line.attributes('data-line'))).toEqual(['documents', 'development'])
@@ -57,8 +57,7 @@ describe('HomePage', () => {
       'gedo',
       'aurora',
     ])
-    expect(wrapper.find('[data-product="anycontext"] [data-status]').text()).toBe(strings['home.status.available'])
-    expect(wrapper.find('[data-product="aurora"] [data-status]').text()).toBe(strings['home.status.in-development'])
+    expect(wrapper.find('[data-product] [data-status]').exists()).toBe(false)
     expect(wrapper.find('[data-product="anycontext"] a').attributes('href')).toBe('https://anycontext.levix.digital')
   })
 
@@ -66,7 +65,7 @@ describe('HomePage', () => {
     const card = mountPage().find('[data-product="docmapper"]')
 
     expect(card.find('a').exists()).toBe(false)
-    expect(card.text()).toContain(strings['home.status.in-development'])
+    expect(card.text()).toContain(strings['home.products.noSite'])
   })
 
   it('states the perimeter focus first in the about section', () => {

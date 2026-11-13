@@ -3,7 +3,8 @@
  * The frame both headers share: the brand on the left; the navigation and the pickers on the
  * right on wide screens, folded behind a menu button below the md breakpoint. The prerendered
  * page shows everything (nothing is out of reach without JavaScript); the button appears once
- * mounted, so the hydrated markup matches the prerendered one.
+ * mounted, so the hydrated markup matches the prerendered one. The bar stays at the top of the
+ * viewport while the page scrolls; an open menu taller than a small screen scrolls inside it.
  */
 import { nextTick, onMounted, ref, useId } from 'vue'
 import PageContainer from './PageContainer.vue'
@@ -33,7 +34,7 @@ function closeOnLink(event: MouseEvent): void {
 
 <template>
   <header
-    class="border-b border-bevel bg-surface-raised"
+    class="sticky top-0 z-40 max-h-dvh overflow-y-auto border-b border-bevel bg-surface-raised md:overflow-visible"
     @keydown.esc="closeAndFocus"
   >
     <PageContainer>
