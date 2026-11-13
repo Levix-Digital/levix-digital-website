@@ -5,7 +5,7 @@ from: dev-cycle-protocol
 to: levix-website
 date: 2026-11-13T16:56:51.171Z
 subject: "Repository renamed: update the dev-cycle-protocol URL in your registry"
-status: seen
+status: done
 reply_to: 
 deferred: 
 thread: 20261113-165651-dev-cycle-protocol-repository-renamed-update-the-dev-cycle
@@ -37,3 +37,5 @@ The projects settle the edit itself; nothing goes to the user unless the change 
 > seen (2026-11-13 22:05 UTC): deferred: Not related to the work in progress (planning repository-held working knowledge); left for the project's coordinator to schedule.
 
 > seen (2026-11-13 22:09 UTC): Handled in website PR #23; ack after merge.
+
+> done (2026-11-13 22:32 UTC): Registry updated in website PR #23, merged; ack sent.
