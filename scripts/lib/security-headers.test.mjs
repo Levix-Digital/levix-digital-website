@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { readHostingConfig } from './hosting-config.mjs'
 import { scriptHash } from './inline-code.mjs'
-import { releaseSignupEndpoint } from '@levix/content'
+import { products, releaseSignupEndpoint } from '@levix/content'
 import {
   ALLOWED_SCRIPT_HASHES,
   PRODUCT_SITES,
@@ -75,6 +75,10 @@ describe('per-site policy', () => {
   it('lets the product sites call the signup function, and only them', () => {
     for (const site of PRODUCT_SITES) expect(connectSrc(site)).toBe(`connect-src 'self' ${SIGNUP_FUNCTION_ORIGIN}`)
     expect(connectSrc('home')).toBe("connect-src 'self'")
+  })
+
+  it('lists every product of the portfolio as a product site', () => {
+    expect([...PRODUCT_SITES].sort()).toEqual(products.map((product) => product.id).sort())
   })
 
   it('allows the origin the forms call', () => {

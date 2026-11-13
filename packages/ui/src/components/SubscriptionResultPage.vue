@@ -38,7 +38,7 @@ const title = computed(() => props.strings[props.mode === 'confirm' ? 'subscript
 
 onMounted(async () => {
   const token = window.location.hash.slice(1)
-  if (token) window.history.replaceState(null, '', window.location.pathname)
+  if (token) window.history.replaceState(window.history.state, '', window.location.pathname + window.location.search)
   if (!token) {
     state.value = 'missing-token'
     return
