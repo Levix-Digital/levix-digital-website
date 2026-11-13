@@ -1,6 +1,7 @@
 // Checks that every built site has a prerendered home page with a non-empty heading, and that no
 // built page or stylesheet has inline code or fonts the Content Security Policy would block, and
 // that every page carries the theme script, the one inline script the policy allows (ADR-0012).
+// Every product site also publishes /release.json, which the release refresh compares (FEAT-016).
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { countInlineFonts, findInlineCode, inlineScriptHashes } from './lib/inline-code.mjs'
@@ -22,6 +23,22 @@ for (const site of readdirSync(SITES_DIR)) {
     continue
   }
   console.log(`ok ${site}: "${(heading[1] ?? '').trim()}"`)
+
+  const marker = join(SITES_DIR, site, 'dist', 'release.json')
+  if (site !== 'home') {
+    if (!existsSync(marker)) {
+      failures.push(`${site}: release.json not found`)
+    } else {
+      const data = JSON.parse(readFileSync(marker, 'utf8'))
+      if (data.product !== site || !(data.version === null || typeof data.version === 'string')) {
+        failures.push(`${site}: release.json is malformed`)
+      } else {
+        console.log(`ok ${site}: release.json (${data.version ?? 'no version'})`)
+      }
+    }
+  } else if (existsSync(marker)) {
+    failures.push(`${site}: the company home must not publish release.json`)
+  }
 
   for (const file of readdirSync(join(SITES_DIR, site, 'dist'), { recursive: true, encoding: 'utf8' })) {
     if (file.endsWith('.css')) {

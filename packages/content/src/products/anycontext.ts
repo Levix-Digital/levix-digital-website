@@ -13,4 +13,9 @@ export const anycontext: Product = {
   status: 'available',
   site: 'https://anycontext.levix.digital',
   install: { url: 'https://github.com/Levix-Digital/any-context-releases/releases/latest', label: 'Download' },
+  // Installer asset names from AnyContext's release workflow (.github/workflows/release.yml).
+  releases: {
+    repository: 'Levix-Digital/any-context-releases',
+    downloads: { windows: 'actx-installer.exe', linux: 'actx-installer' },
+  },
 }

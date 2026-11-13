@@ -40,14 +40,6 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 - **Plan**: -
 - **Description**: Data files for AnyContext, Dev Cycle Protocol, Gedo and Aurora Dev Suite written from their repositories, with only verifiable facts.
 
-### FEAT-016: Release information at build time
-- **Priority**: medium
-- **Epic**: EPIC-003
-- **Status**: open
-- **Found**: 2026-10-30
-- **Plan**: -
-- **Description**: Latest version and per-platform download links of released products read from their public releases repositories (`Levix-Digital/<product>-releases`) during the build, shown in the availability panel; a site is rebuilt when its product publishes a release.
-
 ### FEAT-018: Contact page and form
 - **Priority**: high
 - **Epic**: EPIC-004
@@ -382,3 +374,12 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 - **Plan**: levix_digital_website_product_availability_and_release_candidate_signup
 - **Closed**: 2026-11-13, plan levix_digital_website_product_availability_and_release_candidate_signup
 - **Description**: Overview, features and status of DocMapper at its own subdomain, with the availability banner while it has no installers; adds docmapper to domains.json and the site links.
+
+### FEAT-016: Release information at build time
+- **Priority**: medium
+- **Epic**: EPIC-003
+- **Status**: done
+- **Found**: 2026-10-30
+- **Plan**: levix_digital_website_release_information_at_build_time
+- **Closed**: 2026-11-13, plan levix_digital_website_release_information_at_build_time
+- **Description**: Latest version and per-platform download links of released products read from their public releases repositories (`Levix-Digital/<product>-releases`) during the build, shown in the availability panel; a site is rebuilt when its product publishes a release.

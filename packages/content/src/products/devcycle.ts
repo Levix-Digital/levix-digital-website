@@ -10,4 +10,5 @@ export const devcycle: Product = {
   status: 'available',
   site: 'https://devcycle.levix.digital',
   install: { url: 'https://github.com/Levix-Digital/ai-code-agent-skills#installation', label: 'Install' },
+  releases: { repository: 'Levix-Digital/dev-cycle-protocol-releases' },
 }

@@ -13,7 +13,7 @@ import { runCommand } from './lib/run.mjs'
 
 /**
  * Paths that change no site: documentation, specifications, tool settings, and the backend (the functions and the
- * Firestore rules and indexes), which the Deploy workflow publishes in its own job.
+ * Firestore rules and indexes), which the Deploy workflow publishes in its own job, and the release refresh.
  */
 const NO_SITE = [
   /^docs\//,
@@ -23,7 +23,8 @@ const NO_SITE = [
   /^tests\/MANUAL_TESTS\.md$/,
   /^[^/]+\.md$/,
   /^LICENSE$/,
-  /^\.github\/workflows\/(preview|announce-release-candidates)\.yml$/,
+  /^\.github\/workflows\/(preview|announce-release-candidates|release-refresh)\.yml$/,
+  /^scripts\/release-refresh(\.test)?\.mjs$/,
   /^functions\//,
   /^firestore\.(rules|indexes\.json)$/,
 ]

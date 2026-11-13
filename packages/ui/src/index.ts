@@ -22,4 +22,5 @@ export { useThemePreference, type ThemePreferenceState } from './theme/useThemeP
 export { createReleaseSignupClient } from './release-signup/client'
 export type { ConfirmOutcome, ReleaseSignupClient, SubscribeInput, SubscribeOutcome, UnsubscribeOutcome } from './release-signup/client'
 export { fillText } from './release-signup/types'
-export type { AvailabilityStrings, PanelProduct } from './release-signup/types'
+export type { AvailabilityStrings, PanelProduct, PanelRelease } from './release-signup/types'
+export { BUILD_RELEASE } from './release/build-release'

@@ -1,7 +1,7 @@
 <!-- dev-cycle-constitution
 generated-by: dev-cycle-protocol/constitution.py (do not edit; change a source and regenerate)
-sources-sha256: 62aea57490c1c6de72b76082b812708ec72dc585e659352595068fce28035d01
-content-sha256: d8a4bcf2cd2780baf5723f035347dee482de705b1819e764a5ea7d70d10b15b3
+sources-sha256: b489015bdd2789d2be3520a018e6e3404f9a2dd655230761759f7c99f11aa584
+content-sha256: d22af345c0100edc30440f5f78f8146632489b4c634bfcedf52bec2666b8c193
 -->
 # levix-digital-website Constitution
 
@@ -131,8 +131,9 @@ If you cannot point to the problem in the left column, do not use the pattern. N
 
 #### Security and Privacy
 
-- No accounts or personal data beyond the contact form (name, email, company, message) and analytics after consent.
-- The contact and translation functions validate their input, limit request rates per client, and are protected with Firebase App Check; the translation function accepts only strings that exist in the English source.
+- No accounts or personal data beyond the contact form (name, email, company, message), the release candidate subscriptions (email address, product and proof of consent) and analytics after consent.
+- Release candidate emails follow Canada's Anti-Spam Legislation: express consent with an unticked box, double opt-in, sender identification with the mailing address and an unsubscribe link in every email, honored at once ([ADR-0015](../adr/0015-release-candidate-signup-with-double-opt-in-before-app-check.md)).
+- The contact and translation functions validate their input, limit request rates per client, and are protected with Firebase App Check; the translation function accepts only strings that exist in the English source. The release candidate signup validates its input, limits requests per client and per address, and accepts only the product sites' origins; it joins App Check when the contact function brings it ([ADR-0015](../adr/0015-release-candidate-signup-with-double-opt-in-before-app-check.md)).
 - No API key in the pages: the Translation API is called only from functions and build scripts with a service account.
 - Firestore rules deny all client access; only functions read and write.
 - HTTPS everywhere with HSTS, and a Content Security Policy that allows only the site's own origin, Google Analytics and the functions; each source is added by the feature that needs it ([ADR-0010](../adr/0010-strict-content-security-policy-extended-per-feature.md)).
@@ -178,6 +179,8 @@ Accepted decisions; a plan that contradicts one needs a new ADR that supersedes 
 - ADR-0012: Stored theme applied by a hashed inline script (`docs/adr/0012-stored-theme-applied-by-a-hashed-inline-script.md`)
 - ADR-0013: Shared layout with facts and text passed in (`docs/adr/0013-shared-layout-with-facts-and-text-passed-in.md`)
 - ADR-0014: Portfolio with three availability statuses (`docs/adr/0014-portfolio-with-three-availability-statuses.md`)
+- ADR-0015: Release candidate signup with double opt-in, before App Check (`docs/adr/0015-release-candidate-signup-with-double-opt-in-before-app-check.md`)
+- ADR-0016: Release information read at build time, refreshed by an hourly check (`docs/adr/0016-release-information-read-at-build-time.md`)
 
 ## Governance
 
@@ -185,4 +188,4 @@ Accepted decisions; a plan that contradicts one needs a new ADR that supersedes 
 - Amendments change the source, not this file: an ADR for decisions, the technical specification for requirements and constraints, `.dev-cycle.json` for the architecture style, the skills for principles. Then run `constitution.py generate` and commit the result with the change.
 - Gate 3 of the development cycle blocks a plan while this file is stale or edited by hand.
 
-**Version**: 1.10.0 | **Ratified**: 2026-10-30 | **Last Amended**: 2026-11-13
+**Version**: 1.11.0 | **Ratified**: 2026-10-30 | **Last Amended**: 2026-11-13

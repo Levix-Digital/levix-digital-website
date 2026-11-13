@@ -9,4 +9,5 @@ export const gedo: Product = {
     'Git, supercharged for teams and coding agents: it spots conflicts while the code is still being written, long before the merge, and merges by meaning instead of by line.',
   status: 'in-development',
   site: 'https://gedo.levix.digital',
+  releases: { repository: 'Levix-Digital/gedo-releases' },
 }

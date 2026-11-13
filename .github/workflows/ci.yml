@@ -50,7 +50,11 @@ jobs:
           cache: npm
 
       - run: npm ci
+      # The product sites read their latest release while building (FEAT-016); the token avoids
+      # the anonymous rate limit of the GitHub API.
       - run: npm run build
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
       - run: npm run verify:dist
       - run: npm run verify:hosting
       - run: npm run lighthouse

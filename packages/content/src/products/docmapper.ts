@@ -9,4 +9,5 @@ export const docmapper: Product = {
     'Map the fields of a sample PDF once, and DocMapper copies them from every similar document into your own documents and data files.',
   status: 'in-development',
   site: 'https://docmapper.levix.digital',
+  releases: { repository: 'Levix-Digital/docmapper-releases' },
 }
