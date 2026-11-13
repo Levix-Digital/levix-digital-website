@@ -11,11 +11,20 @@ export interface Announcement {
   readonly notes?: string
 }
 
+/** One announcement email and the subscription it goes to. */
+export interface AnnouncementMail {
+  readonly subscriber: string
+  readonly mail: OutgoingMail
+}
+
 /** Reading the subscribers and recording an announcement with its mail. */
 export interface AnnouncementStore {
   confirmedSubscriptions(product: ProductId): Promise<readonly { id: string; record: SubscriptionRecord }[]>
-  /** Records the announcement once and queues its mail; `exists` when it was already announced, queuing nothing. */
-  recordAnnouncement(key: string, announcement: Announcement, at: Date, mails: readonly OutgoingMail[]): Promise<'recorded' | 'exists'>
+  /**
+   * Records the announcement once and queues one mail per subscriber; `exists` when it was already fully queued.
+   * A run that stopped halfway is resumed: only the subscribers without a mail get one.
+   */
+  recordAnnouncement(key: string, announcement: Announcement, at: Date, mails: readonly AnnouncementMail[]): Promise<'recorded' | 'exists'>
 }
 
 const VERSION_PATTERN = /^v?\d+\.\d+\.\d+-rc\.\d+$/
@@ -35,8 +44,9 @@ export function checkAnnouncement(announcement: Announcement): void {
   if (!announcement.downloadUrl.startsWith('https://')) throw new AnnouncementError('The download address must be an https address')
 }
 
+/** One key per release candidate, whether its version was written with or without the leading `v`. */
 export function announcementKey(announcement: Announcement): string {
-  return `${announcement.product}-${announcement.version}`
+  return `${announcement.product}-${announcement.version.replace(/^v/, '')}`
 }
 
 /** One email per confirmed subscriber of the product, each with its own unsubscribe link. */
@@ -45,11 +55,12 @@ export async function announcementMails(
   announcement: Announcement,
   sender: SenderSettings,
   now: Date,
-): Promise<OutgoingMail[]> {
+): Promise<AnnouncementMail[]> {
   checkAnnouncement(announcement)
   const subscribers = await store.confirmedSubscriptions(announcement.product)
-  return subscribers.map(({ id, record }) =>
-    announcementEmail({
+  return subscribers.map(({ id, record }) => ({
+    subscriber: id,
+    mail: announcementEmail({
       to: record.email,
       product: PRODUCTS[announcement.product],
       version: announcement.version,
@@ -59,5 +70,5 @@ export async function announcementMails(
       sender,
       now,
     }),
-  )
+  }))
 }

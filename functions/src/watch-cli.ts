@@ -25,13 +25,21 @@ async function main(): Promise<void> {
   const store = firestoreStore()
   const sender = senderSettings()
   const now = new Date()
+  const failed: ProductId[] = []
+  // One product's failure (GitHub or Firestore) does not hold back the others; the run fails at the end.
   for (const product of Object.keys(PRODUCTS) as ProductId[]) {
-    for (const announcement of candidatesToAnnounce(product, await releasesOf(product), now)) {
-      const mails = await announcementMails(store, announcement, sender, now)
-      const result = await store.recordAnnouncement(announcementKey(announcement), announcement, now, mails)
-      console.log(`${announcementKey(announcement)}: ${result === 'exists' ? 'already announced' : `${mails.length} email(s) queued`}`)
+    try {
+      for (const announcement of candidatesToAnnounce(product, await releasesOf(product), now)) {
+        const mails = await announcementMails(store, announcement, sender, now)
+        const result = await store.recordAnnouncement(announcementKey(announcement), announcement, now, mails)
+        console.log(`${announcementKey(announcement)}: ${result === 'exists' ? 'already announced' : `${mails.length} email(s) queued`}`)
+      }
+    } catch (error) {
+      failed.push(product)
+      console.error(`${product}: ${error instanceof Error ? error.message : String(error)}`)
     }
   }
+  if (failed.length > 0) throw new Error(`Not announced: ${failed.join(', ')}; the next run tries again.`)
 }
 
 runMain(main)

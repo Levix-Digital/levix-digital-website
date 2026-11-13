@@ -29,7 +29,7 @@
 State transitions:
 
 - (none) → `pending`: valid signup; tokens created; confirmation email queued.
-- `pending` → `pending`: new signup for the same address and product; if `lastEmailAt` is older than 24 hours, new tokens, new `expiresAt`, new email; otherwise nothing changes.
+- `pending` → `pending`: new signup for the same address and product; if `lastEmailAt` is older than 24 hours, a new confirmation secret (the unsubscribe secret is kept, so earlier links still work), new `expiresAt`, new email; otherwise nothing changes.
 - `confirmed` → `confirmed`: new signup; nothing changes and no email is sent (same answer to the visitor).
 - `pending` → `confirmed`: confirmation token matches and `expiresAt` is in the future.
 - any → (deleted): unsubscribe token matches; or TTL after `expiresAt`.
@@ -40,11 +40,11 @@ State transitions:
 
 ## Mail (Firestore `mail/{auto id}`, read by the Trigger Email extension)
 
-`to`, `from` (`Levix Digital <releases@levix.digital>`), `message.subject`, `message.text`, `message.html`, `headers` (`List-Unsubscribe`), `deleteAt` (TTL, 30 days).
+`to`, `from` (`Levix Digital <releases@levix.digital>`), `message.subject`, `message.text`, `message.html`, `headers` (`List-Unsubscribe` with the one-click address, `List-Unsubscribe-Post`), `deleteAt` (TTL, 30 days). An announcement email has the id `<announcement key>-<subscription id>`, so a resumed announcement never writes it twice.
 
-## Announcement (Firestore `releaseAnnouncements/{product}-{version}`)
+## Announcement (Firestore `releaseAnnouncements/{product}-{version without the leading v}`)
 
-`product`, `version`, `downloadUrl`, `notes` (optional), `createdAt`, `recipients` (number of emails), `state` (`queuing`, then `queued`). Created before the mail is queued, so a version is announced once.
+`product`, `version`, `downloadUrl`, `notes` (optional), `createdAt`, `recipients` (number of emails), `state` (`queuing`, then `queued`). Created before the mail is queued, so a version is announced once; a record left `queuing` by a failed run is resumed by the next one.
 
 ## Firestore rules
 

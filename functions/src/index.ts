@@ -32,7 +32,7 @@ function handler(): ReturnType<typeof createHandler> {
   return handle
 }
 
-/** Release candidate signup: POST /subscribe, /confirm and /unsubscribe from the product sites. */
+/** Release candidate signup: POST /subscribe, /confirm and /unsubscribe from the product sites, and /one-click-unsubscribe from mail clients. */
 export const releaseSignup = onRequest(
   { region: 'northamerica-northeast1', memory: '256MiB', maxInstances: 5, concurrency: 40 },
   (request, response) => handler()(request, response),

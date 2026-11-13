@@ -8,6 +8,7 @@ export interface HttpRequest {
   readonly path: string
   readonly headers: Readonly<Record<string, string | string[] | undefined>>
   readonly body: unknown
+  readonly query?: Readonly<Record<string, unknown>>
   readonly ip?: string | undefined
 }
 
@@ -29,9 +30,12 @@ function header(request: HttpRequest, name: string): string | undefined {
   return Array.isArray(value) ? value[0] : value
 }
 
-/** The client address as Google's front end reports it: the first entry of X-Forwarded-For. */
+/**
+ * The client address as Google's front end reports it: the last entry of X-Forwarded-For. The front end appends the
+ * address it received the request from, so earlier entries are whatever the client sent and cannot be trusted.
+ */
 export function clientAddress(request: HttpRequest): string {
-  const forwarded = header(request, 'x-forwarded-for')?.split(',')[0]?.trim()
+  const forwarded = header(request, 'x-forwarded-for')?.split(',').at(-1)?.trim()
   return forwarded || request.ip || 'unknown'
 }
 
@@ -43,6 +47,23 @@ export function createHandler(service: SubscriptionService, log: RequestLog) {
     const reply = (status: number, body: unknown, result: string, product?: string) => {
       log({ route, status, result, ...(product === undefined ? {} : { product }) })
       response.status(status).json(body)
+    }
+
+    // One-click unsubscribe (RFC 8058): the mail client posts to the address of the List-Unsubscribe header, from no
+    // page, so there is no origin to check; the token in the address is the authorization.
+    if (route === '/one-click-unsubscribe') {
+      if (request.method !== 'POST') {
+        reply(405, { error: 'method-not-allowed' }, 'method-not-allowed')
+        return
+      }
+      try {
+        await unsubscribe(service, request.query?.token)
+        reply(200, { status: 'unsubscribed' }, 'unsubscribed')
+      } catch (error) {
+        log({ route, status: 500, result: 'error', error })
+        response.status(500).json({ error: 'unavailable' })
+      }
+      return
     }
 
     if (origin === undefined || !isProductSiteOrigin(origin)) {

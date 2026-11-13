@@ -26,19 +26,19 @@ describe('announcementMails', () => {
     await subscriber(service, 'pending@example.com', 'gedo', false)
     await subscriber(service, 'other@example.com', 'aurora')
     const mails = await announcementMails(service.store, announcement, testSender, service.now())
-    expect(mails.map((mail) => mail.to).sort()).toEqual(['ana@example.com', 'bo@example.com'])
-    expect(mails[0]?.message.subject).toBe('Gedo v0.2.0-rc.1: release candidate ready to test')
-    expect(mails[0]?.message.text).toContain(announcement.downloadUrl)
-    expect(mails[0]?.message.text).toContain('Merges by meaning now cover Rust.')
+    expect(mails.map(({ mail }) => mail.to).sort()).toEqual(['ana@example.com', 'bo@example.com'])
+    expect(mails[0]?.mail.message.subject).toBe('Gedo v0.2.0-rc.1: release candidate ready to test')
+    expect(mails[0]?.mail.message.text).toContain(announcement.downloadUrl)
+    expect(mails[0]?.mail.message.text).toContain('Merges by meaning now cover Rust.')
   })
 
   it('gives each email the subscriber own working unsubscribe link and the sender block (CASL)', async () => {
     const service = testService()
     await subscriber(service, 'ana@example.com', 'gedo')
-    const [mail] = await announcementMails(service.store, announcement, testSender, service.now())
-    expect(mail!.message.text).toContain('Levix Digital Inc., 31 Masters Square SE, Calgary, Alberta, Canada')
-    expect(mail!.headers['List-Unsubscribe']).toContain('/subscription/unsubscribe#')
-    await unsubscribe(service, linkToken(mail!.message.text, 'unsubscribe'))
+    const mail = (await announcementMails(service.store, announcement, testSender, service.now()))[0]!.mail
+    expect(mail.message.text).toContain('Levix Digital Inc., 31 Masters Square SE, Calgary, Alberta, Canada')
+    expect(mail.headers['List-Unsubscribe']).toContain('/one-click-unsubscribe?token=')
+    await unsubscribe(service, linkToken(mail.message.text, 'unsubscribe'))
     expect(await announcementMails(service.store, announcement, testSender, service.now())).toEqual([])
   })
 
@@ -55,8 +55,24 @@ describe('announcementMails', () => {
     await subscriber(service, 'ana@example.com', 'gedo')
     const mails = await announcementMails(service.store, announcement, testSender, service.now())
     const key = announcementKey(announcement)
-    expect(key).toBe('gedo-v0.2.0-rc.1')
+    expect(key).toBe('gedo-0.2.0-rc.1')
+    expect(announcementKey({ ...announcement, version: '0.2.0-rc.1' })).toBe(key)
     expect(await service.store.recordAnnouncement(key, announcement, service.now(), mails)).toBe('recorded')
+    expect(await service.store.recordAnnouncement(key, announcement, service.now(), mails)).toBe('exists')
+  })
+
+  it('resumes an announcement that stopped halfway, without a second email to anyone', async () => {
+    const service = testService()
+    for (const email of ['ana@example.com', 'bo@example.com', 'cy@example.com']) await subscriber(service, email, 'gedo')
+    const before = service.store.mails.length
+    const mails = await announcementMails(service.store, announcement, testSender, service.now())
+    const key = announcementKey(announcement)
+    service.store.failAfterMails = 1
+    await expect(service.store.recordAnnouncement(key, announcement, service.now(), mails)).rejects.toThrow()
+    expect(service.store.mails.length - before).toBe(1)
+    expect(await service.store.recordAnnouncement(key, announcement, service.now(), mails)).toBe('recorded')
+    const sent = service.store.mails.slice(before).map((mail) => mail.to).sort()
+    expect(sent).toEqual(['ana@example.com', 'bo@example.com', 'cy@example.com'])
     expect(await service.store.recordAnnouncement(key, announcement, service.now(), mails)).toBe('exists')
   })
 })

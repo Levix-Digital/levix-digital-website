@@ -1,5 +1,5 @@
-import { FieldValue, Timestamp, type DocumentData, type Firestore } from 'firebase-admin/firestore'
-import type { Announcement, AnnouncementStore } from './announcements.js'
+import { FieldValue, Timestamp, type DocumentData, type DocumentReference, type Firestore } from 'firebase-admin/firestore'
+import type { Announcement, AnnouncementMail, AnnouncementStore } from './announcements.js'
 import type { ProductId } from './products.js'
 import type { Consent, OutgoingMail, SubscriptionChange, SubscriptionRecord, SubscriptionStore } from './store.js'
 
@@ -78,21 +78,30 @@ export class FirestoreStore implements SubscriptionStore, AnnouncementStore {
     return snapshot.docs.map((document) => ({ id: document.id, record: fromDocument(document.id, document.data()) }))
   }
 
-  /** Creates the announcement record first, so a second run refuses; then queues the mail in batches. */
-  async recordAnnouncement(key: string, announcement: Announcement, at: Date, mails: readonly OutgoingMail[]): Promise<'recorded' | 'exists'> {
+  /**
+   * Creates the announcement record (`queuing`), queues one mail per subscriber with the id
+   * `<key>-<subscription id>`, then marks it `queued`. A record left `queuing` by a failed run is resumed: mails
+   * that exist are skipped, and `create` refuses a mail written twice, so nobody gets the announcement twice.
+   */
+  async recordAnnouncement(key: string, announcement: Announcement, at: Date, mails: readonly AnnouncementMail[]): Promise<'recorded' | 'exists'> {
     const reference = this.db.collection(ANNOUNCEMENTS).doc(key)
     try {
       await reference.create({ ...announcement, createdAt: at, recipients: mails.length, state: 'queuing' })
     } catch (error) {
-      if ((error as { code?: number }).code === ALREADY_EXISTS) return 'exists'
-      throw error
+      if ((error as { code?: number }).code !== ALREADY_EXISTS) throw error
+      if ((await reference.get()).get('state') !== 'queuing') return 'exists'
     }
     for (let start = 0; start < mails.length; start += BATCH_WRITES) {
+      const chunk = mails.slice(start, start + BATCH_WRITES)
+      const references = chunk.map(({ subscriber }) => this.db.collection(MAIL).doc(`${key}-${subscriber}`))
+      const existing = await this.db.getAll(...references)
       const batch = this.db.batch()
-      for (const mail of mails.slice(start, start + BATCH_WRITES)) batch.create(this.db.collection(MAIL).doc(), mailDocument(mail))
+      chunk.forEach(({ mail }, index) => {
+        if (!existing[index]?.exists) batch.create(references[index] as DocumentReference, mailDocument(mail))
+      })
       await batch.commit()
     }
-    await reference.update({ state: 'queued' })
+    await reference.update({ state: 'queued', recipients: mails.length })
     return 'recorded'
   }
 }

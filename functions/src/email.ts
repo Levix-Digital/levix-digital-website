@@ -11,6 +11,17 @@ export interface SenderSettings {
 
 export const MAIL_KEPT_MS = 30 * 24 * 60 * 60 * 1000
 
+/** The deployed `releaseSignup` function, which mail clients call for one-click unsubscribe (RFC 8058). */
+export const SIGNUP_FUNCTION_URL = 'https://northamerica-northeast1-levix-digital.cloudfunctions.net/releaseSignup'
+
+/** `List-Unsubscribe` with a one-click POST address, so a mail client's own unsubscribe button works. */
+export function unsubscribeHeaders(token: string): Record<string, string> {
+  return {
+    'List-Unsubscribe': `<${SIGNUP_FUNCTION_URL}/one-click-unsubscribe?token=${encodeURIComponent(token)}>`,
+    'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+  }
+}
+
 export function confirmLink(product: SubscribableProduct, token: string): string {
   return `${product.site}/subscription/confirm#${token}`
 }
@@ -63,7 +74,7 @@ export function announcementEmail(input: {
     to: input.to,
     from: sender.from,
     message: { subject: `${product.name} ${input.version}: release candidate ready to test`, text: `${text}\n\n${footer.text}`, html },
-    headers: { 'List-Unsubscribe': `<${unsubscribe}>` },
+    headers: unsubscribeHeaders(input.unsubscribeToken),
     deleteAt: new Date(input.now.getTime() + MAIL_KEPT_MS),
   }
 }
@@ -99,7 +110,7 @@ export function confirmationEmail(input: {
     to: input.to,
     from: sender.from,
     message: { subject: `Confirm: ${product.name} release candidates from Levix Digital`, text, html },
-    headers: { 'List-Unsubscribe': `<${unsubscribe}>` },
+    headers: unsubscribeHeaders(input.unsubscribeToken),
     deleteAt: new Date(input.now.getTime() + MAIL_KEPT_MS),
   }
 }

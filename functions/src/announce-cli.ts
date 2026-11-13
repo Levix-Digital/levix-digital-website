@@ -36,7 +36,7 @@ async function main(): Promise<void> {
   const mails = await announcementMails(store, announcement, senderSettings(), now)
   console.log(`${mails.length} confirmed subscriber(s) of ${announcement.product}.`)
   if (!values.send) {
-    if (mails[0] !== undefined) console.log(`\nSubject: ${mails[0].message.subject}\n\n${mails[0].message.text}`)
+    if (mails[0] !== undefined) console.log(`\nSubject: ${mails[0].mail.message.subject}\n\n${mails[0].mail.message.text}`)
     console.log('Nothing sent. Run again with --send to queue the emails.')
     return
   }

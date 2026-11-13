@@ -21,7 +21,10 @@ describe('confirmationEmail', () => {
       expect(body).toContain('contact@levix.digital')
       expect(body).toContain('https://gedo.levix.digital/subscription/unsubscribe#u.t')
     }
-    expect(mail.headers['List-Unsubscribe']).toBe('<https://gedo.levix.digital/subscription/unsubscribe#u.t>')
+    expect(mail.headers).toMatchObject({
+      'List-Unsubscribe': '<https://northamerica-northeast1-levix-digital.cloudfunctions.net/releaseSignup/one-click-unsubscribe?token=u.t>',
+      'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+    })
   })
 
   it('is deleted after 30 days', () => {

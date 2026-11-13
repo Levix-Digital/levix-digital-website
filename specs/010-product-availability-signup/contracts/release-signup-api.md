@@ -42,8 +42,12 @@ Request: `{ "token": "<id>.<secret>" }`
 
 A token whose secret does not match an existing subscription answers 200 and deletes nothing.
 
+## `POST /one-click-unsubscribe?token=<id>.<secret>`
+
+Called by mail clients from the `List-Unsubscribe` header (RFC 8058), with the body `List-Unsubscribe=One-Click` and no origin; no CORS. Same effect and answer as `/unsubscribe`. Other methods answer 405, so a link scanner that fetches the address changes nothing.
+
 ## Confirmation email
 
 - Subject: `Confirm: <Product> release candidates from Levix Digital`
 - Body: what was asked and for which product; the confirmation link `https://<product site>/subscription/confirm#<token>` (valid 7 days); a line saying to ignore the email if they did not ask; the unsubscribe link `https://<product site>/subscription/unsubscribe#<token>`; the sender block: `Levix Digital Inc.`, the mailing address, `contact@levix.digital`.
-- Header: `List-Unsubscribe: <https://<product site>/subscription/unsubscribe#<token>>`.
+- Headers: `List-Unsubscribe: <https://northamerica-northeast1-levix-digital.cloudfunctions.net/releaseSignup/one-click-unsubscribe?token=<token>>` and `List-Unsubscribe-Post: List-Unsubscribe=One-Click`.

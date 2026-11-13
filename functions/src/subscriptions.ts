@@ -46,7 +46,8 @@ export async function subscribe(service: SubscriptionService, request: SignupReq
     if (live && now.getTime() - current.lastEmailAt.getTime() < EMAIL_COOLDOWN_MS) return { result: 'unchanged' }
 
     const confirmSecret = createSecret()
-    const unsubscribeSecret = createSecret()
+    // Kept across repeated signups, so the unsubscribe link of every earlier email keeps working.
+    const unsubscribeSecret = current?.unsubscribeSecret ?? createSecret()
     const mail = confirmationEmail({
       to: request.email,
       product: PRODUCTS[request.product],

@@ -93,6 +93,29 @@ describe('releaseSignup handler', () => {
     expect(service.store.subscriptions.size).toBe(0)
   })
 
+  it('counts the address the front end appended, not the ones the client sent', async () => {
+    const { call } = setup()
+    for (let i = 0; i < 10; i++) {
+      await call('/subscribe', { ...signup, email: `a${i}@example.com` }, { headers: { origin: ORIGIN, 'x-forwarded-for': `198.51.100.${i}, 203.0.113.7` } })
+    }
+    const response = await call('/subscribe', signup, { headers: { origin: ORIGIN, 'x-forwarded-for': '192.0.2.1, 203.0.113.7' } })
+    expect(response.statusCode).toBe(429)
+  })
+
+  it('unsubscribes with one click from a mail client, without an origin', async () => {
+    const { call, service } = setup()
+    await call('/subscribe', signup)
+    const mail = service.store.mails[0]!
+    const address = new URL(mail.headers['List-Unsubscribe']!.slice(1, -1))
+    expect(address.pathname).toBe('/releaseSignup/one-click-unsubscribe')
+    const viaGet = await call('/one-click-unsubscribe', undefined, { method: 'GET', headers: {}, query: { token: address.searchParams.get('token') } })
+    expect(viaGet.statusCode).toBe(405)
+    expect(service.store.subscriptions.size).toBe(1)
+    const response = await call('/one-click-unsubscribe', 'List-Unsubscribe=One-Click', { headers: {}, query: { token: address.searchParams.get('token') } })
+    expect([response.statusCode, response.body]).toEqual([200, { status: 'unsubscribed' }])
+    expect(service.store.subscriptions.size).toBe(0)
+  })
+
   it('refuses other methods and routes', async () => {
     const { call } = setup()
     expect((await call('/subscribe', undefined, { method: 'GET' })).statusCode).toBe(405)

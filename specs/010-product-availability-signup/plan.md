@@ -26,7 +26,7 @@ Each product site replaces its "under construction" notice with the product's na
 
 **Constraints**: CSP without `'unsafe-inline'` (ADR-0010), extended only with the function's origin on product sites; WCAG 2.2 AA; data in Canada; CASL (research R3); no secrets in Git
 
-**Scale/Scope**: six sites, four new shared components, one function with three routes, tens of signups a week
+**Scale/Scope**: six sites, four new shared components, one function with four routes, tens of signups a week
 
 ## Constitution Check
 
@@ -34,7 +34,7 @@ Each product site replaces its "under construction" notice with the product's na
 |---|---|
 | Modular monolith: public interface per module | Facts (`install`, endpoint) in `@levix/content`, text in `@levix/i18n`, components in `@levix/ui`, sites import only entry points; `functions/` is a separate module with no import from the others |
 | One responsibility per unit | Function split into `validation`, `tokens`, `limits`, `email`, `subscriptions` (rules), `store` (Firestore adapter) and `http` (routing, CORS); UI split into panel, form, and the two subscription pages |
-| Simplicity first | One function with three routes; TTL instead of a scheduled cleanup; no App Check yet (ADR-0015); one store interface only because it isolates Firestore and gives the test seam |
+| Simplicity first | One function with four routes; TTL instead of a scheduled cleanup; no App Check yet (ADR-0015); one store interface only because it isolates Firestore and gives the test seam |
 | Explicit errors | Each route maps failures to the statuses of the contract; storage errors are logged with the route and answered `500`; the form shows a fallback with the contact address |
 | Testability | Rules tested with an in-memory store and a fixed clock; components tested on the server render and in jsdom with a fake fetch |
 | Facts only (ADR-0005) | Installation sources taken from the products' READMEs (research R9) |

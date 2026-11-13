@@ -51,6 +51,17 @@ describe('subscribe', () => {
     expect((await confirm(service, second)).status).toBe('confirmed')
   })
 
+  it('keeps the unsubscribe link of an earlier email working after a repeated signup', async () => {
+    const service = testService()
+    await subscribe(service, request)
+    service.advance(25 * HOUR)
+    await subscribe(service, request)
+    const [first, second] = service.store.mails.map((mail) => linkToken(mail.message.text, 'unsubscribe'))
+    expect(second).toBe(first)
+    await unsubscribe(service, first)
+    expect(service.store.subscriptions.size).toBe(0)
+  })
+
   it('leaves a confirmed subscription as it is and sends nothing', async () => {
     const service = testService()
     await subscribe(service, request)

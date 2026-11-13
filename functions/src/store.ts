@@ -1,4 +1,4 @@
-import type { Announcement, AnnouncementStore } from './announcements.js'
+import type { Announcement, AnnouncementMail, AnnouncementStore } from './announcements.js'
 import type { ProductId } from './products.js'
 
 export interface Consent {
@@ -57,6 +57,10 @@ export class MemoryStore implements SubscriptionStore, AnnouncementStore {
   readonly counters = new Map<string, number>()
   readonly mails: OutgoingMail[] = []
   readonly announcements = new Map<string, Announcement>()
+  /** Mail ids of the announcements: `<announcement key>-<subscription id>`. */
+  readonly announcementMailIds = new Set<string>()
+  /** Set to make the next announcement stop after this many mails, as a failed write would. */
+  failAfterMails: number | undefined
 
   async change<T>(id: string, apply: (current: SubscriptionRecord | undefined) => SubscriptionChange<T>): Promise<T> {
     const change = apply(this.subscriptions.get(id))
@@ -78,10 +82,24 @@ export class MemoryStore implements SubscriptionStore, AnnouncementStore {
     )
   }
 
-  async recordAnnouncement(key: string, announcement: Announcement, _at: Date, mails: readonly OutgoingMail[]): Promise<'recorded' | 'exists'> {
-    if (this.announcements.has(key)) return 'exists'
+  readonly queuedAnnouncements = new Set<string>()
+
+  async recordAnnouncement(key: string, announcement: Announcement, _at: Date, mails: readonly AnnouncementMail[]): Promise<'recorded' | 'exists'> {
+    if (this.queuedAnnouncements.has(key)) return 'exists'
     this.announcements.set(key, announcement)
-    this.mails.push(...mails)
+    let written = 0
+    for (const { subscriber, mail } of mails) {
+      const id = `${key}-${subscriber}`
+      if (this.announcementMailIds.has(id)) continue
+      if (this.failAfterMails !== undefined && written >= this.failAfterMails) {
+        this.failAfterMails = undefined
+        throw new Error('mail write failed')
+      }
+      this.announcementMailIds.add(id)
+      this.mails.push(mail)
+      written += 1
+    }
+    this.queuedAnnouncements.add(key)
     return 'recorded'
   }
 }
