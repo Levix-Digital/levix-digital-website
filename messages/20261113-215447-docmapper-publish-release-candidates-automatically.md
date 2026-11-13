@@ -5,9 +5,9 @@ from: docmapper
 to: levix-website
 date: 2026-11-13T21:54:47.741Z
 subject: "Publish release candidates automatically after the merge gate"
-status: seen
+status: done
 reply_to: 
-deferred: "Not related to the work in progress (planning repository-held working knowledge); left for the project's coordinator to schedule."
+deferred: 
 thread: 20261113-215447-docmapper-publish-release-candidates-automatically
 cycle: 1
 round: 1
@@ -37,3 +37,5 @@ The project answers with agreement and the commit or pull request that adds the 
 The projects may settle the workflow details (trigger, numbering, notes file). Skipping the human gates goes to the owner.
 
 > seen (2026-11-13 22:05 UTC): deferred: Not related to the work in progress (planning repository-held working knowledge); left for the project's coordinator to schedule.
+
+> done (2026-11-13 22:09 UTC): Answered: no releases published by this project; compatible with the announcement job.
