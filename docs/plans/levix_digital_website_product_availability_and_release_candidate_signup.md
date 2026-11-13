@@ -3,10 +3,10 @@ plan_id: levix_digital_website_product_availability_and_release_candidate_signup
 project: levix-digital-website
 title: Product availability and release candidate signup
 version: v0.1.0
-status: active
+status: completed
 author: LeviGuilherme
 created_at: '2026-11-13T15:15:03'
-updated_at: '2026-11-13T15:15:09'
+updated_at: '2026-11-13T15:48:21'
 session_id: null
 tags: []
 supersedes: null
@@ -20,21 +20,37 @@ backlog_items:
 spec_dir: specs/010-product-availability-signup
 milestones:
 - name: Content and text
-  done: false
+  done: true
+  done_at: '2026-11-13'
+  by: LeviGuilherme
 - name: Function
-  done: false
+  done: true
+  done_at: '2026-11-13'
+  by: LeviGuilherme
 - name: Availability on the product page
-  done: false
+  done: true
+  done_at: '2026-11-13'
+  by: LeviGuilherme
 - name: Release candidate signup
-  done: false
+  done: true
+  done_at: '2026-11-13'
+  by: LeviGuilherme
 - name: Unsubscribe
-  done: false
+  done: true
+  done_at: '2026-11-13'
+  by: LeviGuilherme
 - name: DocMapper site
-  done: false
+  done: true
+  done_at: '2026-11-13'
+  by: LeviGuilherme
 - name: CI deploy and setup
-  done: false
+  done: true
+  done_at: '2026-11-13'
+  by: LeviGuilherme
 - name: Polish and documentation
-  done: false
+  done: true
+  done_at: '2026-11-13'
+  by: LeviGuilherme
 status_log:
 - at: '2026-11-13T15:15:03'
   by: LeviGuilherme
@@ -43,6 +59,34 @@ status_log:
 - at: '2026-11-13T15:15:09'
   by: LeviGuilherme
   note: 'Backlog items added: FEAT-037, FEAT-038, FEAT-013, FEAT-036'
+- at: '2026-11-13T15:48:13'
+  by: LeviGuilherme
+  note: Milestone 'Content and text' completed
+- at: '2026-11-13T15:48:14'
+  by: LeviGuilherme
+  note: Milestone 'Function' completed
+- at: '2026-11-13T15:48:15'
+  by: LeviGuilherme
+  note: Milestone 'Availability on the product page' completed
+- at: '2026-11-13T15:48:17'
+  by: LeviGuilherme
+  note: Milestone 'Release candidate signup' completed
+- at: '2026-11-13T15:48:18'
+  by: LeviGuilherme
+  note: Milestone 'Unsubscribe' completed
+- at: '2026-11-13T15:48:19'
+  by: LeviGuilherme
+  note: Milestone 'DocMapper site' completed
+- at: '2026-11-13T15:48:20'
+  by: LeviGuilherme
+  note: Milestone 'CI deploy and setup' completed
+- at: '2026-11-13T15:48:21'
+  by: LeviGuilherme
+  note: Milestone 'Polish and documentation' completed
+- at: '2026-11-13T15:48:21'
+  by: LeviGuilherme
+  status: completed
+  note: All milestones completed
 ---
 
 # Product availability and release candidate signup

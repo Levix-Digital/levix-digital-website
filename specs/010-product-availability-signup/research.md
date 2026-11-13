@@ -53,6 +53,12 @@
 - **Decision**: the `Deploy` workflow gains a `functions` job that runs `firebase deploy --only functions,firestore` when `functions/`, `firestore.rules` or `firestore.indexes.json` changed since the last production deploy, with the same keyless identity. `npm run hosting:setup` grants that identity the roles it needs (Cloud Functions Developer, Service Account User on the runtime service account, Firebase Rules Admin, Cloud Datastore Index Admin) and enables the APIs. The job is skipped until the repository variable `FUNCTIONS_DEPLOY` is `true`, which the owner sets after the one-time setup (Firestore database in Montreal, Trigger Email extension, mailing address).
 - **Rationale**: keeps continuous deploy (ADR-0008) without breaking site deploys before the backend exists.
 
+## R12. Announcing release candidates
+
+- **Decision**: an hourly workflow of this repository reads the latest releases of each product's public releases repository (`Levix-Digital/<product>-releases`) through the GitHub API and announces every pre-release tagged `vX.Y.Z-rc.N` published in the last 3 days that has no `releaseAnnouncements` record; `npm run announce` does the same for one version by hand, with a preview by default. The unsubscribe secret is stored as is, since every announcement needs the subscriber's unsubscribe link.
+- **Rationale**: the owner decided that every product publishes its releases in a public releases repository, so the website needs nothing from the products but the pre-release convention, and no token or secret is shared. The 3-day window keeps the first run from announcing past candidates.
+- **Alternatives**: products dispatching an event to this repository (a token in every product repository); a manual tool only (the owner would have to remember every release candidate).
+
 ## R11. DocMapper site
 
 - **Decision**: `sites/docmapper` like the other product sites; hosting target `docmapper` mapped in `.firebaserc` to the hosting site `docmapper` the owner created on 2026-11-13; `domains.json` gets `docmapper.levix.digital`; the DocMapper data entry gets its `site`, so its home card and the header and footer links follow.

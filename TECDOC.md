@@ -25,7 +25,7 @@ flowchart LR
 <!-- architecture-docs:subsystems:start -->
 | Subsystem | Summary |
 |---|---|
-| [Backend Functions](docs/architecture/functions.md) | Cloud Functions for the contact form and the shared translation cache. |
+| [Backend Functions](docs/architecture/functions.md) | Cloud Functions for the release candidate signup, the contact form and the shared translation cache. |
 | [Continuous integration and deploy](docs/architecture/ci.md) | Checks on every pull request into main and production deploys of the changed sites on every merge. |
 | [Design System](docs/architecture/ui.md) | Ceramic and Aurora tokens, light and dark themes, shared layout, components and the 3D hero. |
 | [Hosting](docs/architecture/hosting.md) | One Firebase project with a hosting site per domain (DNS at Cloudflare), the same security headers on every site, keyless deploys from the repository and a preview channel per pull request. |
@@ -39,6 +39,7 @@ flowchart LR
 <!-- architecture-docs:adrs:start -->
 | ADR | Title | Status | Version | Date |
 |---|---|---|---|---|
+| [ADR-0015](docs/adr/0015-release-candidate-signup-with-double-opt-in-before-app-check.md) | Release candidate signup with double opt-in, before App Check | accepted | v0.1.0 | 2026-11-13 |
 | [ADR-0014](docs/adr/0014-portfolio-with-three-availability-statuses.md) | Portfolio with three availability statuses | accepted | v0.1.0 | 2026-11-12 |
 | [ADR-0013](docs/adr/0013-shared-layout-with-facts-and-text-passed-in.md) | Shared layout with facts and text passed in | accepted | v0.1.0 | 2026-11-01 |
 | [ADR-0012](docs/adr/0012-stored-theme-applied-by-a-hashed-inline-script.md) | Stored theme applied by a hashed inline script | accepted | v0.1.0 | 2026-10-31 |

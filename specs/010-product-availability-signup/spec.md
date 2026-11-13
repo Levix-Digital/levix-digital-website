@@ -77,6 +77,23 @@ A visitor activates the DocMapper card on the home and lands on DocMapper's own 
 1. **Given** the home, **When** the DocMapper card is activated, **Then** the DocMapper site opens.
 2. **Given** the DocMapper site, **When** it loads, **Then** it has the same header, footer, themes and availability panel as the other product sites.
 
+### User Story 5 - Hear when a release candidate is out (Priority: P1)
+
+Added with the owner on 2026-11-13. When a product publishes a release candidate, its confirmed subscribers get an email with the version, the download page and the notes, without the owner writing to each of them.
+
+**Why this priority**: the list exists to bring testers to each release candidate; handling every email by hand would not scale.
+
+**Independent Test**: publish a pre-release tagged `vX.Y.Z-rc.N` in the product's public releases repository; within the next hour every confirmed subscriber of that product receives one email with the release page, the notes, the sender block and their own unsubscribe link; pending and other products' subscribers receive nothing.
+
+**Acceptance Scenarios**:
+
+1. **Given** a new pre-release tagged `vX.Y.Z-rc.N` in a product's public releases repository, **When** the hourly check runs, **Then** each confirmed subscriber of that product is emailed once, with the version, the release page and up to 2000 characters of its notes.
+2. **Given** a release candidate already announced, **When** the check runs again, **Then** nothing is sent.
+3. **Given** a release candidate published more than 3 days before the check first sees it, **When** the check runs, **Then** it is not announced.
+4. **Given** the owner, **When** they run the announce command for a product and version, **Then** they see how many subscribers would receive it and the email, and only with an explicit send option are the emails queued.
+
+---
+
 ### Edge Cases
 
 - The signup service is unavailable or answers with an error: the form says the signup could not be sent and offers contact@levix.digital; what the visitor typed stays in the form.
@@ -105,6 +122,8 @@ A visitor activates the DocMapper card on the home and lands on DocMapper's own 
 - **FR-013**: The DocMapper site MUST exist with the shared layout and the availability panel, and the DocMapper home card MUST link to it like the other product cards.
 - **FR-014**: The pages MUST keep the strict content security policy; the signup MUST be sent only to the site's own origin.
 - **FR-015**: All text on the pages and in the emails MUST be in English, with no reference to how the site is built.
+- **FR-016**: Each new release candidate of a product (a pre-release tagged `vX.Y.Z-rc.N` in the product's public releases repository, published in the last 3 days) MUST be emailed once to every confirmed subscriber of that product, each email with that subscriber's unsubscribe link and the sender identification.
+- **FR-017**: The owner MUST be able to announce a release candidate by hand, with a preview before sending, and a version can be announced only once.
 
 ### Key Entities
 
@@ -126,7 +145,7 @@ A visitor activates the DocMapper card on the home and lands on DocMapper's own 
 ## Assumptions
 
 - The emails carry the mailing address the owner gave on 2026-11-13 (31 Masters Square SE, Calgary, Alberta, Canada) and are sent from `releases@levix.digital`, an alias of the account that already sends the contact notifications. The live service is switched on after the owner's one-time setup (quickstart).
-- The release candidate announcements themselves are sent later by the owner to the confirmed subscribers of a product; a tool to compose and send them is out of scope. The owner can read the confirmed list from the project's console.
+- Each product publishes its releases, release candidates included, in a dedicated public releases repository (`Levix-Digital/<product>-releases`), as decided by the owner on 2026-11-13; the products were asked to publish release candidates there as pre-releases.
 - Only English is in scope; translations come with the internationalization features.
 - The product sites stay minimal in this feature (name, statement, availability panel); features, plans and install instructions of each product come with their own backlog items.
 - The installation sources are the ones the products publish today: the AnyContext releases page and the Dev Cycle Protocol installation instructions in its repository.

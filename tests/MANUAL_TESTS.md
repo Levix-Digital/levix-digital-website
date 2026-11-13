@@ -6,7 +6,7 @@ How to record a run: in each test of the current run, mark exactly one box of th
 
 ## Hosting
 
-### MT-HOST-001: A pull request gets one comment with five working preview addresses
+### MT-HOST-001: A pull request gets one comment with six working preview addresses
 
 - **Covers**: `.github/workflows/preview.yml`, `npm run deploy:preview`
 - **Prerequisites**: `npm run hosting:setup` has run on the project and the repository variables `FIREBASE_WIF_PROVIDER` and `FIREBASE_DEPLOY_SERVICE_ACCOUNT` are set
@@ -15,7 +15,7 @@ How to record a run: in each test of the current run, mark exactly one box of th
   2. Wait for the `Preview` workflow to finish, then push a second commit to the same branch.
   3. Open each address of the comment.
 - **Expected**:
-  - The pull request has exactly one preview comment, edited (not duplicated) after the second push, with five addresses and an expiry date seven days ahead.
+  - The pull request has exactly one preview comment, edited (not duplicated) after the second push, with six addresses and an expiry date seven days ahead.
   - Each address shows its own site; the home preview shows the new heading and `https://levix-digital.web.app` does not.
 - **Result**: [ ] Pass [ ] Fail [ ] Blocked
 - **Notes**:
@@ -145,7 +145,7 @@ How to record a run: in each test of the current run, mark exactly one box of th
 - **Covers**: `packages/ui/src/styles.css` (design tokens and themes)
 - **Prerequisites**: the sites deployed (production or a pull request preview); a browser on a computer whose system theme can be switched
 - **Steps**:
-  1. Set the system theme to light and open the home page of each of the five sites.
+  1. Set the system theme to light and open the home page of each of the six sites.
   2. Set the system theme to dark and reload each page; then open each page again in a new tab.
   3. On one page in dark, press Tab until a link or the page itself shows focus, and select some text.
 - **Expected**:
@@ -166,7 +166,7 @@ How to record a run: in each test of the current run, mark exactly one box of th
   3. With two tabs of the same site open, choose Light in one and look at the other.
   4. Choose System. Switch the system theme to dark and back.
   5. Reload, press Tab until the picker shows focus and use the arrow keys; with a screen reader on, move to the picker.
-  6. Open another of the five sites.
+  6. Open another of the six sites.
   7. Open the console of the developer tools and reload.
 - **Expected**:
   - Step 1: System is selected and the page is light.
@@ -223,8 +223,50 @@ How to record a run: in each test of the current run, mark exactly one box of th
   - Step 2: hero, products in two lines (DocMapper and AnyContext, then Dev Cycle Protocol, Gedo and Aurora Dev Suite), about, research and contact, all legible in both themes; no 3D or animation.
   - Step 3: no horizontal scrolling; the cards stack in one column on narrow screens.
   - Step 4: the page moves to the products, then to the contact section.
-  - Step 5: every card with a site and every link shows a visible focus ring and opens the right address; DocMapper's card is not focusable and says "Site coming later".
+  - Step 5: every card and every link shows a visible focus ring and opens the right address, DocMapper's card included; no card shows an availability badge.
   - Step 6: one level-1 heading (the headline), then a level-2 heading per section, level 3 per product line and level 4 per product.
   - Step 7: every status and sentence matches its repository; nothing on the page claims customers, certifications, audits, metrics or prices.
+- **Result**: [ ] Pass [ ] Fail [ ] Blocked
+- **Notes**:
+
+## Product sites
+
+### MT-PROD-001: Each product page says whether it can be downloaded
+
+- **Covers**: `ProductIntro`, `AvailabilityPanel` and `ReleaseSignupForm` in `packages/ui`, the product sites' home pages, the install sources in `packages/content`
+- **Prerequisites**: the product sites deployed (production or a pull request preview); a screen reader (NVDA, VoiceOver or Narrator)
+- **Steps**:
+  1. Open each product site (DocMapper, AnyContext, Dev Cycle Protocol, Gedo, Aurora Dev Suite) at about 1280 px and at 375 px, in the light and the dark theme.
+  2. On AnyContext and Dev Cycle Protocol, activate the download action.
+  3. On Gedo, using only the keyboard, Tab from the top of the page through the panel and the form; with the screen reader, read the panel.
+  4. On Gedo, press "Notify me" with the email field empty and the box unticked.
+  5. Disable JavaScript and reload Gedo.
+- **Expected**:
+  - Step 1: without scrolling, each page shows the product name, its statement and the panel with its status; Gedo, Aurora Dev Suite and DocMapper show a disabled "Download" button and, right below it, the form; AnyContext and Dev Cycle Protocol show no form. No horizontal scrolling; legible in both themes.
+  - Step 2: AnyContext opens its latest release page; Dev Cycle Protocol opens its installation instructions.
+  - Step 3: the disabled button is skipped by Tab and announced as unavailable with the note "... is in development and cannot be downloaded yet"; the email field, the consent box (not ticked) and the button are reached in order with a visible focus ring; the hidden field is never reached.
+  - Step 4: "Enter a valid email address." under the field and "Tick the box to give your consent." under the box; nothing is sent.
+  - Step 5: the availability and the disabled button are shown, and the form says it needs JavaScript and gives contact@levix.digital.
+- **Result**: [ ] Pass [ ] Fail [ ] Blocked
+- **Notes**:
+
+### MT-PROD-002: Release candidate signup, end to end
+
+- **Covers**: `releaseSignup` in `functions/`, the Trigger Email extension, the subscription pages of the product sites, `npm run announce`
+- **Prerequisites**: the one-time backend setup of the README is done and the function is deployed; a mailbox you can read; the Firebase console open on Firestore
+- **Steps**:
+  1. On `https://gedo.levix.digital`, enter your address, tick the box and press "Notify me".
+  2. Open the email you receive.
+  3. Open its confirmation link, then open it again.
+  4. Sign up again with the same address on Gedo.
+  5. Run `npm run announce -- --product gedo --version v0.0.1-rc.1 --url https://gedo.levix.digital` (without `--send`).
+  6. Open the unsubscribe link of the email, then open it again.
+- **Expected**:
+  - Step 1: the form says to open the link in the email; Firestore has a `pending` document in `releaseSubscriptions` with the product, the consent wording, the page and an `expiresAt` 7 days ahead.
+  - Step 2: it arrives within 5 minutes from `releases@levix.digital`, names Gedo, and ends with "Levix Digital Inc.", the mailing address, contact@levix.digital and an unsubscribe link; the mail client offers its own unsubscribe button.
+  - Step 3: the page says the subscription is confirmed, both times; the address bar no longer shows the token; the document is `confirmed` with `confirmedAt` and no `expiresAt`.
+  - Step 4: the form gives the same answer and no second email arrives.
+  - Step 5: it prints 1 confirmed subscriber and the announcement email, with the subscriber's unsubscribe link and the sender block, and sends nothing.
+  - Step 6: the page says the address is unsubscribed, both times; the document is gone.
 - **Result**: [ ] Pass [ ] Fail [ ] Blocked
 - **Notes**:

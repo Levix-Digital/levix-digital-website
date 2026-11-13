@@ -11,7 +11,7 @@
 
 1. Firestore: create the `(default)` database in `northamerica-northeast1` (Firebase console, Firestore, Create database, production mode).
 2. Gmail: add `releases@levix.digital` as a "Send mail as" address of the account that holds `contact@levix.digital`.
-3. Install the Trigger Email extension (`firebase/firestore-send-email`) in `northamerica-northeast1`, collection `mail`, SMTP `smtps://<account>@gmail.com@smtp.gmail.com:465` with the app password, default FROM `Levix Digital <releases@levix.digital>`, TTL on.
+3. Install the Trigger Email extension (`firebase/firestore-send-email`) in `northamerica-northeast1`, collection `mail`, SMTP `smtps://<Gmail address>@smtp.gmail.com:465` with the app password, default FROM `Levix Digital <releases@levix.digital>`, TTL on.
 4. Check the mailing address in `functions/.env.levix-digital` (`SENDER_MAILING_ADDRESS`, given by the owner on 2026-11-13).
 5. Run `npm run hosting:setup` once to grant the deploy identity the function roles and enable the APIs.
 6. Set the repository variable `FUNCTIONS_DEPLOY` to `true`; the next merge (or a manual `Deploy` run) deploys the function, the rules and the TTL policies.

@@ -1,16 +1,17 @@
 # Levix Digital Website
 
-The source of the Levix Digital Inc. websites: the company home at levix.digital and one site per product (AnyContext, Dev Cycle Protocol, Gedo and Aurora Dev Suite).
+The source of the Levix Digital Inc. websites: the company home at levix.digital and one site per product (DocMapper, AnyContext, Dev Cycle Protocol, Gedo and Aurora Dev Suite). Each product site says whether the product can be downloaded today and, while it cannot, lets visitors sign up by email for its release candidates.
 
 Every site is generated as static, prerendered pages that share one design system, one set of product facts and one translation mechanism, so a change to a shared part reaches every site in one place.
 
 ## Features
 
-- Build the five sites into static folders ready for any static host
+- Build the six sites into static folders ready for any static host
 - Run one site locally with changes shown in the browser as you save
 - Check types, lint the module boundaries and run the unit tests with one command
 - Verify that every built site has a prerendered home page and serves the security headers
 - Publish every site, or one, to Firebase Hosting, and preview every pull request at its own address
+- Collect release candidate subscriptions with double opt-in, and email each new release candidate to its subscribers
 
 ## Requirements
 
@@ -82,6 +83,7 @@ Each site is served by its own Firebase Hosting site in the project `levix-digit
 | Site | Hosting site | Domain |
 |---|---|---|
 | `home` | `levix-digital` | https://levix.digital (`www.levix.digital` redirects to it) |
+| `docmapper` | `docmapper` | https://docmapper.levix.digital |
 | `anycontext` | `levix-anycontext` | https://anycontext.levix.digital |
 | `devcycle` | `levix-devcycle` | https://devcycle.levix.digital |
 | `gedo` | `levix-gedo` | https://gedo.levix.digital |
@@ -147,6 +149,30 @@ To publish by hand, open Actions, Deploy, "Run workflow", and leave `sites` empt
 
 - Settings, Environments, `production`: limit deployment branches to `main` (the environment appears after the first deploy, or create it there).
 - Settings, Branches: protect `main` with a required pull request, the required checks `check (ubuntu-latest, 22)`, `check (ubuntu-latest, 24)`, `check (windows-latest, 22)` and `build`, required conversation resolution, and no force pushes.
+
+## Release candidate signup
+
+Each product site that cannot be downloaded yet shows a form to receive its release candidates by email. The form calls the `releaseSignup` function (Cloud Functions, Montreal), which stores the subscription in Firestore and sends a confirmation email; only confirmed subscriptions receive announcements, and every email has an unsubscribe link.
+
+### One-time backend setup (owner)
+
+1. In the Firebase console, create the Firestore database `(default)` in `northamerica-northeast1` (production mode).
+2. In Gmail, add `releases@levix.digital` as a "Send mail as" address of the account that holds `contact@levix.digital`, and create an app password for it.
+3. Install the Trigger Email extension (`firebase/firestore-send-email`) in `northamerica-northeast1` with the collection `mail`, the SMTP address `smtps://<Gmail address>@smtp.gmail.com:465` and the app password, the default sender `Levix Digital <releases@levix.digital>`, and TTL on.
+4. Check the mailing address printed in every email, `SENDER_MAILING_ADDRESS` in `functions/.env.levix-digital`.
+5. Run `npm run hosting:setup` again: it enables the function APIs and grants the deploy identity the function roles.
+6. In GitHub (Settings, Secrets and variables, Actions, Variables), set `FUNCTIONS_DEPLOY` to `true`, then run Actions, Deploy, "Run workflow" once to deploy the function, the Firestore rules and the TTL policies.
+
+### Announce a release candidate
+
+Every hour, the `Announce release candidates` workflow reads the public releases repository of each product (`Levix-Digital/<product>-releases`) and emails every new pre-release tagged `vX.Y.Z-rc.N`, published in the last 3 days, to the confirmed subscribers of that product, once. To announce by hand, with your own Google login (`gcloud auth application-default login`):
+
+```bash
+npm run announce -- --product gedo --version v0.2.0-rc.1 --url https://github.com/Levix-Digital/gedo-releases/releases/tag/v0.2.0-rc.1
+npm run announce -- --product gedo --version v0.2.0-rc.1 --url <same address> --notes notes.md --send
+```
+
+Without `--send` it prints how many subscribers would receive it and the first email; with `--send` it queues the emails, and a second run for the same version refuses.
 
 ## Troubleshooting
 

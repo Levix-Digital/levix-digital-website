@@ -22,7 +22,7 @@
 | `consent` | `{ version: string; text: string; page: string; givenAt: Timestamp }` | the wording shown, the page address, the time |
 | `confirmedAt` | Timestamp, optional | set on confirmation |
 | `confirmHash` | string | SHA-256 of the confirmation secret |
-| `unsubscribeHash` | string | SHA-256 of the unsubscribe secret |
+| `unsubscribeSecret` | string | kept as is: every later email (announcements) needs it for the subscriber's unsubscribe link |
 | `lastEmailAt` | Timestamp | time of the last confirmation email |
 | `expiresAt` | Timestamp, optional | TTL field: signup + 7 days while pending; removed on confirmation |
 
@@ -36,11 +36,15 @@ State transitions:
 
 ## SignupLimit (Firestore `releaseSignupLimits/{id}`)
 
-`id` = SHA-256 hex of the client address + `|` + the UTC hour (`YYYY-MM-DDTHH`). Fields: `count` (number), `expiresAt` (TTL, end of the hour + 1 hour). A signup is refused when `count` reaches 10.
+`id` = SHA-256 hex of the client address + `|` + the UTC hour (`YYYY-MM-DDTHH`). Fields: `count` (number), `expiresAt` (TTL, end of the hour + 1 hour). The eleventh signup of a client in the same hour is refused.
 
 ## Mail (Firestore `mail/{auto id}`, read by the Trigger Email extension)
 
 `to`, `from` (`Levix Digital <releases@levix.digital>`), `message.subject`, `message.text`, `message.html`, `headers` (`List-Unsubscribe`), `deleteAt` (TTL, 30 days).
+
+## Announcement (Firestore `releaseAnnouncements/{product}-{version}`)
+
+`product`, `version`, `downloadUrl`, `notes` (optional), `createdAt`, `recipients` (number of emails), `state` (`queuing`, then `queued`). Created before the mail is queued, so a version is announced once.
 
 ## Firestore rules
 

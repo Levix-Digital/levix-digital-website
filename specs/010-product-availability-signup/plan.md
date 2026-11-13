@@ -73,12 +73,13 @@ packages/ui/src/release-signup/client.ts                     # fetch adapter for
 sites/{anycontext,devcycle,gedo,aurora}/src/...              # home page with ProductIntro, two subscription routes (changed)
 sites/docmapper/                                             # new site
 functions/package.json, tsconfig.json, .env.levix-digital    # new module (address added by the owner)
-functions/src/{index,http,subscriptions,validation,tokens,limits,email,store,firestore-store,products}.ts + tests
+functions/src/{index,http,subscriptions,validation,tokens,limits,email,store,firestore-store,products,consent,sender,announcements,release-watch,cli-support,announce-cli,watch-cli}.ts + tests
 firestore.rules, firestore.indexes.json                      # deny all; TTL policies (new)
 firebase.json, .firebaserc, domains.json                     # docmapper target, functions and firestore, CSP connect-src (changed)
 package.json                                                 # functions workspace (changed)
 scripts/hosting-setup.mjs, scripts/changed-sites.mjs         # roles and APIs; functions change detection (changed)
-.github/workflows/ci.yml, deploy.yml                         # functions build and test; functions job (changed)
+.github/workflows/deploy.yml                                  # functions job (changed)
+.github/workflows/announce-release-candidates.yml           # hourly announcements (new)
 docs/adr/0015-release-signup-with-double-opt-in-before-app-check.md  # (new)
 docs/architecture/{content,ui,sites,functions,hosting,ci,i18n}.md   # (changed)
 docs/product/TECH_SPEC.md                                    # personal data and functions list (changed)
@@ -97,7 +98,7 @@ tests/MANUAL_TESTS.md, README.md                             # (changed)
 
 ### Backlog items and release
 
-FEAT-037 (availability and release candidate signup), FEAT-038 (`releaseSignup` function), FEAT-013 (download panel: the panel, without per-platform buttons, which come with each product's download page) and FEAT-036 (DocMapper site, minimal: name, statement, panel). Moved into release v0.1.0 "Company home" at the owner's request. FEAT-010 (availability banner) closed as superseded by FEAT-037.
+FEAT-037 (availability and release candidate signup), FEAT-038 (`releaseSignup` function and the release candidate announcements, added with the owner on 2026-11-13), FEAT-013 (download panel: the panel, without per-platform buttons, which come with each product's download page) and FEAT-036 (DocMapper site, minimal: name, statement, panel). Moved into release v0.1.0 "Company home" at the owner's request. FEAT-010 (availability banner) closed as superseded by FEAT-037.
 
 ### Tests (quality-assurance)
 
@@ -137,4 +138,5 @@ FEAT-037 (availability and release candidate signup), FEAT-038 (`releaseSignup` 
 3. Components and pages: panel, form, client, subscription pages, product intro.
 4. Sites: four product sites updated, DocMapper site, hosting and CSP.
 5. CI, deploy and setup script.
-6. Docs, ADR, manual tests, checks.
+6. Release candidate announcements (added with the owner on 2026-11-13).
+7. Docs, ADR, manual tests, checks.
