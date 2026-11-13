@@ -5,6 +5,7 @@ import { readDomains, resolveDomains } from './domains-config.mjs'
 const config = readHostingConfig()
 const valid = {
   home: 'levix.digital',
+  docmapper: 'docmapper.levix.digital',
   anycontext: 'anycontext.levix.digital',
   devcycle: 'devcycle.levix.digital',
   gedo: 'gedo.levix.digital',
@@ -15,6 +16,7 @@ describe('domains configuration', () => {
   it('gives the apex to the home site and a subdomain to each product site', () => {
     expect(readDomains(config).map(({ target, siteId, domain }) => [target, siteId, domain])).toEqual([
       ['home', 'levix-digital', 'levix.digital'],
+      ['docmapper', 'docmapper', 'docmapper.levix.digital'],
       ['anycontext', 'levix-anycontext', 'anycontext.levix.digital'],
       ['devcycle', 'levix-devcycle', 'devcycle.levix.digital'],
       ['gedo', 'levix-gedo', 'gedo.levix.digital'],

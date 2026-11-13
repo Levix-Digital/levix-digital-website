@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { changedSites, parseArgs, sitesForPaths } from './changed-sites.mjs'
 
-const SITES = ['home', 'anycontext', 'devcycle', 'gedo', 'aurora']
+const SITES = ['home', 'docmapper', 'anycontext', 'devcycle', 'gedo', 'aurora']
 
 /**
  * A fake runner for git: `known` says whether the base commit exists, `files` is the diff.
@@ -37,6 +37,7 @@ describe('sitesForPaths', () => {
 
   it('returns the union in the order of the sites', () => {
     expect(sitesForPaths(['sites/aurora/a.ts', 'docs/x.md', 'sites/home/b.ts'], SITES).sites).toEqual(['home', 'aurora'])
+    expect(sitesForPaths(['functions/src/http.ts', 'firestore.rules', 'firestore.indexes.json'], SITES).sites).toEqual([])
   })
 
   it('treats a folder of an unknown site as a shared change', () => {

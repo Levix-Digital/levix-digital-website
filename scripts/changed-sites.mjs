@@ -11,8 +11,22 @@ import { runCommand } from './lib/run.mjs'
  * @typedef {{ base: string | null, head: string | null, sites: string | null }} ChangedOptions
  */
 
-/** Paths that change no site: documentation, specifications and tool settings. */
-const NO_SITE = [/^docs\//, /^specs\//, /^\.specify\//, /^\.claude\//, /^tests\/MANUAL_TESTS\.md$/, /^[^/]+\.md$/, /^LICENSE$/, /^\.github\/workflows\/preview\.yml$/]
+/**
+ * Paths that change no site: documentation, specifications, tool settings, and the backend (the functions and the
+ * Firestore rules and indexes), which the Deploy workflow publishes in its own job.
+ */
+const NO_SITE = [
+  /^docs\//,
+  /^specs\//,
+  /^\.specify\//,
+  /^\.claude\//,
+  /^tests\/MANUAL_TESTS\.md$/,
+  /^[^/]+\.md$/,
+  /^LICENSE$/,
+  /^\.github\/workflows\/(preview|announce-release-candidates)\.yml$/,
+  /^functions\//,
+  /^firestore\.(rules|indexes\.json)$/,
+]
 const SITE_FILE = /^sites\/([^/]+)\//
 
 /**

@@ -1,12 +1,17 @@
 import { describe, expect, it, vi } from 'vitest'
-import { SECURITY_HEADERS } from './lib/security-headers.mjs'
+import { securityHeaders } from './lib/security-headers.mjs'
 import { checkAddress, domainAddress, liveAddress, main } from './verify-live.mjs'
 
 /** A response with a status, a content type and the security headers, with some overridden. */
-function response(/** @type {number} */ status, type = 'text/html; charset=utf-8', /** @type {Record<string, string | null>} */ overrides = {}) {
+function response(
+  /** @type {number} */ status,
+  type = 'text/html; charset=utf-8',
+  /** @type {Record<string, string | null>} */ overrides = {},
+  site = 'home',
+) {
   /** @type {Map<string, string | null>} */
   const headers = new Map([['content-type', type]])
-  for (const header of SECURITY_HEADERS) headers.set(header.key.toLowerCase(), header.value)
+  for (const header of securityHeaders(site)) headers.set(header.key.toLowerCase(), header.value)
   for (const [name, value] of Object.entries(overrides)) headers.set(name.toLowerCase(), value)
   return { status, headers: { get: (/** @type {string} */ name) => headers.get(name.toLowerCase()) ?? null } }
 }
@@ -39,9 +44,17 @@ describe('checkAddress', () => {
   })
 })
 
+/** The hosting target an address of these tests belongs to: each site serves its own policy. */
+const siteOf = (/** @type {string} */ url) => (url.includes('gedo') ? 'gedo' : 'home')
+
 describe('main', () => {
+  it('expects the policy of the site it checks', async () => {
+    expect(await checkAddress('u', async () => response(200, undefined, {}, 'gedo'), 1, 0, 'gedo')).toBeNull()
+    expect(await checkAddress('u', async () => response(200, undefined, {}, 'gedo'), 1, 0)).toMatch(/^Content-Security-Policy is/)
+  })
+
   it('checks the default address and the domain of each named site', async () => {
-    const fetcher = vi.fn(async () => response(200))
+    const fetcher = vi.fn(async (/** @type {string} */ url) => response(200, undefined, {}, siteOf(url)))
     await main(['home', 'gedo'], { fetch: fetcher, attempts: 1, delayMs: 0 })
     expect(fetcher.mock.calls.map((call) => /** @type {unknown[]} */ (call)[0])).toEqual([
       liveAddress('levix-digital'), domainAddress('levix.digital'), liveAddress('levix-gedo'), domainAddress('gedo.levix.digital'),
@@ -49,7 +62,7 @@ describe('main', () => {
   })
 
   it('fails naming the addresses that do not answer', async () => {
-    const fetcher = async (/** @type {string} */ url) => response(url === 'https://gedo.levix.digital/' ? 404 : 200)
+    const fetcher = async (/** @type {string} */ url) => response(url === 'https://gedo.levix.digital/' ? 404 : 200, undefined, {}, siteOf(url))
     await expect(main(['home', 'gedo'], { fetch: fetcher, attempts: 1, delayMs: 0 })).rejects.toThrow('not answering: https://gedo.levix.digital/')
   })
 

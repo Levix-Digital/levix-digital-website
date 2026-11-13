@@ -25,6 +25,7 @@ jobs:
       deployments: read
     outputs:
       sites: ${{ steps.sites.outputs.sites }}
+      backend: ${{ steps.backend.outputs.changed }}
     steps:
       - uses: actions/checkout@v5
         with:
@@ -66,6 +67,22 @@ jobs:
             sites=$(node scripts/changed-sites.mjs --base "$BASE" --head "$HEAD")
           fi
           echo "sites=$(echo $sites)" >> "$GITHUB_OUTPUT"
+
+      # The function, the Firestore rules and the TTL policies deploy when they changed since the
+      # last production deploy, or on every manual run.
+      - name: Select the backend
+        id: backend
+        env:
+          EVENT: ${{ github.event_name }}
+          BASE: ${{ steps.base.outputs.sha }}
+          HEAD: ${{ github.sha }}
+        run: |
+          changed=true
+          if [ "$EVENT" = push ] && [ -n "$BASE" ] && git cat-file -e "$BASE^{commit}" 2>/dev/null; then
+            git diff --quiet "$BASE" "$HEAD" -- functions firestore.rules firestore.indexes.json && changed=false
+          fi
+          echo "backend changed: $changed"
+          echo "changed=$changed" >> "$GITHUB_OUTPUT"
 
   deploy:
     needs: [ci, plan]
@@ -133,3 +150,36 @@ jobs:
             echo
             [ -f live.txt ] && sed 's/^/- /' live.txt
           } >> "$GITHUB_STEP_SUMMARY"
+
+  # The release candidate signup function and its Firestore rules and indexes. Off until the
+  # owner's one-time setup is done and the repository variable FUNCTIONS_DEPLOY is `true`
+  # (specs/010-product-availability-signup/quickstart.md); independent of the sites. No GitHub
+  # environment: the plan job reads the `production` deployments as the sites' last deploy.
+  functions:
+    needs: [ci, plan]
+    if: needs.plan.outputs.backend == 'true' && vars.FUNCTIONS_DEPLOY == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    concurrency:
+      group: deploy-functions
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - uses: google-github-actions/auth@v3
+        with:
+          workload_identity_provider: ${{ vars.FIREBASE_WIF_PROVIDER }}
+          service_account: ${{ vars.FIREBASE_DEPLOY_SERVICE_ACCOUNT }}
+
+      - name: Publish the function, rules and indexes
+        run: npx firebase deploy --only functions,firestore --project levix-digital --non-interactive --force

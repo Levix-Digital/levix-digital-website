@@ -75,7 +75,7 @@ describe('main', () => {
   it('succeeds when every domain is active', async () => {
     const log = vi.fn()
     await main([], { run: async () => ok, get: async () => ({ status: 200, body: active }), log })
-    expect(String(log.mock.calls[0]?.[0]).split('\n')).toHaveLength(5)
+    expect(String(log.mock.calls[0]?.[0]).split('\n')).toHaveLength(6)
   })
 
   it('fails naming the domains that are not active, with their records', async () => {
