@@ -10,3 +10,5 @@ coverage/
 .firebase/
 firebase-debug.log
 .lighthouseci/
+# Public deploy parameters of the functions (no secrets), read by the Firebase CLI for the project.
+!functions/.env.levix-digital
