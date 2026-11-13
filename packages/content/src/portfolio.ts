@@ -3,6 +3,7 @@ import { aurora } from './products/aurora'
 import { devcycle } from './products/devcycle'
 import { docmapper } from './products/docmapper'
 import { gedo } from './products/gedo'
+import { validateReleaseSource } from './releases'
 import { AVAILABILITY_STATUSES, type Product, type ProductLine } from './types'
 
 export const productLines: readonly ProductLine[] = [
@@ -45,6 +46,8 @@ export function validatePortfolio(entries: readonly Product[], lines: readonly P
       throw new PortfolioError(`Product ${label} has a site that is not an https address`)
     }
     checkInstallSource(product, label)
+    const releaseProblems = product.releases === undefined ? [`${label}: no releases repository`] : validateReleaseSource(label, product.releases)
+    if (releaseProblems.length > 0) throw new PortfolioError(`Product ${releaseProblems.join('; ')}`)
   }
   return entries
 }

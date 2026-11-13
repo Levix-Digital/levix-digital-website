@@ -10,6 +10,12 @@ describe('products', () => {
     )
   })
 
+  it('announce from the releases repository the sites read their releases from', () => {
+    expect(Object.entries(PRODUCTS).map(([id, product]) => [id, product.releases])).toEqual(
+      portfolio.map((product) => [product.id, product.releases.repository]),
+    )
+  })
+
   it('name the hosting site of each product as .firebaserc does', () => {
     const firebaserc = JSON.parse(readFileSync(new URL('../../.firebaserc', import.meta.url), 'utf8'))
     const targets = firebaserc.targets['levix-digital'].hosting as Record<string, string[]>

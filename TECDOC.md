@@ -39,6 +39,7 @@ flowchart LR
 <!-- architecture-docs:adrs:start -->
 | ADR | Title | Status | Version | Date |
 |---|---|---|---|---|
+| [ADR-0016](docs/adr/0016-release-information-read-at-build-time.md) | Release information read at build time, refreshed by an hourly check | accepted | v0.1.0 | 2026-11-13 |
 | [ADR-0015](docs/adr/0015-release-candidate-signup-with-double-opt-in-before-app-check.md) | Release candidate signup with double opt-in, before App Check | accepted | v0.1.0 | 2026-11-13 |
 | [ADR-0014](docs/adr/0014-portfolio-with-three-availability-statuses.md) | Portfolio with three availability statuses | accepted | v0.1.0 | 2026-11-12 |
 | [ADR-0013](docs/adr/0013-shared-layout-with-facts-and-text-passed-in.md) | Shared layout with facts and text passed in | accepted | v0.1.0 | 2026-11-01 |

@@ -4,6 +4,8 @@ import { readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { defineConfig, type Plugin, type UserConfig } from 'vite'
 import type { ViteSSGOptions } from 'vite-ssg'
+import { portfolio } from '../packages/content/src/index.ts'
+import { releaseInfo } from './release-info.ts'
 
 // vite-ssg reads its options from the `ssgOptions` key of the Vite configuration.
 type SiteConfig = UserConfig & {
@@ -28,7 +30,17 @@ function themeInit(): Plugin {
 /** The Vite configuration shared by every site: Vue, Tailwind, prerendering and tests. */
 export function defineSiteConfig(): UserConfig {
   const config: SiteConfig = {
-    plugins: [vue(), tailwindcss(), themeInit()],
+    plugins: [
+      vue(),
+      tailwindcss(),
+      themeInit(),
+      // A product site reads its product's latest release while it is built (FEAT-016, ADR-0016).
+      releaseInfo({
+        lookup: (siteId) => portfolio.find((product) => product.id === siteId) ?? null,
+        token: process.env.GITHUB_TOKEN,
+        apiBase: process.env.RELEASES_API_BASE,
+      }),
+    ],
     // The footer shows the build year in the prerendered page, then the visitor's current year.
     define: { __BUILD_YEAR__: JSON.stringify(new Date().getFullYear()) },
     build: {

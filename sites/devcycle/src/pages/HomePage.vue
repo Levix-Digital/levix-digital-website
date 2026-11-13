@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { company, productById, releaseSignupEndpoint } from '@levix/content'
 import { CONSENT_VERSION, availabilityStrings } from '@levix/i18n'
-import { ProductIntro } from '@levix/ui'
+import { BUILD_RELEASE, ProductIntro } from '@levix/ui'
 import { useHead } from '@unhead/vue'
 
-const product = productById('devcycle')
+// The latest release read while the site was built (FEAT-016).
+const product = { ...productById('devcycle'), release: BUILD_RELEASE }
 
 useHead({ title: product.name, meta: [{ name: 'description', content: product.statement }] })
 </script>

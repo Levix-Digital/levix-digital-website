@@ -36,24 +36,24 @@ When a product publishes a new release in its releases repository, the product's
 
 **Why this priority**: it is what the owner asked for: no stale version on the site and no manual step per release.
 
-**Independent Test**: run the release refresh with a releases repository whose latest tag differs from the `release.json` published by the site; the watch starts the deploy for that site only; with equal tags it starts nothing.
+**Independent Test**: run the release refresh with a releases repository whose latest tag differs from the `release.json` published by the site; the refresh starts the deploy for that site only; with equal tags it starts nothing.
 
 **Acceptance Scenarios**:
 
-1. **Given** each product site publishes `/release.json` with the version it was built with, **When** the hourly watch runs, **Then** it compares it with the latest release of each available or preview product and starts the production deploy for exactly the sites that differ.
-2. **Given** no site differs, **When** the watch runs, **Then** nothing is deployed.
-3. **Given** the watch or the release service fails, **When** it runs, **Then** it reports the failure in the run and the sites stay as they are; the next run tries again.
-4. **Given** the owner wants it at once, **When** they run the watch by hand, **Then** it does the same check immediately.
+1. **Given** each product site publishes `/release.json` with the version it was built with, **When** the hourly refresh runs, **Then** it compares it with the latest release of each available or preview product and starts the production deploy for exactly the sites that differ.
+2. **Given** no site differs, **When** the refresh runs, **Then** nothing is deployed.
+3. **Given** the refresh or the release service fails, **When** it runs, **Then** it reports the failure in the run and the sites stay as they are; the next run tries again.
+4. **Given** the owner wants it at once, **When** they run the refresh by hand, **Then** it does the same check immediately.
 
 ---
 
 ### Edge Cases
 
-- The releases service cannot be reached or limits the build: the build does not fail; the panel falls back to the install source link without a version, `release.json` records no version, and the next watch run redeploys the site.
+- The releases service cannot be reached or limits the build: the build does not fail; the panel falls back to the install source link without a version, `release.json` records no version, and the next refresh run redeploys the site.
 - A release is a draft: it is ignored.
 - The latest release has a tag that is not `vX.Y.Z` (or `vX.Y.Z-rc.N` for previews): the version is shown as the tag without change.
 - A visitor without JavaScript: the version and links are in the prerendered page.
-- Two releases in the same hour: the watch deploys the newest.
+- Two releases in the same hour: the refresh deploys the newest.
 
 ## Requirements *(mandatory)*
 
@@ -73,18 +73,18 @@ When a product publishes a new release in its releases repository, the product's
 
 - **Release source**: the releases repository of a product and its installer asset name per operating system.
 - **Release information**: version, release page address, publish date and the direct links found, read once per build.
-- **Published release marker**: `/release.json` of a product site, what the watch compares.
+- **Published release marker**: `/release.json` of a product site, what the refresh compares.
 
 ## Success Criteria *(mandatory)*
 
 - **SC-001**: After a product publishes a release, its site shows the new version within 90 minutes, with no change in the website repository.
 - **SC-002**: A visitor reaches the installer of their operating system in one click from the product page.
 - **SC-003**: A failure of the releases service never fails a build or a deploy.
-- **SC-004**: The watch deploys no site when nothing changed (zero deploys over a day without releases).
+- **SC-004**: The refresh deploys no site when nothing changed (zero deploys over a day without releases).
 
 ## Assumptions
 
 - The releases repositories are public and the GitHub REST API is reachable from the build; the build uses the workflow's token when present to avoid the anonymous rate limit.
 - AnyContext's installers are `actx-installer.exe` (Windows) and `actx-installer` (Linux), as published by its release workflow; the other products declare their installers when they start publishing them.
-- Starting the deploy workflow from the watch with the workflow's own token is allowed (manual dispatch events are the exception to the rule that a workflow's token does not start other workflows).
+- Starting the deploy workflow from the refresh with the workflow's own token is allowed (manual dispatch events are the exception to the rule that a workflow's token does not start other workflows).
 - The panel, its install link and the product sites come from FEAT-037; this feature only adds the version and the direct links.

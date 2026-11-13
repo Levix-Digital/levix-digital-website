@@ -5,21 +5,9 @@
  * result with `release: null` and the cause, so a build never fails because of the service.
  */
 
-import type { AvailabilityStatus } from './types'
+import { PLATFORMS, type AvailabilityStatus, type Platform, type ReleaseSource } from './types'
 
-/** The operating systems a product can ship an installer for, in display order. */
-export type Platform = 'windows' | 'macos' | 'linux'
-
-export const PLATFORMS: readonly Platform[] = ['windows', 'macos', 'linux']
-
-/**
- * Where a product publishes its releases: a public GitHub repository (`owner/name`) and, when the
- * product ships installers, the asset name of the installer per operating system.
- */
-export interface ReleaseSource {
-  readonly repository: string
-  readonly downloads?: Readonly<Partial<Record<Platform, string>>>
-}
+export { PLATFORMS, type Platform, type ReleaseSource } from './types'
 
 /** A direct link to the installer of one operating system. */
 export interface ReleaseDownload {

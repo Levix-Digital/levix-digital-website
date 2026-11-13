@@ -5,6 +5,15 @@ export interface PanelProduct {
   readonly statement: string
   readonly status: 'available' | 'preview' | 'in-development'
   readonly install?: { readonly url: string; readonly label: string } | undefined
+  /** The latest release read while the site was built (FEAT-016); absent or null when it could not be read. */
+  readonly release?: PanelRelease | null | undefined
+}
+
+/** The release the panel shows: its version, its notes page and a direct installer link per operating system. */
+export interface PanelRelease {
+  readonly version: string
+  readonly url: string
+  readonly downloads: readonly { readonly platform: 'windows' | 'macos' | 'linux'; readonly url: string }[]
 }
 
 /** The text of the panel, the signup form and the subscription pages, given by the site (ui owns no text). */
@@ -17,6 +26,13 @@ export interface AvailabilityStrings {
   readonly 'availability.note.preview': string
   readonly 'availability.note.in-development': string
   readonly 'availability.download': string
+  readonly 'availability.release.available': string
+  readonly 'availability.release.preview': string
+  readonly 'availability.downloadFor': string
+  readonly 'availability.platform.windows': string
+  readonly 'availability.platform.macos': string
+  readonly 'availability.platform.linux': string
+  readonly 'availability.allDownloads': string
   readonly 'signup.heading': string
   readonly 'signup.lead': string
   readonly 'signup.email': string

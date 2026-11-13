@@ -10,8 +10,16 @@ const valid: Product = {
   statement: 'Does one thing.',
   status: 'available',
   install: { url: 'https://sample.example/download', label: 'Download' },
+  releases: { repository: 'Levix-Digital/sample-releases' },
 }
-const inDevelopment: Product = { id: 'sample', name: 'Sample', line: 'documents', statement: 'Does one thing.', status: 'in-development' }
+const inDevelopment: Product = {
+  id: 'sample',
+  name: 'Sample',
+  line: 'documents',
+  statement: 'Does one thing.',
+  status: 'in-development',
+  releases: { repository: 'Levix-Digital/sample-releases' },
+}
 
 describe('portfolio', () => {
   it('lists the five products in two lines, documents first', () => {
@@ -62,12 +70,28 @@ describe('portfolio', () => {
     [{ ...valid, status: 'in-development' as const }, 'Product sample is in development but has an install source'],
     [{ ...valid, install: { url: 'http://sample.example', label: 'Download' } }, 'Product sample has an install source that is not an https address'],
     [{ ...valid, install: { url: 'https://sample.example', label: ' ' } }, 'Product sample has an install source with no label'],
+    [{ ...valid, releases: { repository: 'sample' } }, 'Product sample: releases repository "sample" is not owner/name'],
+    [{ ...valid, releases: { repository: 'a/b', downloads: { linux: '' } } }, 'Product sample: empty asset name for linux'],
   ])('rejects an invalid entry with the product named', (entry, message) => {
     expect(() => validatePortfolio([entry], productLines)).toThrow(new PortfolioError(message))
   })
 
   it('accepts a product in development without an install source', () => {
     expect(validatePortfolio([inDevelopment], productLines)).toEqual([inDevelopment])
+  })
+
+  it('names the public releases repository of every product, and the AnyContext installers', () => {
+    expect(Object.fromEntries(portfolio.map((product) => [product.id, product.releases.repository]))).toEqual({
+      docmapper: 'Levix-Digital/docmapper-releases',
+      anycontext: 'Levix-Digital/any-context-releases',
+      devcycle: 'Levix-Digital/dev-cycle-protocol-releases',
+      gedo: 'Levix-Digital/gedo-releases',
+      aurora: 'Levix-Digital/aurora-dev-suite-releases',
+    })
+    expect(portfolio.find((product) => product.id === 'anycontext')?.releases.downloads).toEqual({
+      windows: 'actx-installer.exe',
+      linux: 'actx-installer',
+    })
   })
 
   it('rejects a product listed twice', () => {

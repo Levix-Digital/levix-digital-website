@@ -270,3 +270,22 @@ How to record a run: in each test of the current run, mark exactly one box of th
   - Step 6: the page says the address is unsubscribed, both times; the document is gone.
 - **Result**: [ ] Pass [ ] Fail [ ] Blocked
 - **Notes**:
+
+### MT-PROD-003: The download button follows a new release
+
+- **Covers**: `readRelease` in `packages/content`, the `releaseInfo` plugin, `AvailabilityPanel`, `release.json`, the `Release refresh` workflow
+- **Prerequisites**: the product sites deployed from `main`; access to the Actions tab of this repository
+- **Steps**:
+  1. Open `https://anycontext.levix.digital` at 1280 px and at 375 px, in both themes, and compare with the latest release of `Levix-Digital/any-context-releases`.
+  2. Activate each "Download ... for <system>" action and the "All downloads and install instructions" link.
+  3. Open `https://anycontext.levix.digital/release.json`.
+  4. Run `Release refresh` by hand with "Only report" ticked.
+  5. After AnyContext publishes a new release, wait for the next hourly run of `Release refresh` (or run it by hand), then reload the AnyContext site.
+- **Expected**:
+  - Step 1: the panel shows "Latest release: vX.Y.Z" with the same version as the releases page, and one download action for Windows and one for Linux; no horizontal scrolling; legible in both themes.
+  - Step 2: each action starts the download of that system's installer of that release; the link opens the latest release page.
+  - Step 3: it shows `anycontext`, `available`, `Levix-Digital/any-context-releases` and the version of step 1.
+  - Step 4: the summary lists every product site, AnyContext as `current`, the sites in development as `skip`, and says no site is deployed.
+  - Step 5: the run's summary lists AnyContext as `deploy` with the old and new versions, a `Deploy` run for `anycontext` follows, and once it finishes the panel shows the new version.
+- **Result**: [ ] Pass [ ] Fail [ ] Blocked
+- **Notes**:
