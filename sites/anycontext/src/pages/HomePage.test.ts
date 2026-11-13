@@ -1,32 +1,35 @@
+import { productById } from '@levix/content'
 import { createHead } from '@unhead/vue/server'
-import { mount } from '@vue/test-utils'
 import { renderToString } from '@vue/server-renderer'
 import { describe, expect, it } from 'vitest'
 import { createSSRApp } from 'vue'
-import strings from '../locales/en.json'
 import HomePage from './HomePage.vue'
 
+const product = productById('anycontext')
+
+async function render(): Promise<string> {
+  const app = createSSRApp(HomePage)
+  app.use(createHead())
+  return renderToString(app)
+}
+
 describe('HomePage', () => {
-  it('renders its heading on the server, without browser globals', async () => {
-    const app = createSSRApp(HomePage)
-    app.use(createHead())
+  it('names the product and says what it is for', async () => {
+    const html = await render()
 
-    const html = await renderToString(app)
-
-    expect(html).toContain(`<h1`)
-    expect(html).toContain(strings['home.title'])
+    expect(html).toMatch(new RegExp(`<h1[^>]*>\\s*${product.name}\\s*</h1>`))
+    expect(html).toContain(product.statement)
   })
 
-  it('renders its heading and notice in the browser', () => {
-    const wrapper = mount(HomePage, { global: { plugins: [createHead()] } })
+  it('shows its availability: the download, or the disabled button and the release candidate form', async () => {
+    const html = await render()
 
-    expect(wrapper.find('h1').text()).toBe(strings['home.title'])
-    expect(wrapper.text()).toContain(strings['home.notice'])
-  })
-
-  it('leaves the theme picker to the header', () => {
-    const wrapper = mount(HomePage, { global: { plugins: [createHead()] } })
-
-    expect(wrapper.find('fieldset').exists()).toBe(false)
+    if (product.install) {
+      expect(html).toContain(`href="${product.install.url}"`)
+      expect(html).not.toContain('<form')
+    } else {
+      expect(html).toMatch(/<button[^>]*disabled/)
+      expect(html).toContain('<form')
+    }
   })
 })
