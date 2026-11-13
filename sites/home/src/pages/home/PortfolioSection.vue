@@ -1,13 +1,7 @@
 <script setup lang="ts">
-import { portfolio, productLines, type AvailabilityStatus } from '@levix/content'
-import { CeramicCard, PageContainer, SectionHeading, StatusBadge } from '@levix/ui'
+import { portfolio, productLines } from '@levix/content'
+import { CeramicCard, PageContainer, SectionHeading } from '@levix/ui'
 import strings from '../../locales/en.json'
-
-const STATUS_LABEL: Record<AvailabilityStatus, string> = {
-  available: strings['home.status.available'],
-  preview: strings['home.status.preview'],
-  'in-development': strings['home.status.in-development'],
-}
 
 const lines = productLines.map((line) => ({
   ...line,
@@ -55,15 +49,11 @@ const lines = productLines.map((line) => ({
               <p class="mt-3 flex-1">
                 {{ product.statement }}
               </p>
-              <p class="mt-5 flex flex-wrap items-center gap-3">
-                <StatusBadge
-                  :status="product.status"
-                  :label="STATUS_LABEL[product.status]"
-                />
-                <span
-                  v-if="!product.site"
-                  class="text-sm text-muted"
-                >{{ strings['home.products.noSite'] }}</span>
+              <p
+                v-if="!product.site"
+                class="mt-5 text-sm text-muted"
+              >
+                {{ strings['home.products.noSite'] }}
               </p>
             </CeramicCard>
           </li>
