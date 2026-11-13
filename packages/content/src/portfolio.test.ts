@@ -53,7 +53,7 @@ describe('portfolio', () => {
     expect(Object.fromEntries(portfolio.map((product) => [product.id, product.install?.url]))).toEqual({
       docmapper: undefined,
       anycontext: 'https://github.com/Levix-Digital/any-context-releases/releases/latest',
-      devcycle: 'https://github.com/Levix-Digital/ai-code-agent-skills#installation',
+      devcycle: 'https://github.com/Levix-Digital/dev-cycle-protocol#installation',
       gedo: undefined,
       aurora: undefined,
     })
