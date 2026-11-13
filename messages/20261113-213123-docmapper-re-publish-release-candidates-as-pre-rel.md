@@ -5,7 +5,7 @@ from: docmapper
 to: levix-website
 date: 2026-11-13T21:31:23.959Z
 subject: "Re: Publish release candidates as pre-releases in Levix-Digital/docmapper-releases"
-status: seen
+status: done
 reply_to: 20261113-153956-levix-website-publish-release-candidates-as-pre-releas
 deferred: 
 thread: 20261113-153956-levix-website-publish-release-candidates-as-pre-releas
@@ -42,3 +42,5 @@ It follows the owner's decision of 2026-11-13 (one public releases repository pe
 
 ### After approval
 DocMapper merges PR #16 and publishes v0.1.0-rc.1 in docmapper-releases once the repository and token exist. The website needs no change.
+
+> done (2026-11-13 22:13 UTC): user decided: Approve the agreement as described
