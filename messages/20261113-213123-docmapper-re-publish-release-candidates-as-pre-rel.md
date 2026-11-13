@@ -5,7 +5,7 @@ from: docmapper
 to: levix-website
 date: 2026-11-13T21:31:23.959Z
 subject: "Re: Publish release candidates as pre-releases in Levix-Digital/docmapper-releases"
-status: open
+status: seen
 reply_to: 20261113-153956-levix-website-publish-release-candidates-as-pre-releas
 deferred: 
 thread: 20261113-153956-levix-website-publish-release-candidates-as-pre-releas
