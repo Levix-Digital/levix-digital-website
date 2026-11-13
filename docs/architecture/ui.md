@@ -71,6 +71,12 @@ Building blocks for page sections, on the design tokens, in both themes, without
 - `CeramicCard`: a raised plate with the bevel border, the ceramic shadow and a decorative aurora seam on top. With `href` the whole card is one link whose name is the title (a stretched link inside the heading); without it, the card has no link.
 - `StatusBadge`: the availability as a text label (`available`, `preview`, `in-development`) colored by the success, info or muted tokens; the color never carries the status alone.
 - `ActionLink`: a link styled as a button, primary (accent fill) or secondary (outlined).
+- `AvailabilityPanel`: a ceramic panel with the status badge, a note and the download action of a product (`PanelProduct`: id, name, statement, status, optional `install`); with no install source it shows a disabled button described by the note, and for a product in development the `ReleaseSignupForm` right below it.
+- `ReleaseSignupForm`: email, an unticked consent checkbox whose label is the consent wording, the sender line, a hidden honeypot field, field errors tied with `aria-describedby`, and a `role="status"` line for the answer (check your inbox, rate limited, or unavailable with the contact address, keeping what was typed). Without JavaScript a `noscript` note gives the contact address.
+- `ProductIntro`: the top of a product site: the product's name as the page's level-1 heading, its statement and the panel.
+- `SubscriptionResultPage`: the confirmation or unsubscribe page; after mount it reads the token from the address fragment, removes it from the address and posts it, then says confirmed, expired, unsubscribed, incomplete link or failed.
+
+The forms reach the function through `createReleaseSignupClient(endpoint)` (`src/release-signup/client.ts`), which maps every answer, a network failure included, to an outcome and never throws; components take an optional `client` for tests. Text comes in as `AvailabilityStrings` and `fillText` fills `{product}` and `{email}`; ui holds no text or facts.
 
 ## Behavior
 

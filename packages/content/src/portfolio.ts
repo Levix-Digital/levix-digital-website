@@ -44,8 +44,25 @@ export function validatePortfolio(entries: readonly Product[], lines: readonly P
     if (product.site !== undefined && !product.site.startsWith('https://')) {
       throw new PortfolioError(`Product ${label} has a site that is not an https address`)
     }
+    checkInstallSource(product, label)
   }
   return entries
+}
+
+/** An installable product needs a source to install from; a product in development must not have one. */
+function checkInstallSource(product: Product, label: string): void {
+  const installable = product.status !== 'in-development'
+  if (installable && product.install === undefined) {
+    throw new PortfolioError(`Product ${label} is ${product.status} but has no install source`)
+  }
+  if (!installable && product.install !== undefined) {
+    throw new PortfolioError(`Product ${label} is in development but has an install source`)
+  }
+  if (product.install === undefined) return
+  if (!product.install.url.startsWith('https://')) {
+    throw new PortfolioError(`Product ${label} has an install source that is not an https address`)
+  }
+  if (!product.install.label.trim()) throw new PortfolioError(`Product ${label} has an install source with no label`)
 }
 
 /** Every product, documents line first, in the order the home shows them. */

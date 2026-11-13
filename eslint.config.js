@@ -7,7 +7,7 @@ import tseslint from 'typescript-eslint'
 const PACKAGE_ENTRY_POINTS = ['src/index.ts', 'src/styles.css', 'src/theme/theme-init.js']
 
 export default tseslint.config(
-  { ignores: ['**/dist/**', '**/node_modules/**', '**/.vite-ssg-temp/**', 'coverage/**'] },
+  { ignores: ['**/dist/**', 'functions/lib/**', '**/node_modules/**', '**/.vite-ssg-temp/**', 'coverage/**'] },
   tseslint.configs.recommended,
   pluginVue.configs['flat/recommended'],
   {

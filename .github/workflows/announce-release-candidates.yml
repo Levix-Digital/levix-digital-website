@@ -1,0 +1,44 @@
+name: Announce release candidates
+
+# Every hour, emails each new release candidate of a product (a pre-release tagged vX.Y.Z-rc.N in
+# its public releases repository) to the confirmed subscribers of that product. Each candidate is
+# announced once; candidates older than 3 days are never announced.
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: announce-release-candidates
+  cancel-in-progress: false
+
+jobs:
+  announce:
+    if: vars.FUNCTIONS_DEPLOY == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - uses: google-github-actions/auth@v3
+        with:
+          workload_identity_provider: ${{ vars.FIREBASE_WIF_PROVIDER }}
+          service_account: ${{ vars.FIREBASE_DEPLOY_SERVICE_ACCOUNT }}
+
+      - name: Announce
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: npm run announce:watch

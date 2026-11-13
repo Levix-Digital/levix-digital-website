@@ -13,8 +13,19 @@ export const THEME_INIT_SCRIPT = readFileSync(
 /** The hashes of the inline scripts the policy allows; the build check refuses any other. */
 export const ALLOWED_SCRIPT_HASHES = Object.freeze([scriptHash(THEME_INIT_SCRIPT)])
 
-/** Allowed sources per resource type. Later features add what they load, with their tests. */
-const CONTENT_SECURITY_POLICY = [
+/** The release candidate signup function, which the forms of the product sites call (FEAT-037). */
+export const SIGNUP_FUNCTION_ORIGIN = 'https://northamerica-northeast1-levix-digital.cloudfunctions.net'
+
+/** The hosting targets that show a release candidate form; the company home does not. */
+export const PRODUCT_SITES = Object.freeze(['docmapper', 'anycontext', 'devcycle', 'gedo', 'aurora'])
+
+/**
+ * Allowed sources per resource type. Later features add what they load, with their tests.
+ * @param {string} site the hosting target
+ */
+function contentSecurityPolicy(site) {
+  const connect = PRODUCT_SITES.includes(site) ? `connect-src 'self' ${SIGNUP_FUNCTION_ORIGIN}` : "connect-src 'self'"
+  return [
   "default-src 'self'",
   // Files of the site, and the inline theme script by its hash (the same text the build inlines).
   `script-src 'self' ${ALLOWED_SCRIPT_HASHES.join(' ')}`,
@@ -22,14 +33,15 @@ const CONTENT_SECURITY_POLICY = [
   // data: covers small images inlined in the stylesheets.
   "img-src 'self' data:",
   "font-src 'self'",
-  "connect-src 'self'",
+  connect,
   "manifest-src 'self'",
   "object-src 'none'",
   "base-uri 'none'",
   "form-action 'self'",
   "frame-ancestors 'none'",
   'upgrade-insecure-requests',
-].join('; ')
+  ].join('; ')
+}
 
 /** One year, the shortest HSTS lifetime the checks accept. */
 const ONE_YEAR = 31536000
@@ -45,11 +57,18 @@ function keepsHttpsForAYear(value) {
   return maxAge !== undefined && Number(maxAge) >= ONE_YEAR
 }
 
-/** @type {ReadonlyArray<{ key: string, value: string, accepts?: (served: string) => boolean }>} */
-export const SECURITY_HEADERS = Object.freeze([
+/** @typedef {{ key: string, value: string, accepts?: (served: string) => boolean }} SecurityHeader */
+
+/**
+ * The security headers of a site; they differ only in the sources the policy allows.
+ * @param {string} site the hosting target
+ * @returns {ReadonlyArray<SecurityHeader>}
+ */
+export function securityHeaders(site) {
+  return Object.freeze([
   // HTTPS only for a year, subdomains included; no preload (hard to undo). Firebase may replace it.
   { key: 'Strict-Transport-Security', value: `max-age=${ONE_YEAR}; includeSubDomains`, accepts: keepsHttpsForAYear },
-  { key: 'Content-Security-Policy', value: CONTENT_SECURITY_POLICY },
+  { key: 'Content-Security-Policy', value: contentSecurityPolicy(site) },
   // No guessing of file types.
   { key: 'X-Content-Type-Options', value: 'nosniff' },
   // Never inside a frame, for browsers that ignore frame-ancestors.
@@ -60,17 +79,22 @@ export const SECURITY_HEADERS = Object.freeze([
   { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()' },
   // A page opened from the site cannot reach back into it.
   { key: 'Cross-Origin-Opener-Policy', value: 'same-origin' },
-])
+  ])
+}
+
+/** The headers of the company home, the strictest policy. */
+export const SECURITY_HEADERS = securityHeaders('home')
 
 /**
  * Compares served headers with the policy: each must equal its value, or pass its own test.
  * @param {(name: string) => string | null | undefined} get the value of a header, by name
+ * @param {string} [site] the hosting target that served them
  * @returns {string[]} one line per header that is missing or different
  */
-export function headerDifferences(get) {
+export function headerDifferences(get, site = 'home') {
   /** @type {string[]} */
   const differences = []
-  for (const { key, value, accepts } of SECURITY_HEADERS) {
+  for (const { key, value, accepts } of securityHeaders(site)) {
     const actual = get(key)
     if (actual === null || actual === undefined) differences.push(`${key} is missing`)
     else if (actual !== value && !accepts?.(actual)) differences.push(`${key} is "${actual}"`)

@@ -25,6 +25,7 @@ jobs:
       deployments: read
     outputs:
       sites: ${{ steps.sites.outputs.sites }}
+      backend: ${{ steps.backend.outputs.changed }}
     steps:
       - uses: actions/checkout@v5
         with:
@@ -34,23 +35,28 @@ jobs:
         with:
           node-version-file: .nvmrc
 
-      # Changes are counted from the commit of the last successful production deploy, so a deploy
-      # that failed or was replaced while waiting is published by the next one.
-      - name: Find the last production deploy
+      # Changes are counted from the commit of the last successful deploy of each environment
+      # (`production` for the sites, `backend` for the function), so a deploy that failed or was
+      # replaced while waiting is published by the next one.
+      - name: Find the last deploys
         id: base
         if: github.event_name == 'push'
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
         run: |
-          base=""
-          while read -r id sha; do
-            [ -n "$id" ] || continue
-            state=$(gh api "repos/$REPO/deployments/$id/statuses?per_page=1" --jq '.[0].state // ""')
-            if [ "$state" = success ]; then base=$sha; break; fi
-          done < <(gh api "repos/$REPO/deployments?environment=production&per_page=30" --jq '.[] | "\(.id) \(.sha)"')
-          echo "last production deploy: ${base:-none}"
-          echo "sha=$base" >> "$GITHUB_OUTPUT"
+          last_success() {
+            while read -r id sha; do
+              [ -n "$id" ] || continue
+              state=$(gh api "repos/$REPO/deployments/$id/statuses?per_page=1" --jq '.[0].state // ""')
+              if [ "$state" = success ]; then echo "$sha"; return; fi
+            done < <(gh api "repos/$REPO/deployments?environment=$1&per_page=30" --jq '.[] | "\(.id) \(.sha)"')
+          }
+          sites=$(last_success production)
+          backend=$(last_success backend)
+          echo "last production deploy: ${sites:-none}; last backend deploy: ${backend:-none}"
+          echo "sha=$sites" >> "$GITHUB_OUTPUT"
+          echo "backend=$backend" >> "$GITHUB_OUTPUT"
 
       - name: Select the sites
         id: sites
@@ -66,6 +72,22 @@ jobs:
             sites=$(node scripts/changed-sites.mjs --base "$BASE" --head "$HEAD")
           fi
           echo "sites=$(echo $sites)" >> "$GITHUB_OUTPUT"
+
+      # The function, the Firestore rules and the TTL policies deploy when they changed since the
+      # last backend deploy, or on every manual run.
+      - name: Select the backend
+        id: backend
+        env:
+          EVENT: ${{ github.event_name }}
+          BASE: ${{ steps.base.outputs.backend }}
+          HEAD: ${{ github.sha }}
+        run: |
+          changed=true
+          if [ "$EVENT" = push ] && [ -n "$BASE" ] && git cat-file -e "$BASE^{commit}" 2>/dev/null; then
+            git diff --quiet "$BASE" "$HEAD" -- functions firestore.rules firestore.indexes.json && changed=false
+          fi
+          echo "backend changed: $changed"
+          echo "changed=$changed" >> "$GITHUB_OUTPUT"
 
   deploy:
     needs: [ci, plan]
@@ -133,3 +155,38 @@ jobs:
             echo
             [ -f live.txt ] && sed 's/^/- /' live.txt
           } >> "$GITHUB_STEP_SUMMARY"
+
+  # The release candidate signup function and its Firestore rules and indexes. Off until the
+  # owner's one-time setup is done and the repository variable FUNCTIONS_DEPLOY is `true`
+  # (specs/010-product-availability-signup/quickstart.md); independent of the sites. Its own
+  # environment, `backend`, records its deploys apart from the sites' `production` ones.
+  functions:
+    needs: [ci, plan]
+    if: needs.plan.outputs.backend == 'true' && vars.FUNCTIONS_DEPLOY == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    concurrency:
+      group: deploy-functions
+      cancel-in-progress: false
+    environment:
+      name: backend
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - uses: google-github-actions/auth@v3
+        with:
+          workload_identity_provider: ${{ vars.FIREBASE_WIF_PROVIDER }}
+          service_account: ${{ vars.FIREBASE_DEPLOY_SERVICE_ACCOUNT }}
+
+      - name: Publish the function, rules and indexes
+        run: npx firebase deploy --only functions,firestore --project levix-digital --non-interactive --force

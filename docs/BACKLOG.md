@@ -16,14 +16,6 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 - **Plan**: -
 - **Description**: Ceramic cards with aurora seams, buttons, badges and section layouts in both themes.
 
-### FEAT-010: Availability banner
-- **Priority**: high
-- **Epic**: EPIC-002
-- **Status**: open
-- **Found**: 2026-10-30
-- **Plan**: -
-- **Description**: Full-width banner at the top of every page of a product not yet available, saying it will be available soon.
-
 ### FEAT-012: Plans and pricing table
 - **Priority**: medium
 - **Epic**: EPIC-002
@@ -31,14 +23,6 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 - **Found**: 2026-10-30
 - **Plan**: -
 - **Description**: Component that renders a product's plans and prices from its data file.
-
-### FEAT-013: Download panel
-- **Priority**: medium
-- **Epic**: EPIC-002
-- **Status**: open
-- **Found**: 2026-10-30
-- **Plan**: -
-- **Description**: Per-platform download buttons and install instructions, disabled while the product is not available.
 
 ### FEAT-014: Product data schema
 - **Priority**: high
@@ -62,7 +46,7 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 - **Status**: open
 - **Found**: 2026-10-30
 - **Plan**: -
-- **Description**: Latest version and download links of released products read from their GitHub Releases during the build.
+- **Description**: Latest version and per-platform download links of released products read from their public releases repositories (`Levix-Digital/<product>-releases`) during the build, shown in the availability panel; a site is rebuilt when its product publishes a release.
 
 ### FEAT-018: Contact page and form
 - **Priority**: high
@@ -207,14 +191,6 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 - **Found**: 2026-10-30
 - **Plan**: -
 - **Description**: Download clicks and contact submissions recorded as Google Analytics 4 events.
-
-### FEAT-036: DocMapper site
-- **Priority**: medium
-- **Epic**: EPIC-005
-- **Status**: open
-- **Found**: 2026-11-12
-- **Plan**: -
-- **Description**: Overview, features and status of DocMapper at its own subdomain, with the availability banner while it has no installers; adds docmapper to domains.json and the site links.
 
 ## Improvements
 
@@ -361,3 +337,48 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 - **Plan**: levix_digital_website_company_home_page
 - **Closed**: 2026-11-12, PR #17
 - **Description**: Hero, introduction of Levix Digital Inc. and the product portfolio linking to each product site.
+
+### FEAT-010: Availability banner
+- **Priority**: high
+- **Epic**: EPIC-002
+- **Status**: superseded
+- **Found**: 2026-10-30
+- **Plan**: -
+- **Closed**: 2026-11-13, superseded by FEAT-037
+- **Description**: Full-width banner at the top of every page of a product not yet available, saying it will be available soon.
+
+### FEAT-037: Availability and release candidate signup on product pages
+- **Priority**: high
+- **Epic**: EPIC-005
+- **Status**: done
+- **Found**: 2026-11-13, PR #19
+- **Plan**: levix_digital_website_product_availability_and_release_candidate_signup
+- **Closed**: 2026-11-13, plan levix_digital_website_product_availability_and_release_candidate_signup
+- **Description**: Each product page states whether the product can be downloaded; while it cannot, the download button is disabled and an email form below it signs visitors up for release candidates of that product, with double opt-in confirmation, CASL consent and unsubscribe; requested on 2026-11-13 after the badges left the home cards (PR #19).
+
+### FEAT-038: releaseSignup function
+- **Priority**: high
+- **Epic**: EPIC-008
+- **Status**: done
+- **Found**: 2026-11-13, PR #19
+- **Plan**: levix_digital_website_product_availability_and_release_candidate_signup
+- **Closed**: 2026-11-13, plan levix_digital_website_product_availability_and_release_candidate_signup
+- **Description**: Validation, rate limit, storage in Firestore, confirmation email (double opt-in), confirmation and unsubscribe endpoints for the release candidate signup.
+
+### FEAT-013: Download panel
+- **Priority**: medium
+- **Epic**: EPIC-002
+- **Status**: done
+- **Found**: 2026-10-30
+- **Plan**: levix_digital_website_product_availability_and_release_candidate_signup
+- **Closed**: 2026-11-13, plan levix_digital_website_product_availability_and_release_candidate_signup: the panel with one download action, disabled while the product is not available; per-platform links come with FEAT-016
+- **Description**: Per-platform download buttons and install instructions, disabled while the product is not available.
+
+### FEAT-036: DocMapper site
+- **Priority**: medium
+- **Epic**: EPIC-005
+- **Status**: done
+- **Found**: 2026-11-12
+- **Plan**: levix_digital_website_product_availability_and_release_candidate_signup
+- **Closed**: 2026-11-13, plan levix_digital_website_product_availability_and_release_candidate_signup
+- **Description**: Overview, features and status of DocMapper at its own subdomain, with the availability banner while it has no installers; adds docmapper to domains.json and the site links.

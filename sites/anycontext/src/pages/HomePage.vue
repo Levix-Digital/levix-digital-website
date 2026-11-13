@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import { PageContainer } from '@levix/ui'
+import { company, productById, releaseSignupEndpoint } from '@levix/content'
+import { CONSENT_VERSION, availabilityStrings } from '@levix/i18n'
+import { ProductIntro } from '@levix/ui'
 import { useHead } from '@unhead/vue'
-import strings from '../locales/en.json'
 
-useHead({ title: strings['home.title'] })
+const product = productById('anycontext')
+
+useHead({ title: product.name, meta: [{ name: 'description', content: product.statement }] })
 </script>
 
 <template>
-  <section class="py-24">
-    <PageContainer>
-      <h1 class="text-4xl font-semibold tracking-tight">
-        {{ strings['home.title'] }}
-      </h1>
-      <p class="mt-4 text-lg">
-        {{ strings['home.notice'] }}
-      </p>
-    </PageContainer>
-  </section>
+  <ProductIntro
+    :product="product"
+    :strings="availabilityStrings"
+    :contact-email="company.email"
+    :consent-version="CONSENT_VERSION"
+    :endpoint="releaseSignupEndpoint"
+  />
 </template>

@@ -50,7 +50,7 @@ describe('main', () => {
   it('audits each site at its emulator address and names the ones over budget', async () => {
     const run = vi.fn(async (/** @type {string} */ _command, /** @type {string[]} */ args) => ({ ...ok, code: args.some((arg) => arg.includes('aurora')) ? 1 : 0 }))
     await expect(main([], { run, root: workspace(config.targets.map((target) => target.name)), bases })).rejects.toThrow('over budget or not audited: aurora')
-    expect(run).toHaveBeenCalledTimes(5)
+    expect(run).toHaveBeenCalledTimes(6)
     expect(run.mock.calls[0]?.[1]).toContain('--collect.url=http://127.0.0.1:5000/')
   })
 })

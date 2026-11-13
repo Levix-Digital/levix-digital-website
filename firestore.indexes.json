@@ -1,0 +1,17 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "releaseSubscriptions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "product", "order": "ASCENDING" },
+        { "fieldPath": "state", "order": "ASCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": [
+    { "collectionGroup": "releaseSubscriptions", "fieldPath": "expiresAt", "ttl": true, "indexes": [] },
+    { "collectionGroup": "releaseSignupLimits", "fieldPath": "expiresAt", "ttl": true, "indexes": [] },
+    { "collectionGroup": "mail", "fieldPath": "deleteAt", "ttl": true, "indexes": [] }
+  ]
+}

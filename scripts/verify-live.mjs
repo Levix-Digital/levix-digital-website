@@ -27,16 +27,17 @@ export function domainAddress(domain) {
  * @param {Fetch} fetcher
  * @param {number} attempts
  * @param {number} delayMs
+ * @param {string} [site] the hosting target, whose security headers are expected
  * @returns {Promise<string | null>} null when it answered, otherwise the last problem
  */
-export async function checkAddress(url, fetcher, attempts, delayMs) {
+export async function checkAddress(url, fetcher, attempts, delayMs, site = 'home') {
   let problem = 'not requested'
   for (let attempt = 1; attempt <= attempts; attempt++) {
     try {
       const response = await fetcher(url)
       const type = response.headers.get('content-type') ?? ''
       if (response.status === 200 && type.includes('text/html')) {
-        const differences = headerDifferences((name) => response.headers.get(name))
+        const differences = headerDifferences((name) => response.headers.get(name), site)
         if (differences.length === 0) return null
         problem = differences.join(', ')
       } else {
@@ -64,7 +65,7 @@ export async function main(sites, options = {}) {
     const domain = domains.find((entry) => entry.target === target.name)
     const urls = [liveAddress(target.siteId), ...(domain ? [domainAddress(domain.domain)] : [])]
     for (const url of urls) {
-      const problem = await checkAddress(url, fetcher, attempts, delayMs)
+      const problem = await checkAddress(url, fetcher, attempts, delayMs, target.name)
       if (problem === null) {
         console.log(`ok ${target.name}: ${url}`)
       } else {

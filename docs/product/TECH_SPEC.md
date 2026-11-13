@@ -12,8 +12,8 @@ A set of statically prerendered websites (the company home and one site per prod
 - **Three.js**: the 3D hero (ceramic plates over an aurora shader core).
 - **npm workspaces**: one repository with the sites and the shared packages.
 - **Firebase Hosting**: one Firebase project with one hosting site per domain (`levix.digital`, `anycontext.levix.digital`, `devcycle.levix.digital`, `gedo.levix.digital`, `aurora.levix.digital`), the hosting Levi chose to centralize future software publishing.
-- **Cloud Functions for Firebase (2nd generation, Node.js 22)**: the contact form endpoint and the translation endpoint.
-- **Cloud Firestore**: contact messages and the shared translation cache.
+- **Cloud Functions for Firebase (2nd generation, Node.js 22)**: the release candidate signup, the contact form endpoint and the translation endpoint.
+- **Cloud Firestore**: release candidate subscriptions, contact messages and the shared translation cache.
 - **Google Cloud Translation API (v3)**: build-time translation of French and Spanish, and on-demand translation of other languages through the translation function.
 - **Google Analytics 4** with Consent Mode: loaded only after consent.
 - **Vitest** for unit tests and **Playwright** for end-to-end and visual checks; **Lighthouse CI** for performance and accessibility budgets.
@@ -24,7 +24,7 @@ A set of statically prerendered websites (the company home and one site per prod
 - **Design system** (`packages/ui`): tokens, light and dark themes, layout (header, footer, availability banner), components (ceramic cards, buttons, plan tables, download panels) and the 3D hero.
 - **Product content** (`packages/content`): one typed data file per product (name, status, features, requirements, plans, release source, links), the single source of the facts the sites show.
 - **Internationalization** (`packages/i18n`): English source strings, the French and Spanish bundles generated at build time, the on-demand language download, the browser cache and the language picker. One URL per page in every language.
-- **Functions** (`functions/`): `contact` (validates, stores the message, emails contact@levix.digital) and `translate` (returns the translations of a set of strings for a language, from the shared cache or the Translation API).
+- **Functions** (`functions/`): `releaseSignup` (release candidate subscriptions with double opt-in, and the commands that announce release candidates), `contact` (validates, stores the message, emails contact@levix.digital) and `translate` (returns the translations of a set of strings for a language, from the shared cache or the Translation API).
 - **Build scripts** (`scripts/`): translation of new or changed strings for the prebuilt languages, and the release information of each product read from its release channel.
 
 Details: [TECDOC.md](../../TECDOC.md).
@@ -41,8 +41,9 @@ Details: [TECDOC.md](../../TECDOC.md).
 
 ### Security and Privacy
 
-- No accounts or personal data beyond the contact form (name, email, company, message) and analytics after consent.
-- The contact and translation functions validate their input, limit request rates per client, and are protected with Firebase App Check; the translation function accepts only strings that exist in the English source.
+- No accounts or personal data beyond the contact form (name, email, company, message), the release candidate subscriptions (email address, product and proof of consent) and analytics after consent.
+- Release candidate emails follow Canada's Anti-Spam Legislation: express consent with an unticked box, double opt-in, sender identification with the mailing address and an unsubscribe link in every email, honored at once ([ADR-0015](../adr/0015-release-candidate-signup-with-double-opt-in-before-app-check.md)).
+- The contact and translation functions validate their input, limit request rates per client, and are protected with Firebase App Check; the translation function accepts only strings that exist in the English source. The release candidate signup validates its input, limits requests per client and per address, and accepts only the product sites' origins; it joins App Check when the contact function brings it ([ADR-0015](../adr/0015-release-candidate-signup-with-double-opt-in-before-app-check.md)).
 - No API key in the pages: the Translation API is called only from functions and build scripts with a service account.
 - Firestore rules deny all client access; only functions read and write.
 - HTTPS everywhere with HSTS, and a Content Security Policy that allows only the site's own origin, Google Analytics and the functions; each source is added by the feature that needs it ([ADR-0010](../adr/0010-strict-content-security-policy-extended-per-feature.md)).
@@ -68,7 +69,8 @@ Details: [TECDOC.md](../../TECDOC.md).
 | Firebase Hosting | Out | Serves the sites | Site down (Firebase's availability) |
 | Cloud Functions, Firestore | In and out | Contact messages, shared translation cache | Fallbacks above |
 | Google Cloud Translation API | Out | Build-time and on-demand translation | Build keeps the previous translations; on-demand shows English |
-| Email delivery (Gmail SMTP of the account that holds the contact@levix.digital alias, with an app password, through the Firebase Trigger Email extension) | Out | Notifies contact@levix.digital | Message stays in Firestore and is retried |
+| Email delivery (Gmail SMTP of the account that holds the contact@levix.digital alias, with an app password, through the Firebase Trigger Email extension) | Out | Notifies contact@levix.digital; sends the release candidate confirmations and announcements as releases@levix.digital | Message stays in Firestore and is retried |
+| GitHub Releases API (public releases repository of each product) | In | New release candidates to announce | The hourly run fails and the next one announces them |
 | Google Analytics 4 | Out | Visits and download clicks, after consent | No effect on the site |
 | GitHub Releases of each product | In, at build time | Latest version and download links | Build keeps the last known release |
 | Cloudflare DNS | — | `levix.digital` and its subdomains point to Firebase Hosting (names served by Firebase not proxied); mail routing; `www` redirect | Sites unreachable at their domains; `*.web.app` addresses keep working |
@@ -78,6 +80,7 @@ Details: [TECDOC.md](../../TECDOC.md).
 - **Product content**: typed data files in the repository, reviewed like code.
 - **Translations**: the English source strings in the repository; French and Spanish bundles generated and committed; on-demand translations in Firestore (`translations/{language}/strings/{hash of the English text}`) and in the visitor's local storage, invalidated when the English text changes.
 - **Contact messages**: Firestore (`contactMessages`), kept for 24 months, then deleted.
+- **Release candidate subscriptions**: Firestore (`releaseSubscriptions`); pending ones deleted after 7 days, confirmed ones kept until unsubscribed, deleted at once on unsubscribe; queued mail kept 30 days; announcements recorded in `releaseAnnouncements`.
 - **Analytics**: in Google Analytics 4, with its retention set to 14 months.
 - Changes to the data shapes are additive.
 

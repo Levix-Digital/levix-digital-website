@@ -45,7 +45,7 @@ describe('builtTargets', () => {
 
   it('returns every target when no site is named and all are built', () => {
     const root = workspace(config.targets.map((target) => target.name))
-    expect(builtTargets(config, [], root)).toHaveLength(5)
+    expect(builtTargets(config, [], root)).toHaveLength(6)
   })
 })
 

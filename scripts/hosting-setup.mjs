@@ -15,10 +15,28 @@ export const REQUIRED_APIS = [
   'iam.googleapis.com',
   'iamcredentials.googleapis.com',
   'sts.googleapis.com',
+  // The release candidate signup function (Cloud Functions 2nd generation) and Firestore.
+  'cloudfunctions.googleapis.com',
+  'cloudbuild.googleapis.com',
+  'artifactregistry.googleapis.com',
+  'run.googleapis.com',
+  'eventarc.googleapis.com',
+  'firestore.googleapis.com',
+  'firebaserules.googleapis.com',
 ]
 // Hosting Admin publishes releases and channels; Service Usage Consumer lets the CLI check that the
-// Hosting API is enabled before it deploys.
-export const DEPLOY_ROLES = ['roles/firebasehosting.admin', 'roles/serviceusage.serviceUsageConsumer']
+// Hosting API is enabled before it deploys. The others deploy the signup function (Functions
+// Developer, acting as its runtime service account), its Firestore rules and TTL indexes, and let
+// the hourly release candidate announcement read subscribers and queue mail (Datastore User).
+export const DEPLOY_ROLES = [
+  'roles/firebasehosting.admin',
+  'roles/serviceusage.serviceUsageConsumer',
+  'roles/cloudfunctions.developer',
+  'roles/iam.serviceAccountUser',
+  'roles/firebaserules.admin',
+  'roles/datastore.indexAdmin',
+  'roles/datastore.user',
+]
 
 /**
  * @typedef {import('./lib/run.mjs').Runner} Runner

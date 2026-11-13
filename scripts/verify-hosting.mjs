@@ -4,7 +4,7 @@ import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { emulatorBases } from './lib/emulator.mjs'
 import { readHostingConfig } from './lib/hosting-config.mjs'
-import { headerDifferences } from './lib/security-headers.mjs'
+import { PRODUCT_SITES, headerDifferences } from './lib/security-headers.mjs'
 
 const PAGE_CACHE = 'no-cache'
 const ASSET_CACHE = 'public, max-age=31536000, immutable'
@@ -42,13 +42,21 @@ for (const target of targets) {
   const html = await get('/index.html')
   expectThat(target.name, 'clean URLs redirect', html.status === 301 && html.headers.get('location') === '/', `status ${html.status}`)
 
+  if (PRODUCT_SITES.includes(target.name)) {
+    for (const page of ['/subscription/confirm', '/subscription/unsubscribe']) {
+      const response = await get(page)
+      const expected = readFileSync(join(target.folder, page, 'index.html'), 'utf8')
+      expectThat(target.name, `${page} is served`, response.status === 200 && (await response.text()) === expected, `status ${response.status}`)
+    }
+  }
+
   const missing = await get('/no-such-page')
   expectThat(target.name, 'unknown paths are not found', missing.status === 404, `status ${missing.status}`)
 
   /** @type {[string, Response][]} */
   const responses = [['/', home], [`/assets/${asset}`, assetResponse], ['/no-such-page', missing]]
   for (const [path, response] of responses) {
-    const differences = headerDifferences((name) => response.headers.get(name))
+    const differences = headerDifferences((name) => response.headers.get(name), target.name)
     expectThat(target.name, `security headers on ${path}`, differences.length === 0, differences.join(', '))
   }
 }

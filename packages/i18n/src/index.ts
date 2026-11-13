@@ -1,3 +1,4 @@
+import availability from './availability.en.json'
 import layout from './layout.en.json'
 
 /** The language every string is written in first; other languages are translated from it. */
@@ -7,3 +8,12 @@ export const SOURCE_LANGUAGE = 'en'
 export type LayoutStrings = typeof layout
 
 export const layoutStrings: LayoutStrings = layout
+
+/** The English text of the availability panel, the release candidate form and the subscription pages. */
+export type AvailabilityStrings = typeof availability
+
+export const availabilityStrings: AvailabilityStrings = availability
+
+/** The date of the consent wording (`signup.consent`); change it whenever that wording changes. */
+export const CONSENT_VERSION = '2026-11-13'
+

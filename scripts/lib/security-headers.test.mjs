@@ -1,7 +1,16 @@
 import { describe, expect, it } from 'vitest'
 import { readHostingConfig } from './hosting-config.mjs'
 import { scriptHash } from './inline-code.mjs'
-import { ALLOWED_SCRIPT_HASHES, SECURITY_HEADERS, THEME_INIT_SCRIPT, headerDifferences } from './security-headers.mjs'
+import { products, releaseSignupEndpoint } from '@levix/content'
+import {
+  ALLOWED_SCRIPT_HASHES,
+  PRODUCT_SITES,
+  SECURITY_HEADERS,
+  SIGNUP_FUNCTION_ORIGIN,
+  THEME_INIT_SCRIPT,
+  headerDifferences,
+  securityHeaders,
+} from './security-headers.mjs'
 
 /** @typedef {{ source: string, headers: { key: string, value: string }[] }} HeaderRule */
 
@@ -56,6 +65,33 @@ describe('Content-Security-Policy', () => {
   })
 })
 
+describe('per-site policy', () => {
+  const connectSrc = (/** @type {string} */ site) =>
+    securityHeaders(site)
+      .find((header) => header.key === 'Content-Security-Policy')
+      ?.value.split('; ')
+      .find((directive) => directive.startsWith('connect-src '))
+
+  it('lets the product sites call the signup function, and only them', () => {
+    for (const site of PRODUCT_SITES) expect(connectSrc(site)).toBe(`connect-src 'self' ${SIGNUP_FUNCTION_ORIGIN}`)
+    expect(connectSrc('home')).toBe("connect-src 'self'")
+  })
+
+  it('lists every product of the portfolio as a product site', () => {
+    expect([...PRODUCT_SITES].sort()).toEqual(products.map((product) => product.id).sort())
+  })
+
+  it('allows the origin the forms call', () => {
+    expect(new URL(releaseSignupEndpoint).origin).toBe(SIGNUP_FUNCTION_ORIGIN)
+  })
+
+  it('checks served headers against the site that served them', () => {
+    const product = new Map(securityHeaders('gedo').map((header) => [header.key, header.value]))
+    expect(headerDifferences((name) => product.get(name), 'gedo')).toEqual([])
+    expect(headerDifferences((name) => product.get(name))).toHaveLength(1)
+  })
+})
+
 describe('firebase.json', () => {
   for (const { name, entry } of readHostingConfig().targets) {
     const rules = /** @type {HeaderRule[]} */ (entry.headers)
@@ -63,7 +99,7 @@ describe('firebase.json', () => {
     it(`${name} serves exactly the security headers on every path`, () => {
       const all = rules.find((rule) => rule.source === '**')
       const configured = new Map((all?.headers ?? []).map((header) => [header.key, header.value]))
-      for (const { key, value } of SECURITY_HEADERS) expect([key, configured.get(key)]).toEqual([key, value])
+      for (const { key, value } of securityHeaders(name)) expect([key, configured.get(key)]).toEqual([key, value])
     })
 
     it(`${name} sets security headers only on the ** rule`, () => {

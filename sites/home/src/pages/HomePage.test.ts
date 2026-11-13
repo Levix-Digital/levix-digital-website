@@ -1,3 +1,4 @@
+import { portfolio } from '@levix/content'
 import { createHead } from '@unhead/vue/server'
 import { mount } from '@vue/test-utils'
 import { renderToString } from '@vue/server-renderer'
@@ -61,11 +62,12 @@ describe('HomePage', () => {
     expect(wrapper.find('[data-product="anycontext"] a').attributes('href')).toBe('https://anycontext.levix.digital')
   })
 
-  it('does not link DocMapper, which has no site', () => {
-    const card = mountPage().find('[data-product="docmapper"]')
+  it('links every card to its product site, DocMapper included', () => {
+    const wrapper = mountPage()
 
-    expect(card.find('a').exists()).toBe(false)
-    expect(card.text()).toContain(strings['home.products.noSite'])
+    for (const product of portfolio) {
+      expect(wrapper.find(`[data-product="${product.id}"] a`).attributes('href')).toBe(product.site)
+    }
   })
 
   it('states the perimeter focus first in the about section', () => {

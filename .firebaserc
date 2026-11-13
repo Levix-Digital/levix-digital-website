@@ -8,6 +8,9 @@
         "home": [
           "levix-digital"
         ],
+        "docmapper": [
+          "docmapper"
+        ],
         "anycontext": [
           "levix-anycontext"
         ],

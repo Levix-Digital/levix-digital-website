@@ -3,7 +3,15 @@ import domains from '../../../domains.json'
 import { PortfolioError, portfolio, productLines, validatePortfolio } from './portfolio'
 import type { Product } from './types'
 
-const valid: Product = { id: 'sample', name: 'Sample', line: 'documents', statement: 'Does one thing.', status: 'available' }
+const valid: Product = {
+  id: 'sample',
+  name: 'Sample',
+  line: 'documents',
+  statement: 'Does one thing.',
+  status: 'available',
+  install: { url: 'https://sample.example/download', label: 'Download' },
+}
+const inDevelopment: Product = { id: 'sample', name: 'Sample', line: 'documents', statement: 'Does one thing.', status: 'in-development' }
 
 describe('portfolio', () => {
   it('lists the five products in two lines, documents first', () => {
@@ -27,12 +35,20 @@ describe('portfolio', () => {
     })
   })
 
-  it('links each site at its production domain, and DocMapper has no site', () => {
+  it('links every product to its site at its production domain', () => {
     for (const product of portfolio) {
-      if (product.site === undefined) continue
       expect(product.site).toBe(`https://${(domains as Record<string, string>)[product.id]}`)
     }
-    expect(portfolio.find((product) => product.id === 'docmapper')?.site).toBeUndefined()
+  })
+
+  it('gives the installable products their install source, and none to the others', () => {
+    expect(Object.fromEntries(portfolio.map((product) => [product.id, product.install?.url]))).toEqual({
+      docmapper: undefined,
+      anycontext: 'https://github.com/Levix-Digital/any-context-releases/releases/latest',
+      devcycle: 'https://github.com/Levix-Digital/ai-code-agent-skills#installation',
+      gedo: undefined,
+      aurora: undefined,
+    })
   })
 
   it.each([
@@ -41,8 +57,17 @@ describe('portfolio', () => {
     [{ ...valid, status: 'soon' as Product['status'] }, 'Product sample has the unknown status "soon"'],
     [{ ...valid, line: 'games' as Product['line'] }, 'Product sample has the unknown line "games"'],
     [{ ...valid, site: 'http://sample.example' }, 'Product sample has a site that is not an https address'],
+    [{ ...inDevelopment, status: 'available' as const }, 'Product sample is available but has no install source'],
+    [{ ...inDevelopment, status: 'preview' as const }, 'Product sample is preview but has no install source'],
+    [{ ...valid, status: 'in-development' as const }, 'Product sample is in development but has an install source'],
+    [{ ...valid, install: { url: 'http://sample.example', label: 'Download' } }, 'Product sample has an install source that is not an https address'],
+    [{ ...valid, install: { url: 'https://sample.example', label: ' ' } }, 'Product sample has an install source with no label'],
   ])('rejects an invalid entry with the product named', (entry, message) => {
     expect(() => validatePortfolio([entry], productLines)).toThrow(new PortfolioError(message))
+  })
+
+  it('accepts a product in development without an install source', () => {
+    expect(validatePortfolio([inDevelopment], productLines)).toEqual([inDevelopment])
   })
 
   it('rejects a product listed twice', () => {
