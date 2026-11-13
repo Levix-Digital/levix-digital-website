@@ -84,13 +84,18 @@ describe('portfolio', () => {
     expect(Object.fromEntries(portfolio.map((product) => [product.id, product.releases.repository]))).toEqual({
       docmapper: 'Levix-Digital/docmapper-releases',
       anycontext: 'Levix-Digital/any-context-releases',
-      devcycle: 'Levix-Digital/dev-cycle-protocol-releases',
+      devcycle: 'Levix-Digital/dcp-releases',
       gedo: 'Levix-Digital/gedo-releases',
       aurora: 'Levix-Digital/aurora-dev-suite-releases',
     })
     expect(portfolio.find((product) => product.id === 'anycontext')?.releases.downloads).toEqual({
       windows: 'actx-installer.exe',
       linux: 'actx-installer',
+    })
+    expect(portfolio.find((product) => product.id === 'devcycle')?.releases.downloads).toEqual({
+      windows: 'dev-cycle-protocol.zip',
+      macos: 'dev-cycle-protocol.tar.gz',
+      linux: 'dev-cycle-protocol.tar.gz',
     })
   })
 
