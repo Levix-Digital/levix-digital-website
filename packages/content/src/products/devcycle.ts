@@ -10,5 +10,10 @@ export const devcycle: Product = {
   status: 'available',
   site: 'https://devcycle.levix.digital',
   install: { url: 'https://github.com/Levix-Digital/ai-code-agent-skills#installation', label: 'Install' },
-  releases: { repository: 'Levix-Digital/dev-cycle-protocol-releases' },
+  // Archives from Dev Cycle Protocol's release workflow, the same names in every release; the extracted folder holds
+  // install.ps1 (Windows) and install.sh (Linux, macOS).
+  releases: {
+    repository: 'Levix-Digital/dcp-releases',
+    downloads: { windows: 'dev-cycle-protocol.zip', macos: 'dev-cycle-protocol.tar.gz', linux: 'dev-cycle-protocol.tar.gz' },
+  },
 }
