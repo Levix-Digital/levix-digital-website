@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="190 -45 380 380">
+  <defs>
+    <linearGradient id="metal" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#080A0E"/>
+      <stop offset="22%" stop-color="#121722"/>
+      <stop offset="38%" stop-color="#00E5FF"/>
+      <stop offset="48%" stop-color="#0D1219"/>
+      <stop offset="68%" stop-color="#7928CA"/>
+      <stop offset="84%" stop-color="#141922"/>
+      <stop offset="100%" stop-color="#07090C"/>
+    </linearGradient>
+    <linearGradient id="sheen" x1="100%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0.85"/>
+      <stop offset="36%" stop-color="#00E5FF" stop-opacity="0.28"/>
+      <stop offset="68%" stop-color="#7928CA" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.9"/>
+    </linearGradient>
+  </defs>
+  <rect x="190" y="-45" width="380" height="380" rx="84" fill="#F1F5F9"/>
+  <path d="M 260 65 L 260 225 L 430 225 A 70 70 0 0 0 500 155 A 70 70 0 0 0 430 85 L 380 85 L 380 170" fill="none" stroke="#CBD5E1" stroke-width="46"/>
+  <path d="M 260 65 L 260 225 L 430 225 A 70 70 0 0 0 500 155 A 70 70 0 0 0 430 85 L 380 85 L 380 170" fill="none" stroke="url(#metal)" stroke-width="40"/>
+  <path d="M 260 65 L 260 225 L 430 225 A 70 70 0 0 0 500 155 A 70 70 0 0 0 430 85 L 380 85 L 380 170" fill="none" stroke="url(#sheen)" stroke-width="40" style="mix-blend-mode:screen"/>
+</svg>
