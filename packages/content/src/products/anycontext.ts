@@ -1,7 +1,7 @@
 import type { Product } from '../types'
 
 /**
- * Source: AnyContext README (install scripts for Windows and Linux, releases in any-context-releases).
+ * Source: AnyContext README (install scripts for Windows and Linux; the installer and release notes on the any-context-releases latest release page).
  * Organizations use local models or a model server in their own VPC; individuals may also use a cloud provider.
  */
 export const anycontext: Product = {
@@ -12,4 +12,5 @@ export const anycontext: Product = {
     'Answers from your own folders and documentation, citing the files. In organizations the models run locally or in your own VPC; individuals may also choose a cloud provider.',
   status: 'available',
   site: 'https://anycontext.levix.digital',
+  install: { url: 'https://github.com/Levix-Digital/any-context-releases/releases/latest', label: 'Download' },
 }

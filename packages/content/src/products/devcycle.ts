@@ -9,4 +9,5 @@ export const devcycle: Product = {
     'The agent writes the code. Dev Cycle Protocol makes sure it was done the right way: specification, plan, tests, review and release, with no steps skipped.',
   status: 'available',
   site: 'https://devcycle.levix.digital',
+  install: { url: 'https://github.com/Levix-Digital/ai-code-agent-skills#installation', label: 'Install' },
 }

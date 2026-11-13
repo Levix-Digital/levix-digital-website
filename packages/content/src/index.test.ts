@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import domains from '../../../domains.json'
-import { company, companySite, portfolio, products } from './index'
+import { PortfolioError, company, companySite, portfolio, productById, products, releaseSignupEndpoint } from './index'
 
 describe('@levix/content', () => {
   it('exposes the company facts', () => {
@@ -9,8 +9,9 @@ describe('@levix/content', () => {
     expect(company.location).toEqual({ city: 'Calgary', province: 'Alberta', country: 'Canada' })
   })
 
-  it('lists the four products in order with their names', () => {
+  it('lists the five products in order with their names', () => {
     expect(products.map((product) => [product.id, product.name])).toEqual([
+      ['docmapper', 'DocMapper'],
       ['anycontext', 'AnyContext'],
       ['devcycle', 'Dev Cycle Protocol'],
       ['gedo', 'Gedo'],
@@ -22,6 +23,15 @@ describe('@levix/content', () => {
     expect(products.map((product) => product.url)).toEqual(
       portfolio.flatMap((product) => (product.site === undefined ? [] : [product.site])),
     )
+  })
+
+  it('finds a product by its id', () => {
+    expect(productById('gedo').name).toBe('Gedo')
+    expect(() => productById('nothing' as 'gedo')).toThrow(PortfolioError)
+  })
+
+  it('calls the signup function in Montreal over https', () => {
+    expect(releaseSignupEndpoint).toBe('https://northamerica-northeast1-levix-digital.cloudfunctions.net/releaseSignup')
   })
 
   it('links every site at its production domain from domains.json', () => {

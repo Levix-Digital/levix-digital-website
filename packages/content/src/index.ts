@@ -1,7 +1,8 @@
-import { portfolio } from './portfolio'
+import { PortfolioError, portfolio } from './portfolio'
+import type { Product } from './types'
 
 export { portfolio, productLines, PortfolioError, validatePortfolio } from './portfolio'
-export type { AvailabilityStatus, Product, ProductLine, ProductLineId } from './types'
+export type { AvailabilityStatus, InstallSource, Product, ProductLine, ProductLineId } from './types'
 
 export interface Location {
   readonly city: string
@@ -15,11 +16,21 @@ export interface Company {
   readonly location: Location
 }
 
-/** The five sites: the company home and one site per product. */
-export type SiteId = 'home' | 'anycontext' | 'devcycle' | 'gedo' | 'aurora'
+/** The six sites: the company home and one site per product. */
+export type SiteId = 'home' | 'docmapper' | 'anycontext' | 'devcycle' | 'gedo' | 'aurora'
 export type ProductId = Exclude<SiteId, 'home'>
 
-const PRODUCT_SITE_IDS: readonly ProductId[] = ['anycontext', 'devcycle', 'gedo', 'aurora']
+const PRODUCT_SITE_IDS: readonly ProductId[] = ['docmapper', 'anycontext', 'devcycle', 'gedo', 'aurora']
+
+/** The release candidate signup function (Cloud Functions, Montreal); the product sites call its routes. */
+export const releaseSignupEndpoint = 'https://northamerica-northeast1-levix-digital.cloudfunctions.net/releaseSignup'
+
+/** The product of the portfolio with this id; the build stops when it is missing. */
+export function productById(id: ProductId): Product {
+  const product = portfolio.find((entry) => entry.id === id)
+  if (product === undefined) throw new PortfolioError(`Product ${id} is not in the portfolio`)
+  return product
+}
 
 /** A site as other sites link to it: its name and its production address. */
 export interface SiteLink {

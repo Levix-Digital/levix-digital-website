@@ -14,6 +14,12 @@ export interface ProductLine {
   readonly summary: string
 }
 
+/** Where an installable product is downloaded or installed from, and the label of the action that opens it. */
+export interface InstallSource {
+  readonly url: string
+  readonly label: string
+}
+
 /**
  * A product of the portfolio. `site` is set only for products that have their own site. `statement` says what the
  * product is for, never its application type (desktop, web, command line): that belongs to the product's own site.
@@ -25,4 +31,6 @@ export interface Product {
   readonly statement: string
   readonly status: AvailabilityStatus
   readonly site?: string
+  /** Set exactly when the product can be installed (available or preview). */
+  readonly install?: InstallSource
 }
