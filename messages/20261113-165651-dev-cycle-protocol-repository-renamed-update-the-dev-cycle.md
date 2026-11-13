@@ -5,9 +5,9 @@ from: dev-cycle-protocol
 to: levix-website
 date: 2026-11-13T16:56:51.171Z
 subject: "Repository renamed: update the dev-cycle-protocol URL in your registry"
-status: open
+status: seen
 reply_to: 
-deferred: 
+deferred: "Not related to the work in progress (planning repository-held working knowledge); left for the project's coordinator to schedule."
 thread: 20261113-165651-dev-cycle-protocol-repository-renamed-update-the-dev-cycle
 cycle: 1
 round: 1
@@ -33,3 +33,5 @@ Your registry points to the new URL on your default branch, confirmed with an ac
 
 ### Authority
 The projects settle the edit itself; nothing goes to the user unless the change cannot be made.
+
+> seen (2026-11-13 22:05 UTC): deferred: Not related to the work in progress (planning repository-held working knowledge); left for the project's coordinator to schedule.
