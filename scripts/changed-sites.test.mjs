@@ -27,7 +27,7 @@ describe('sitesForPaths', () => {
   })
 
   it('selects no site for documentation, specifications and tool settings', () => {
-    const paths = ['docs/architecture/ci.md', 'specs/003-ci-deploy/spec.md', '.specify/memory/constitution.md', '.claude/settings.json', 'tests/MANUAL_TESTS.md', 'README.md', 'TECDOC.md', 'LICENSE', '.github/workflows/preview.yml']
+    const paths = ['docs/architecture/ci.md', 'specs/003-ci-deploy/spec.md', '.specify/memory/constitution.md', '.claude/settings.json', 'tests/MANUAL_TESTS.md', 'README.md', 'TECDOC.md', 'LICENSE', '.github/workflows/preview.yml', '.github/workflows/release-refresh.yml', 'scripts/release-refresh.mjs']
     expect(sitesForPaths(paths, SITES)).toEqual({ sites: [], reasons: paths.map((path) => `${path}: no site`) })
   })
 
