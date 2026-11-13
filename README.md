@@ -147,7 +147,7 @@ To publish by hand, open Actions, Deploy, "Run workflow", and leave `sites` empt
 
 ### One-time repository settings (owner)
 
-- Settings, Environments, `production`: limit deployment branches to `main` (the environment appears after the first deploy, or create it there).
+- Settings, Environments, `production` and `backend`: limit deployment branches to `main` (the environment appears after the first deploy, or create it there).
 - Settings, Branches: protect `main` with a required pull request, the required checks `check (ubuntu-latest, 22)`, `check (ubuntu-latest, 24)`, `check (windows-latest, 22)` and `build`, required conversation resolution, and no force pushes.
 
 ## Release candidate signup
