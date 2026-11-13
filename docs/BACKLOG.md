@@ -46,7 +46,7 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 - **Status**: open
 - **Found**: 2026-10-30
 - **Plan**: -
-- **Description**: Latest version and download links of released products read from their GitHub Releases during the build.
+- **Description**: Latest version and per-platform download links of released products read from their public releases repositories (`Levix-Digital/<product>-releases`) during the build, shown in the availability panel; a site is rebuilt when its product publishes a release.
 
 ### FEAT-018: Contact page and form
 - **Priority**: high
@@ -371,7 +371,7 @@ Each item: `### <ID>: <title>` with the fields `Severity` (bugs: critical, high,
 - **Status**: done
 - **Found**: 2026-10-30
 - **Plan**: levix_digital_website_product_availability_and_release_candidate_signup
-- **Closed**: 2026-11-13, plan levix_digital_website_product_availability_and_release_candidate_signup
+- **Closed**: 2026-11-13, plan levix_digital_website_product_availability_and_release_candidate_signup: the panel with one download action, disabled while the product is not available; per-platform links come with FEAT-016
 - **Description**: Per-platform download buttons and install instructions, disabled while the product is not available.
 
 ### FEAT-036: DocMapper site
