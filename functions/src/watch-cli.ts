@@ -4,7 +4,8 @@
  * `Announce release candidates` workflow; `GITHUB_TOKEN` raises the GitHub API rate limit when set.
  */
 import { announcementKey, announcementMails } from './announcements.js'
-import { firestoreStore, runMain, senderSettings } from './cli-support.js'
+import { firestoreStore, runMain } from './cli-support.js'
+import { SENDER } from './sender.js'
 import { PRODUCTS, type ProductId } from './products.js'
 import { candidatesToAnnounce, releasesApiUrl, type GitHubRelease } from './release-watch.js'
 
@@ -23,7 +24,7 @@ async function releasesOf(product: ProductId): Promise<GitHubRelease[]> {
 
 async function main(): Promise<void> {
   const store = firestoreStore()
-  const sender = senderSettings()
+  const sender = SENDER
   const now = new Date()
   const failed: ProductId[] = []
   // One product's failure (GitHub or Firestore) does not hold back the others; the run fails at the end.

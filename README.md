@@ -159,7 +159,7 @@ Each product site that cannot be downloaded yet shows a form to receive its rele
 1. In the Firebase console, create the Firestore database `(default)` in `northamerica-northeast1` (production mode).
 2. In Gmail, add `releases@levix.digital` as a "Send mail as" address of the account that holds `contact@levix.digital`, and create an app password for it.
 3. Install the Trigger Email extension (`firebase/firestore-send-email`) in `northamerica-northeast1` with the collection `mail`, the SMTP address `smtps://<Gmail address>@smtp.gmail.com:465` and the app password, the default sender `Levix Digital <releases@levix.digital>`, and TTL on.
-4. Check the mailing address printed in every email, `SENDER_MAILING_ADDRESS` in `functions/.env.levix-digital`.
+4. Check the mailing address printed in every email, in `functions/src/sender.ts`.
 5. Run `npm run hosting:setup` again: it enables the function APIs and grants the deploy identity the function roles.
 6. In GitHub (Settings, Secrets and variables, Actions, Variables), set `FUNCTIONS_DEPLOY` to `true`, then run Actions, Deploy, "Run workflow" once to deploy the function, the Firestore rules and the TTL policies.
 

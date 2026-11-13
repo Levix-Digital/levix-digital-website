@@ -9,7 +9,8 @@
 import { readFileSync } from 'node:fs'
 import { parseArgs } from 'node:util'
 import { announcementKey, announcementMails, type Announcement } from './announcements.js'
-import { firestoreStore, runMain, senderSettings } from './cli-support.js'
+import { firestoreStore, runMain } from './cli-support.js'
+import { SENDER } from './sender.js'
 import { isProductId } from './products.js'
 
 async function main(): Promise<void> {
@@ -33,7 +34,7 @@ async function main(): Promise<void> {
   }
   const store = firestoreStore()
   const now = new Date()
-  const mails = await announcementMails(store, announcement, senderSettings(), now)
+  const mails = await announcementMails(store, announcement, SENDER, now)
   console.log(`${mails.length} confirmed subscriber(s) of ${announcement.product}.`)
   if (!values.send) {
     if (mails[0] !== undefined) console.log(`\nSubject: ${mails[0].mail.message.subject}\n\n${mails[0].mail.message.text}`)

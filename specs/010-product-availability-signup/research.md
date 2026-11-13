@@ -16,7 +16,7 @@
 
 - **Decision**: express consent collected with an unticked checkbox whose label states the purpose (emails about release candidates of the named product), the requester (Levix Digital Inc.), its contact information and that consent can be withdrawn; double opt-in (the subscription counts only after the confirmation link); every email identifies the sender (name, mailing address, contact email) and carries an unsubscribe link; unsubscribing takes effect at once and deletes the subscription; the record keeps the consent wording version, page, time and confirmation time as proof of consent.
 - **Rationale**: CASL (S.C. 2010, c. 23, s. 10) and the CRTC's Electronic Commerce Protection Regulations require, for a request for express consent, the purpose, the identity of the requester and a statement that consent can be withdrawn; every commercial electronic message must identify the sender with a mailing address and contain an unsubscribe mechanism valid for 60 days and honored within 10 business days; the burden of proving consent is on the sender. Pre-checked boxes are not express consent (CRTC Compliance and Enforcement Information Bulletin 2012-549).
-- **Mailing address**: given by the owner on 2026-11-13; a deploy parameter of the function (`SENDER_MAILING_ADDRESS` in `functions/.env.levix-digital`).
+- **Mailing address**: given by the owner on 2026-11-13; public business information kept in `functions/src/sender.ts` (no `.env` file is committed).
 
 ## R4. Links in emails and link scanners
 

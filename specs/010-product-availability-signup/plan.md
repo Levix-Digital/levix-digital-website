@@ -72,7 +72,7 @@ packages/ui/src/components/ProductIntro.vue                  # name, statement, 
 packages/ui/src/release-signup/client.ts                     # fetch adapter for the three routes (new)
 sites/{anycontext,devcycle,gedo,aurora}/src/...              # home page with ProductIntro, two subscription routes (changed)
 sites/docmapper/                                             # new site
-functions/package.json, tsconfig.json, .env.levix-digital    # new module (address added by the owner)
+functions/package.json, tsconfig.json                       # new module
 functions/src/{index,http,subscriptions,validation,tokens,limits,email,store,firestore-store,products,consent,sender,announcements,release-watch,cli-support,announce-cli,watch-cli}.ts + tests
 firestore.rules, firestore.indexes.json                      # deny all; TTL policies (new)
 firebase.json, .firebaserc, domains.json                     # docmapper target, functions and firestore, CSP connect-src (changed)
@@ -126,7 +126,7 @@ FEAT-037 (availability and release candidate signup), FEAT-038 (`releaseSignup` 
 
 ### Security, migration and rollback
 
-- No secret in Git: the SMTP password lives in the extension's Secret Manager entry; the mailing address is public information in `functions/.env.levix-digital`.
+- No secret in Git: the SMTP password lives in the extension's Secret Manager entry; the mailing address is public information in `functions/src/sender.ts`.
 - New personal data (email addresses) in Canada, client access denied, deleted on unsubscribe or after 7 days unconfirmed.
 - No migration: new collections only.
 - Rollback: revert the pull request; the sites go back to their notices. The deployed function stays until `firebase functions:delete releaseSignup`; stored subscriptions stay valid.
