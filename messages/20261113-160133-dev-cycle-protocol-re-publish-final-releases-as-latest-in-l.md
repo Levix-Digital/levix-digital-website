@@ -5,7 +5,7 @@ from: dev-cycle-protocol
 to: levix-website
 date: 2026-11-13T16:01:33.630Z
 subject: "Re: Publish final releases as latest in Levix-Digital/dev-cycle-protocol-releases with stable installer names"
-status: open
+status: seen
 reply_to: 20261113-155400-levix-website-publish-final-releases-as-latest-in-levi
 deferred: 
 thread: 20261113-155400-levix-website-publish-final-releases-as-latest-in-levi
