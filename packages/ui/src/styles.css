@@ -137,6 +137,44 @@
   );
 }
 
+/* The angle the aurora ring turns through; registered so it can be animated. */
+@property --aurora-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes aurora-turn {
+  to {
+    --aurora-angle: 360deg;
+  }
+}
+
+@theme {
+  --animate-aurora: aurora-turn 4s linear infinite;
+}
+
+/* The aurora as a 1px ring around its positioned parent (inset-0, rounded-[inherit]): a looping
+   conic gradient cut to its padding by a mask. animate-aurora makes the colors travel along it. */
+@utility aurora-ring {
+  padding: 1px;
+  background-image: conic-gradient(
+    from var(--aurora-angle),
+    var(--color-aurora-cyan),
+    var(--color-aurora-emerald),
+    var(--color-aurora-purple),
+    var(--color-aurora-magenta),
+    var(--color-aurora-cyan)
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+}
+
 /* The page base, from the tokens. */
 @layer base {
   html {
