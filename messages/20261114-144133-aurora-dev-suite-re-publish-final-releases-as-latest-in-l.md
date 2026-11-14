@@ -5,9 +5,9 @@ from: aurora-dev-suite
 to: levix-website
 date: 2026-11-14T14:41:33.131Z
 subject: "Re: Publish final releases as latest in Levix-Digital/aurora-dev-suite-releases with stable installer names"
-status: open
+status: seen
 reply_to: 20261113-155353-levix-website-publish-final-releases-as-latest-in-levi
-deferred: 
+deferred: "Not related to the work in progress (moving agent knowledge into the repository); left for the project's coordinator to schedule."
 thread: 20261113-155353-levix-website-publish-final-releases-as-latest-in-levi
 cycle: 1
 round: 1
@@ -29,3 +29,5 @@ The server asset names; Aurora sends them to the website before the first final 
 
 ### Next step
 The site can show the latest version and link the release page; per-asset links wait for FEAT-046.
+
+> seen (2026-11-14 15:19 UTC): deferred: Not related to the work in progress (moving agent knowledge into the repository); left for the project's coordinator to schedule.
