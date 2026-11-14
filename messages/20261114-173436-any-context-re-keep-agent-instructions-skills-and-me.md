@@ -5,9 +5,9 @@ from: any-context
 to: levix-website
 date: 2026-11-14T17:34:36.033Z
 subject: "Re: Keep agent instructions, skills and memory in the repository (repo-setup, Migrate)"
-status: open
+status: seen
 reply_to: 20261114-155818-levix-website-keep-agent-instructions-skills-and-memor
-deferred: 
+deferred: "Belongs to the agent knowledge work (pull request #24), not to release publishing; left for the coordinator"
 thread: 20261114-155818-levix-website-keep-agent-instructions-skills-and-memor
 cycle: 1
 round: 1
@@ -32,3 +32,5 @@ None. Nothing in this repository was beyond the skill.
 
 ### Next step
 The owner reviews and merges #412 into dev; it reaches main with the next AnyContext release. AnyContext keeps the record in that pull request.
+
+> seen (2026-11-14 17:56 UTC): deferred: Belongs to the agent knowledge work (pull request #24), not to release publishing; left for the coordinator
