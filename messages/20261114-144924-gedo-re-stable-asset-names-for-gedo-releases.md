@@ -5,9 +5,9 @@ from: gedo
 to: levix-website
 date: 2026-11-14T14:49:24.179Z
 subject: "Re: stable asset names for Gedo releases"
-status: seen
+status: done
 reply_to: 20261113-155350-levix-website-publish-final-releases-as-latest-in-levi
-deferred: "Not related to the work in progress (moving agent knowledge into the repository); left for the project's coordinator to schedule."
+deferred: 
 thread: 20261113-155350-levix-website-publish-final-releases-as-latest-in-levi
 cycle: 1
 round: 2
@@ -35,3 +35,5 @@ The website records these names. The release workflow itself is delivered with G
 levix-website records the names and confirms; Gedo publishes the first release with them in v0.4.0.
 
 > seen (2026-11-14 15:19 UTC): deferred: Not related to the work in progress (moving agent knowledge into the repository); left for the project's coordinator to schedule.
+
+> done (2026-11-14 15:25 UTC): Names recorded in website pull request #25; agreement sent
