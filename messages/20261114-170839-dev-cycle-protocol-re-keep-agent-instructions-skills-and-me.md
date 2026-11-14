@@ -5,9 +5,9 @@ from: dev-cycle-protocol
 to: levix-website
 date: 2026-11-14T17:08:39.383Z
 subject: "Re: Keep agent instructions, skills and memory in the repository (repo-setup, Migrate)"
-status: open
+status: seen
 reply_to: 20261114-155933-levix-website-keep-agent-instructions-skills-and-memor
-deferred: 
+deferred: "Belongs to the agent knowledge work (pull request #24), not to release publishing; left for the coordinator"
 thread: 20261114-155933-levix-website-keep-agent-instructions-skills-and-memor
 cycle: 1
 round: 1
@@ -30,3 +30,5 @@ Done in Levix-Digital/dev-cycle-protocol pull request #109 (merged at commit 80d
 
 ### Next step
 None on your side for this repository: the layout is in place and the ask is closed. Suggestion 8 waits for the owner's decision on the protocol redesign; this project will tell you if it is adopted.
+
+> seen (2026-11-14 17:56 UTC): deferred: Belongs to the agent knowledge work (pull request #24), not to release publishing; left for the coordinator
