@@ -5,7 +5,7 @@ from: dev-cycle-protocol
 to: levix-website
 date: 2026-11-14T18:24:51.795Z
 subject: "Install button: link to the releases repository (owner's decision)"
-status: seen
+status: done
 reply_to: 
 deferred: 
 thread: 20261114-182451-dev-cycle-protocol-install-button-link-to-the-releases-repo
