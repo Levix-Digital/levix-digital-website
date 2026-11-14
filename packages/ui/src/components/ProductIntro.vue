@@ -1,5 +1,5 @@
 <script setup lang="ts">
-/** The top of a product site: the product's name, what it is for, and its availability panel. */
+/** The top of a product site: the product's name, what it is for, what is coming when set, and its availability panel. */
 import AvailabilityPanel from './AvailabilityPanel.vue'
 import PageContainer from './PageContainer.vue'
 import SectionHeading from './SectionHeading.vue'
@@ -22,6 +22,12 @@ defineProps<{
         :title="product.name"
         :lead="product.statement"
       />
+      <p
+        v-if="product.upcoming"
+        class="mt-4 max-w-3xl text-muted"
+      >
+        {{ product.upcoming }}
+      </p>
       <AvailabilityPanel
         :product="product"
         :strings="strings"

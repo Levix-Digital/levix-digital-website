@@ -3,6 +3,8 @@ export interface PanelProduct {
   readonly id: string
   readonly name: string
   readonly statement: string
+  /** What a planned release will add, shown under the statement on the product's site. */
+  readonly upcoming?: string | undefined
   readonly status: 'available' | 'preview' | 'in-development'
   readonly install?: { readonly url: string; readonly label: string } | undefined
   /** The latest release read while the site was built (FEAT-016); absent or null when it could not be read. */

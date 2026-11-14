@@ -43,6 +43,11 @@ export interface Product {
   readonly name: string
   readonly line: ProductLineId
   readonly statement: string
+  /**
+   * What a planned release will add, in full sentences that say it is coming, without a date. Shown on
+   * the product's own site under the statement, never on the company home; only what the product's roadmap plans.
+   */
+  readonly upcoming?: string
   readonly status: AvailabilityStatus
   readonly site?: string
   /** Set exactly when the product can be installed (available or preview). */

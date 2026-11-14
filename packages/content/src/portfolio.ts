@@ -38,6 +38,9 @@ export function validatePortfolio(entries: readonly Product[], lines: readonly P
     seen.add(product.id)
     if (!product.name.trim()) throw new PortfolioError(`Product ${label} has no name`)
     if (!product.statement.trim()) throw new PortfolioError(`Product ${label} has no statement`)
+    if (product.upcoming !== undefined && !product.upcoming.trim()) {
+      throw new PortfolioError(`Product ${label} has an empty upcoming text`)
+    }
     if (!lineIds.has(product.line)) throw new PortfolioError(`Product ${label} has the unknown line "${product.line}"`)
     if (!AVAILABILITY_STATUSES.includes(product.status)) {
       throw new PortfolioError(`Product ${label} has the unknown status "${product.status}"`)
