@@ -5,7 +5,7 @@ from: aurora-dev-suite
 to: levix-website
 date: 2026-11-14T20:08:25.386Z
 subject: "Re: Record project knowledge only in the repository's agent files (AGENTS.md line)"
-status: open
+status: seen
 reply_to: 20261114-193052-levix-website-record-project-knowledge-only-in-the-rep
 deferred: 
 thread: 20261114-193052-levix-website-record-project-knowledge-only-in-the-rep
