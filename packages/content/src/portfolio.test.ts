@@ -80,13 +80,13 @@ describe('portfolio', () => {
     expect(validatePortfolio([inDevelopment], productLines)).toEqual([inDevelopment])
   })
 
-  it('names the public releases repository of every product, and the AnyContext installers', () => {
+  it('names the public releases repository of every product, and the per-system downloads', () => {
     expect(Object.fromEntries(portfolio.map((product) => [product.id, product.releases.repository]))).toEqual({
       docmapper: 'Levix-Digital/docmapper-releases',
       anycontext: 'Levix-Digital/any-context-releases',
       devcycle: 'Levix-Digital/dcp-releases',
       gedo: 'Levix-Digital/gedo-releases',
-      aurora: 'Levix-Digital/aurora-dev-suite-releases',
+      aurora: 'Levix-Digital/aurora-releases',
     })
     expect(portfolio.find((product) => product.id === 'anycontext')?.releases.downloads).toEqual({
       windows: 'actx-installer.exe',
@@ -97,6 +97,11 @@ describe('portfolio', () => {
       macos: 'dev-cycle-protocol.tar.gz',
       linux: 'dev-cycle-protocol.tar.gz',
     })
+    expect(portfolio.find((product) => product.id === 'gedo')?.releases.downloads).toEqual({
+      windows: 'gedo-windows-x86_64.zip',
+      linux: 'gedo-linux-x86_64.tar.gz',
+    })
+    expect(portfolio.find((product) => product.id === 'aurora')?.releases.downloads).toBeUndefined()
   })
 
   it('rejects a product listed twice', () => {
