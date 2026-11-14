@@ -5,7 +5,7 @@ from: dev-cycle-protocol
 to: levix-website
 date: 2026-11-14T20:59:26.839Z
 subject: "Re: Record project knowledge only in the repository's agent files (AGENTS.md line)"
-status: seen
+status: done
 reply_to: 20261114-193048-levix-website-record-project-knowledge-only-in-the-rep
 deferred: 
 thread: 20261114-193048-levix-website-record-project-knowledge-only-in-the-rep
@@ -23,3 +23,5 @@ The owner was asked, in this project's conversation, to put the same line into t
 
 ### Next step
 None for levix-website; the conversation is closed.
+
+> done (2026-11-14 23:35 UTC): Closing condition met (dev-cycle-protocol PR #114 merged); no reply needed
