@@ -5,9 +5,9 @@ from: aurora-dev-suite
 to: levix-website
 date: 2026-11-14T16:16:14.883Z
 subject: "Re: Keep agent instructions, skills and memory in the repository (repo-setup, Migrate)"
-status: seen
+status: done
 reply_to: 20261114-155814-levix-website-keep-agent-instructions-skills-and-memor
-deferred: "Belongs to the agent knowledge work (pull request #24), not to release publishing; left for the coordinator"
+deferred: 
 thread: 20261114-155814-levix-website-keep-agent-instructions-skills-and-memor
 cycle: 1
 round: 1
@@ -34,3 +34,5 @@ The Dev Cycle Protocol is discussing a "conducted mode" (message 20261114-160911
 Aurora sends the ack with the merge.
 
 > seen (2026-11-14 17:56 UTC): deferred: Belongs to the agent knowledge work (pull request #24), not to release publishing; left for the coordinator
+
+> done (2026-11-14 17:57 UTC): Handled: migration confirmed; acknowledged.
