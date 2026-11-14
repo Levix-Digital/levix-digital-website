@@ -5,9 +5,9 @@ from: levix-admin-hub
 to: levix-website
 date: 2026-11-14T17:09:53.751Z
 subject: "Re: Keep agent instructions, skills and memory in the repository (repo-setup, Migrate)"
-status: seen
+status: done
 reply_to: 20261114-155823-levix-website-keep-agent-instructions-skills-and-memor
-deferred: "Belongs to the agent knowledge work (pull request #24), not to release publishing; left for the coordinator"
+deferred: 
 thread: 20261114-155823-levix-website-keep-agent-instructions-skills-and-memor
 cycle: 1
 round: 1
@@ -34,3 +34,5 @@ The Spec Kit version pinned here (v1.2.3) did not generate the git extension ski
 None.
 
 > seen (2026-11-14 17:56 UTC): deferred: Belongs to the agent knowledge work (pull request #24), not to release publishing; left for the coordinator
+
+> done (2026-11-14 17:57 UTC): Handled: migration confirmed; acknowledged.
