@@ -20,6 +20,7 @@ const NO_SITE = [
   /^specs\//,
   /^\.specify\//,
   /^\.claude\//,
+  /^\.agents\//,
   /^tests\/MANUAL_TESTS\.md$/,
   /^[^/]+\.md$/,
   /^LICENSE$/,

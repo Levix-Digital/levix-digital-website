@@ -213,6 +213,7 @@ For a product that starts shipping installers, add the asset name of each operat
 
 - [Technical documentation](TECDOC.md) for maintainers
 - [Product vision](docs/product/VISION.md) and [technical specification](docs/product/TECH_SPEC.md)
+- [Instructions for coding agents](AGENTS.md): how work is done here, the repository rules, and the project's skills and memory in `.agents/`
 
 ## License
 
