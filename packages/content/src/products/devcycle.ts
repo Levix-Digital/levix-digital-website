@@ -1,9 +1,9 @@
 import type { Product } from '../types'
 
 /**
- * Sources, all in the dev-cycle-protocol repository: the releases repository Levix-Digital/dcp-releases (Install links there, owner's decision), docs/product/VISION.md
- * (positioning: phases, gates and decisions as files in the repository), docs/ROADMAP.md (v3.0.0 conducted cycle and v3.1.0 chat screen,
- * both planned) and ADR-0008 (the engine conducts the coding agents and checks every result itself).
+ * Sources in the dev-cycle-protocol repository: docs/product/VISION.md (positioning), docs/ROADMAP.md (v3.0.0
+ * conducted cycle and v3.1.0 chat screen, both planned) and ADR-0008 (the engine conducts the coding agents and checks
+ * every result itself). Install links to the public releases repository Levix-Digital/dcp-releases (owner's decision).
  */
 export const devcycle: Product = {
   id: 'devcycle',
