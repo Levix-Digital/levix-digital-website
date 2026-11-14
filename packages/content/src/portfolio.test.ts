@@ -61,6 +61,7 @@ describe('portfolio', () => {
 
   it.each([
     [{ ...valid, statement: ' ' }, 'Product sample has no statement'],
+    [{ ...valid, upcoming: ' ' }, 'Product sample has an empty upcoming text'],
     [{ ...valid, name: '' }, 'Product sample has no name'],
     [{ ...valid, status: 'soon' as Product['status'] }, 'Product sample has the unknown status "soon"'],
     [{ ...valid, line: 'games' as Product['line'] }, 'Product sample has the unknown line "games"'],

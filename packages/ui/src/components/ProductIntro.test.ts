@@ -17,4 +17,18 @@ describe('ProductIntro', () => {
     expect(html).toContain('[availability.label]')
     expect(html).not.toContain('style=')
   })
+
+  it('shows what is coming under the statement only when the product sets it', async () => {
+    const render = (product: typeof inDevelopment) =>
+      renderToString(
+        createSSRApp({
+          render: () => h(ProductIntro, { product, strings, contactEmail: 'a@b.co', consentVersion: 'v', endpoint: 'x' }),
+        }),
+      )
+
+    const withUpcoming = await render({ ...inDevelopment, upcoming: 'A future release adds streams.' })
+    expect(withUpcoming).toContain('A future release adds streams.')
+    expect(withUpcoming.indexOf('Merges by meaning.')).toBeLessThan(withUpcoming.indexOf('A future release adds streams.'))
+    expect(await render(inDevelopment)).not.toContain('mt-4 max-w-3xl text-muted')
+  })
 })

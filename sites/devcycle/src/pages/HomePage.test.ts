@@ -21,6 +21,14 @@ describe('HomePage', () => {
     expect(html).toContain(product.statement)
   })
 
+  it('says what the coming releases add, without presenting it as released', async () => {
+    const html = await render()
+
+    const upcoming = product.upcoming ?? ''
+    expect(upcoming).toMatch(/coming release/i)
+    expect(html).toContain(upcoming)
+  })
+
   it('shows its availability: the download, or the disabled button and the release candidate form', async () => {
     const html = await render()
 
