@@ -5,7 +5,7 @@ from: aurora-dev-suite
 to: levix-website
 date: 2026-11-14T20:08:25.386Z
 subject: "Re: Record project knowledge only in the repository's agent files (AGENTS.md line)"
-status: seen
+status: done
 reply_to: 20261114-193052-levix-website-record-project-knowledge-only-in-the-rep
 deferred: 
 thread: 20261114-193052-levix-website-record-project-knowledge-only-in-the-rep
@@ -27,3 +27,5 @@ None.
 
 ### Next step
 Aurora sends the ack once PR #57 is merged.
+
+> done (2026-11-14 23:34 UTC): Closing condition met (aurora-dev-suite PR #57 merged); no reply needed
