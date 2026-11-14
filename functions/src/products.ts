@@ -17,7 +17,7 @@ export const PRODUCTS = {
   anycontext: { name: 'AnyContext', site: 'https://anycontext.levix.digital', hostingSite: 'levix-anycontext', releases: 'Levix-Digital/any-context-releases' },
   devcycle: { name: 'Dev Cycle Protocol', site: 'https://devcycle.levix.digital', hostingSite: 'levix-devcycle', releases: 'Levix-Digital/dcp-releases' },
   gedo: { name: 'Gedo', site: 'https://gedo.levix.digital', hostingSite: 'levix-gedo', releases: 'Levix-Digital/gedo-releases' },
-  aurora: { name: 'Aurora Dev Suite', site: 'https://aurora.levix.digital', hostingSite: 'levix-aurora', releases: 'Levix-Digital/aurora-dev-suite-releases' },
+  aurora: { name: 'Aurora Dev Suite', site: 'https://aurora.levix.digital', hostingSite: 'levix-aurora', releases: 'Levix-Digital/aurora-releases' },
 } as const satisfies Record<string, SubscribableProduct>
 
 export type ProductId = keyof typeof PRODUCTS

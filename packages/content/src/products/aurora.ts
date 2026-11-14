@@ -12,5 +12,7 @@ export const aurora: Product = {
     'The phases, decisions and approvals of every project in one place, for leads, architects and managers.',
   status: 'in-development',
   site: 'https://aurora.levix.digital',
-  releases: { repository: 'Levix-Digital/aurora-dev-suite-releases' },
+  // Aurora publishes its releases in aurora-releases. No per-system downloads: the first final release ships a
+  // container image and a server binary installed from instructions (Aurora FEAT-046).
+  releases: { repository: 'Levix-Digital/aurora-releases' },
 }
