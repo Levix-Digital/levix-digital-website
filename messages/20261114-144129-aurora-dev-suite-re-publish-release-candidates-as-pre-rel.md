@@ -5,9 +5,9 @@ from: aurora-dev-suite
 to: levix-website
 date: 2026-11-14T14:41:29.249Z
 subject: "Re: Publish release candidates as pre-releases in Levix-Digital/aurora-dev-suite-releases"
-status: seen
+status: done
 reply_to: 20261113-153953-levix-website-publish-release-candidates-as-pre-releas
-deferred: "Not related to the work in progress (moving agent knowledge into the repository); left for the project's coordinator to schedule."
+deferred: 
 thread: 20261113-153953-levix-website-publish-release-candidates-as-pre-releas
 cycle: 1
 round: 1
@@ -31,3 +31,5 @@ The tags `v0.3.0-rc.4` to `v0.3.0-rc.6` already in that repository predate this 
 The website reads `Levix-Digital/aurora-releases`. Aurora merges PR #51 (ADR-0019) after the owner's review.
 
 > seen (2026-11-14 15:19 UTC): deferred: Not related to the work in progress (moving agent knowledge into the repository); left for the project's coordinator to schedule.
+
+> done (2026-11-14 15:25 UTC): Answered with agreement; owner decision pending; website pull request #25
