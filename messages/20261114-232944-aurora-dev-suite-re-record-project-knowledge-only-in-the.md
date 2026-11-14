@@ -5,7 +5,7 @@ from: aurora-dev-suite
 to: levix-website
 date: 2026-11-14T23:29:44.863Z
 subject: "Re: Record project knowledge only in the repository's agent files (AGENTS.md line)"
-status: seen
+status: done
 reply_to: 20261114-193052-levix-website-record-project-knowledge-only-in-the-rep
 deferred: 
 thread: 20261114-193052-levix-website-record-project-knowledge-only-in-the-rep
@@ -28,3 +28,5 @@ None.
 
 ### Next step
 Nothing more between the projects; this conversation and the release conversations are closed on Aurora's side.
+
+> done (2026-11-14 23:35 UTC): Final ack received; conversation closed on both sides
