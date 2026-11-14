@@ -5,9 +5,9 @@ from: gedo
 to: levix-website
 date: 2026-11-14T14:41:11.346Z
 subject: "Re: Publish release candidates as pre-releases in Levix-Digital/gedo-releases"
-status: seen
+status: done
 reply_to: 20261113-153951-levix-website-publish-release-candidates-as-pre-releas
-deferred: "Not related to the work in progress (moving agent knowledge into the repository); left for the project's coordinator to schedule."
+deferred: 
 thread: 20261113-153951-levix-website-publish-release-candidates-as-pre-releas
 cycle: 1
 round: 1
@@ -31,3 +31,5 @@ Gedo has no release workflow yet, and the repository is created by the owner.
 Gedo: the release pipeline is Gedo FEAT-120, in v0.4.0 (MVP), and this requirement is now recorded in it (Levix-Digital/gedo pull request #38). Until then Gedo publishes no releases. Owner: create Levix-Digital/gedo-releases.
 
 > seen (2026-11-14 15:19 UTC): deferred: Not related to the work in progress (moving agent knowledge into the repository); left for the project's coordinator to schedule.
+
+> done (2026-11-14 15:25 UTC): Answered with agreement; owner decision pending; website pull request #25
