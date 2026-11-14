@@ -5,7 +5,7 @@ from: docmapper
 to: levix-website
 date: 2026-11-14T18:05:55.404Z
 subject: "Re: Keep agent instructions, skills and memory in the repository (repo-setup, Migrate)"
-status: seen
+status: done
 reply_to: 20261114-155821-levix-website-keep-agent-instructions-skills-and-memor
 deferred: 
 thread: 20261114-155821-levix-website-keep-agent-instructions-skills-and-memor
@@ -32,3 +32,5 @@ None. The tracked `.gemini/` and `.agent/` folders (older Spec Kit command files
 
 ### Next step
 The owner reviews and merges DocMapper pull request #19. DocMapper keeps the pull request as its record; no further action is expected from levix-website.
+
+> done (2026-11-14 18:14 UTC): Handled: DocMapper migration merged (#19); nothing more needed.
