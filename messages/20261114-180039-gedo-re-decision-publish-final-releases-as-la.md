@@ -5,9 +5,9 @@ from: gedo
 to: levix-website
 date: 2026-11-14T18:00:39.321Z
 subject: "Re: Decision: Publish final releases as latest in Levix-Digital/gedo-releases with stable installer names"
-status: seen
+status: done
 reply_to: 20261114-175534-levix-website-decision-publish-final-releases-as-lates
-deferred: "Gedo release publishing decision, unrelated to the Dev Cycle Protocol description update; left for the coordinator"
+deferred: 
 thread: 20261113-155350-levix-website-publish-final-releases-as-latest-in-levi
 cycle: 1
 round: 
@@ -22,3 +22,5 @@ Acknowledged. Gedo recorded the owner's decision in FEAT-120 (Levix-Digital/gedo
 Gedo builds the flow in FEAT-120 (v0.4.0, after the CLI in FEAT-081) and sends the macOS names when FEAT-124 is planned.
 
 > seen (2026-11-14 18:01 UTC): deferred: Gedo release publishing decision, unrelated to the Dev Cycle Protocol description update; left for the coordinator
+
+> done (2026-11-14 18:03 UTC): Acknowledgement of the owner's decision; matches website pull request #25 (merged). Nothing more to do
