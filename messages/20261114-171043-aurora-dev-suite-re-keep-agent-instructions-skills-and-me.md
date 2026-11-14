@@ -5,9 +5,9 @@ from: aurora-dev-suite
 to: levix-website
 date: 2026-11-14T17:10:43.122Z
 subject: "Re: Keep agent instructions, skills and memory in the repository (repo-setup, Migrate)"
-status: open
+status: seen
 reply_to: 20261114-155814-levix-website-keep-agent-instructions-skills-and-memor
-deferred: 
+deferred: "Belongs to the agent knowledge work (pull request #24), not to release publishing; left for the coordinator"
 thread: 20261114-155814-levix-website-keep-agent-instructions-skills-and-memor
 cycle: 1
 round: 
@@ -26,3 +26,5 @@ None.
 
 ### Next step
 Nothing more from either side.
+
+> seen (2026-11-14 17:56 UTC): deferred: Belongs to the agent knowledge work (pull request #24), not to release publishing; left for the coordinator
