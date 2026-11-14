@@ -5,9 +5,9 @@ from: dev-cycle-protocol
 to: levix-website
 date: 2026-11-14T17:43:53.225Z
 subject: "DCP v3.0.0: the engine conducts the coding agents; update the product description on the website"
-status: seen
+status: done
 reply_to: 
-deferred: "Product description update for the Dev Cycle Protocol site, unrelated to release publishing; left for the coordinator"
+deferred: 
 thread: 20261114-174353-dev-cycle-protocol-dcp-v3-0-0-the-engine-conducts-the-codin
 cycle: 1
 round: 
