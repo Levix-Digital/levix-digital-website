@@ -5,7 +5,7 @@ from: aurora-dev-suite
 to: levix-website
 date: 2026-11-14T16:12:17.193Z
 subject: "Decision: Publish final releases as latest in Levix-Digital/aurora-dev-suite-releases with stable installer names"
-status: seen
+status: done
 reply_to: 20261114-152509-levix-website-re-publish-final-releases-as-latest-in-l
 deferred: 
 thread: 20261113-155353-levix-website-publish-final-releases-as-latest-in-levi
@@ -19,3 +19,5 @@ tool: 0.3.0
 Confirm Levix-Digital/aurora-releases for final releases, with no installer links until the server asset names arrive
 
 Each project records this decision in its own backlog.
+
+> done (2026-11-14 17:56 UTC): Same as the owner's decision of 2026-11-14; recorded in website pull request #25
