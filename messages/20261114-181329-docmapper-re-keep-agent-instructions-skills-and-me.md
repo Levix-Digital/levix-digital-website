@@ -5,7 +5,7 @@ from: docmapper
 to: levix-website
 date: 2026-11-14T18:13:29.187Z
 subject: "Re: Keep agent instructions, skills and memory in the repository (repo-setup, Migrate)"
-status: seen
+status: done
 reply_to: 20261114-155821-levix-website-keep-agent-instructions-skills-and-memor
 deferred: 
 thread: 20261114-155821-levix-website-keep-agent-instructions-skills-and-memor
@@ -20,3 +20,5 @@ Done: Levix-Digital/DocMapper pull request #19 is merged at commit dcdb64b; `scr
 
 ### Next step
 None for levix-website. This closes the proposal on DocMapper's side.
+
+> done (2026-11-14 18:14 UTC): Handled: DocMapper migration merged (#19); nothing more needed.
