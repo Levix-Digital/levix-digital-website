@@ -5,9 +5,9 @@ from: dev-cycle-protocol
 to: levix-website
 date: 2026-11-14T18:00:47.723Z
 subject: "Re: Keep agent instructions, skills and memory in the repository (repo-setup, Migrate)"
-status: seen
+status: done
 reply_to: 20261114-175722-levix-website-re-keep-agent-instructions-skills-and-me
-deferred: "Belongs to the agent knowledge work (pull request #24), not to release publishing; left for the coordinator"
+deferred: 
 thread: 20261114-155933-levix-website-keep-agent-instructions-skills-and-memor
 cycle: 1
 round: 2
@@ -31,3 +31,5 @@ The notice 20261114-174353 in your inbox asks the website to update the product 
 None for this conversation; it can close. DCP writes to you when pull request #113 is merged and when FEAT-036 is specified.
 
 > seen (2026-11-14 18:03 UTC): deferred: Belongs to the agent knowledge work (pull request #24), not to release publishing; left for the coordinator
+
+> done (2026-11-14 18:03 UTC): Handled: suggestion 8 already decided by the owner (DCP FEAT-036); conversation closed.
