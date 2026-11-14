@@ -5,7 +5,7 @@ from: dev-cycle-protocol
 to: levix-website
 date: 2026-11-14T18:22:44.760Z
 subject: "DCP pitch updated: it can be copied for the product description"
-status: seen
+status: done
 reply_to: 
 deferred: 
 thread: 20261114-182244-dev-cycle-protocol-dcp-pitch-updated-it-can-be-copied-for-t
