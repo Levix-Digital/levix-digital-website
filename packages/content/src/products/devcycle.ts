@@ -1,9 +1,9 @@
 import type { Product } from '../types'
 
 /**
- * Sources, all in the dev-cycle-protocol repository: README (install.sh and install.ps1), docs/product/VISION.md
- * (positioning: phases, gates and decisions as files in the repository), docs/ROADMAP.md (v3.0.0 conducted cycle and v3.1.0 chat screen,
- * both planned) and ADR-0008 (the engine conducts the coding agents and checks every result itself).
+ * Sources in the dev-cycle-protocol repository: docs/product/VISION.md (positioning), docs/ROADMAP.md (v3.0.0
+ * conducted cycle and v3.1.0 chat screen, both planned) and ADR-0008 (the engine conducts the coding agents and checks
+ * every result itself). Install links to the public releases repository Levix-Digital/dcp-releases (owner's decision).
  */
 export const devcycle: Product = {
   id: 'devcycle',
@@ -15,7 +15,7 @@ export const devcycle: Product = {
     'In a coming release, the dcp engine will conduct the coding agents your team already uses through the cycle: it starts the agent and model chosen for each role, checks every result itself and makes the commits and pull requests, so no phase can be skipped. A later release adds a chat screen to run the cycle and approve its gates.',
   status: 'available',
   site: 'https://devcycle.levix.digital',
-  install: { url: 'https://github.com/Levix-Digital/dev-cycle-protocol#installation', label: 'Install' },
+  install: { url: 'https://github.com/Levix-Digital/dcp-releases', label: 'Install' },
   // Archives from Dev Cycle Protocol's release workflow, the same names in every release; the extracted folder holds
   // install.ps1 (Windows) and install.sh (Linux, macOS).
   releases: {
